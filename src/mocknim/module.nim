@@ -23,8 +23,7 @@ proc newModule*(nameNode: NimNode, directory: Directory): Module =
     directory: directory
   )
 
-
-proc mockProcedure*(this: Module, nameNode: NimNode) =
+proc procedure*(this: Module, nameNode: NimNode): Procedure =
 
   let file = this.directory.file(this.name)
 
@@ -33,12 +32,13 @@ proc mockProcedure*(this: Module, nameNode: NimNode) =
   let procedureName =  nameNode.repr().strip(true, true, {'"'})
 
   for node in ast:
-  
+
     if node.kind == nnkProcDef:
 
       let nodeProcedureName = node[0][1].repr()
 
       if nodeProcedureName == procedureName:
 
-        let procedure = newProcedure(node)
-        procedure.mock()
+        return newProcedure(node)
+
+  raise newException(Exception, "Procedure not found " & procedureName)

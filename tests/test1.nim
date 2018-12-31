@@ -9,5 +9,8 @@ import unittest
 
 import mocknim
 
-test "can add":
+test "can mock":
+
   mock("mocknim/submodule", "initSubmodule")
+
+  let a = Submodule()
