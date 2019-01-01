@@ -36,21 +36,25 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
 
 proc allTypeNames*(this: ProcedureOriginal): seq[string] = 
 
-  result = this.typeOriginals.collectTypeNames()
+  this.typeOriginals.collectTypeNames()
 
+
+proc moduleTypeName*(this: ProcedureOriginal): string = 
+
+  this.typeOriginals.moduleTypeName()
 
 
 proc mock*(this: ProcedureOriginal): NimNode =
 
   result = newStmtList()
 
-  let selfExists = this.self.exists()
+  # let selfExists = this.self.exists()
 
-  if this.arguments.exist(selfExists):
-    this.arguments.mockTypes(selfExists)
+  # if this.arguments.exist(selfExists):
+  #   this.arguments.mockTypes(selfExists)
 
-  if selfExists:
-    echo "eeeeeeeeeee"
+  # if selfExists:
+  #   echo "eeeeeeeeeee"
 
 #   var allTypes: seq[string] = @[]
 

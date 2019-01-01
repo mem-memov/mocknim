@@ -36,4 +36,18 @@ proc generate*(this: TypeMocks): NimNode =
       )
     )
 
+  definitions.add(
+    newTree(nnkTypeDef,
+      newIdentNode(this.procedureOriginal.moduleTypeName()),
+      newEmptyNode(),
+      newTree(nnkRefTy,
+        newTree(nnkObjectTy,
+          newEmptyNode(),
+          newEmptyNode(),
+          newEmptyNode()
+        )
+      )
+    )
+  )
+
   result = newTree(nnkTypeSection, definitions)
