@@ -18,15 +18,17 @@ type
 
 
 
-proc newProcedure*(node: NimNode, moduleName: string): Procedure =
+proc newProcedure*(procDefNode: NimNode, moduleName: string): Procedure =
+
+  expectKind(procDefNode, nnkProcDef)
 
   let nameParts = moduleName.split("/")
   let moduleTypeName = capitalizeAscii(nameParts[nameParts.high])
 
   Procedure(
-    name: newName(node),
-    self: newSelf(node, moduleTypeName),
-    arguments: newArguments(node)
+    name: newName(procDefNode),
+    self: newSelf(procDefNode, moduleTypeName),
+    arguments: newArguments(procDefNode)
   )
 
 
