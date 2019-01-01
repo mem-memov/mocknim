@@ -19,11 +19,11 @@ test "can mock class constructor":
 
 test "can mock class method":
 
-  echo "not ready yet"
   mock("mocknim/submodule", "modulate")
 
   let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
 
   let output = a.modulate("aga", "ogo")
 
-  # modulate("sound")
+  assert("aga-ogo" == output) 
+
