@@ -20,3 +20,11 @@ proc newProcedureOriginals*(statementsNode: NimNode): ProcedureOriginals =
 proc create*(this: ProcedureOriginals, moduleName: string): seq[ProcedureOriginal] =
 
   result = @[]
+
+  for procDefNode in this.statementsNode:
+
+    if procDefNode.kind == nnkProcDef:
+
+      result.add(
+        newProcedureOriginal(procDefNode, moduleName)
+      )

@@ -18,4 +18,6 @@ proc newModuleMock*(moduleOriginal: ModuleOriginal): ModuleMock =
 
 proc generate*(this: ModuleMock): NimNode = 
 
+  let procedureOriginals = this.moduleOriginal.procedures()
+
   newEmptyNode()
