@@ -6,7 +6,8 @@ import
     original/typeOriginals,
     original/argumentOriginal,
     original/argumentOriginals,
-    original/resultOriginal
+    original/resultOriginal,
+    original/signatureOriginal
   ]
 
 
@@ -15,6 +16,7 @@ type
     typeOriginals: TypeOriginals
     argumentOriginals: ArgumentOriginals
     resultOriginal: ResultOriginal
+    signatureOriginal: SignatureOriginal
 
 
 proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureOriginal =
@@ -31,7 +33,8 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
   ProcedureOriginal(
     typeOriginals: newTypeOriginals(formalParamsNode, moduleTypeName),
     argumentOriginals: newArgumentOriginals(formalParamsNode),
-    resultOriginal: newResultOriginal(formalParamsNode)
+    resultOriginal: newResultOriginal(formalParamsNode),
+    signatureOriginal: newSignatureOriginal(procDefNode)
   )
 
 
@@ -53,3 +56,8 @@ proc arguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =
 proc result*(this: ProcedureOriginal): ResultOriginal =
 
   this.resultOriginal
+
+
+proc copySignature(this: ProcedureOriginal): NimNode =
+
+  this.signatureOriginal.copy()
