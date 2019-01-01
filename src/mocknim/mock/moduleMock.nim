@@ -1,7 +1,9 @@
 import
   macros,
   mocknim/[
-    original/moduleOriginal
+    original/moduleOriginal,
+    original/procedureOriginal,
+    mock/procedureMock
   ]
 
 type
@@ -19,5 +21,14 @@ proc newModuleMock*(moduleOriginal: ModuleOriginal): ModuleMock =
 proc generate*(this: ModuleMock): NimNode = 
 
   let procedureOriginals = this.moduleOriginal.procedures()
+
+  for procedureOriginal in procedureOriginals:
+
+    let procedureMock = newProcedureMock(
+      procedureOriginal.signature(), 
+      procedureOriginal.result(),
+      procedureOriginal.arguments(),
+      procedureOriginal.self()
+    )
 
   newEmptyNode()
