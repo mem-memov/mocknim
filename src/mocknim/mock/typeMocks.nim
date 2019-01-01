@@ -1,13 +1,18 @@
 import 
-  macros
+  macros,
+  mocknim/[
+    original/procedureOriginal
+  ]
 
 type
   TypeMocks* = ref object
+    procedureOriginal: ProcedureOriginal
 
+proc newTypeMocks*(procedureOriginal: ProcedureOriginal): TypeMocks =
 
-proc newTypeMocks*(): TypeMocks =
-
-  TypeMocks()
+  TypeMocks(
+    procedureOriginal: procedureOriginal
+  )
 
 
 proc generate*(this: TypeMocks): seq[NimNode] =

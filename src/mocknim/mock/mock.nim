@@ -11,10 +11,10 @@ type
     typeMocks: TypeMocks
     procedureMock: ProcedureMock
 
-proc newMock*(procedure: ProcedureOriginal): Mock = 
+proc newMock*(procedureOriginal: ProcedureOriginal): Mock = 
 
   Mock(
-    typeMocks: newTypeMocks(),
+    typeMocks: newTypeMocks(procedureOriginal),
     procedureMock: newProcedureMock()
   )
 
