@@ -1,6 +1,7 @@
 import 
   macros,
-  sequtils
+  sequtils,
+  strutils    
 
 
 type
@@ -25,11 +26,13 @@ proc collectTypeNames*(this: TypeOriginals): seq[string] =
 
     if node.kind == nnkIdent:
       let typeName = node.repr()
-      result.add(typeName)
+      if isUpperAscii(typeName[0]):
+        result.add(typeName)
 
     if node.kind == nnkIdentDefs:
       let typeName = node[1].repr()
-      result.add(typeName)
+      if isUpperAscii(typeName[0]):
+        result.add(typeName)
 
   result = result.deduplicate()
 
