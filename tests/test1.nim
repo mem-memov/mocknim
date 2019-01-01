@@ -22,6 +22,6 @@ test "can mock class method":
   echo "not ready yet"
   mock("mocknim/submodule", "modulate")
 
-  let a = Submodule(input: "aga", input22: "ogo")
+  let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
 
   # modulate("sound")

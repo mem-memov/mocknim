@@ -2,7 +2,8 @@ import
   macros,
   mocknim/[
     original/procedureOriginal,
-    original/argumentOriginal
+    original/argumentOriginal,
+    original/resultOriginal
   ]
 
 
@@ -44,6 +45,17 @@ proc generate*(this: TypeMocks): NimNode =
       newTree(nnkIdentDefs, 
         newIdentNode(argumentOriginal.argumentName()),
         newIdentNode(argumentOriginal.typeName()),
+        newEmptyNode()
+      )
+    )
+
+  var resultOriginal = this.procedureOriginal.result()
+
+  if resultOriginal.exists():
+    moduleTypeFields.add(
+      newTree(nnkIdentDefs, 
+        newIdentNode("result"),
+        newIdentNode(resultOriginal.typeName()),
         newEmptyNode()
       )
     )
