@@ -35,7 +35,12 @@ proc mock*(this: Procedure): NimNode =
 
   result = newStmtList()
 
-  if this.self.exists():
+  let selfExists = this.self.exists()
+
+  if this.arguments.exist(selfExists):
+    this.arguments.mockTypes(selfExists)
+
+  if selfExists:
     echo "eeeeeeeeeee"
 
 #   var allTypes: seq[string] = @[]

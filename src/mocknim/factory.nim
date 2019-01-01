@@ -1,9 +1,9 @@
 import
   mocknim/[
     name,
-    procedure/procedure,
+    module/module,
     module/directory,
-    module/module
+    mock/mock
   ]
 
 type
@@ -14,13 +14,15 @@ proc newFactory*(): Factory =
   Factory()
 
 
-proc procedure*(this: Factory, moduleNode: NimNode, procedureNode: NimNode): Procedure =
+proc mock*(this: Factory, moduleNode: NimNode, procedureNode: NimNode): Mock =
 
-  let moduleName = newName(moduleNode)
-  let procedureName = newName(procedureNode)
+  # let moduleName = newName(moduleNode)
+  # let procedureName = newName(procedureNode)
 
-  let directory = newDirectory("../src")
+  # let directory = newDirectory("../src")
 
-  let module = newModule(moduleName.toString(), directory)
+  # let module = newModule(moduleName.toString(), directory)
 
-  result = module.procedure(procedureName.toString())
+  # result = module.procedure(procedureName.toString())
+
+  newMock()
