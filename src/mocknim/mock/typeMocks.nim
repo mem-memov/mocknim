@@ -36,6 +36,11 @@ proc generate*(this: TypeMocks): NimNode =
       )
     )
 
+  var moduleTypeFields: seq[NimNode] = @[]
+
+  for argumentOriginal in this.procedureOriginal.arguments():
+    echo "1"
+
   definitions.add(
     newTree(nnkTypeDef,
       newIdentNode(this.procedureOriginal.moduleTypeName()),
