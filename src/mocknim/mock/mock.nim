@@ -3,7 +3,7 @@ import
   mocknim/[
     mock/typeMocks,
     mock/procedureMock,
-    original/procedure
+    original/procedureOriginal
   ]
 
 type
@@ -11,7 +11,7 @@ type
     typeMocks: TypeMocks
     procedureMock: ProcedureMock
 
-proc newMock*(procedure: Procedure): Mock = 
+proc newMock*(procedure: ProcedureOriginal): Mock = 
 
   Mock(
     typeMocks: newTypeMocks(),

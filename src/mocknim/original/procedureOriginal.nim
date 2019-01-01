@@ -11,21 +11,21 @@ import
 
 
 type
-  Procedure* = ref object
+  ProcedureOriginal* = ref object
     name: Name
     self: Self
     arguments: Arguments
 
 
 
-proc newProcedure*(procDefNode: NimNode, moduleName: string): Procedure =
+proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureOriginal =
 
   expectKind(procDefNode, nnkProcDef)
 
   let nameParts = moduleName.split("/")
   let moduleTypeName = capitalizeAscii(nameParts[nameParts.high])
 
-  Procedure(
+  ProcedureOriginal(
     name: newName(procDefNode),
     self: newSelf(procDefNode, moduleTypeName),
     arguments: newArguments(procDefNode)
@@ -33,7 +33,7 @@ proc newProcedure*(procDefNode: NimNode, moduleName: string): Procedure =
 
 
 
-proc mock*(this: Procedure): NimNode =
+proc mock*(this: ProcedureOriginal): NimNode =
 
   result = newStmtList()
 

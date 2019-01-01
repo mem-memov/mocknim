@@ -3,7 +3,7 @@ import
   mocknim/[
     module/directory,
     module/file,
-    original/procedure
+    original/procedureOriginal
   ]
 
 
@@ -20,7 +20,7 @@ proc newModule*(name: string, directory: Directory): Module =
     directory: directory
   )
 
-proc procedure*(this: Module, procedureName: string): Procedure =
+proc procedure*(this: Module, procedureName: string): ProcedureOriginal =
   
   let file = this.directory.file(this.name)
 
@@ -38,6 +38,6 @@ proc procedure*(this: Module, procedureName: string): Procedure =
 
       if nodeProcedureName == procedureName:
     
-        return newProcedure(node, this.name)
+        return newProcedureOriginal(node, this.name)
 
   raise newException(Exception, "Procedure not found - " & procedureName)

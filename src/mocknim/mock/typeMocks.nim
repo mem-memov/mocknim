@@ -9,6 +9,7 @@ proc newTypeMocks*(): TypeMocks =
 
   TypeMocks()
 
-proc generate*(this: TypeMocks): NimNode =
 
-  newEmptyNode()
+proc generate*(this: TypeMocks): seq[NimNode] =
+
+  @[newEmptyNode()]
