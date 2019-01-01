@@ -4,6 +4,8 @@ import
   strutils,
   mocknim/[
     original/typeOriginals,
+    original/argumentOriginal,
+    original/argumentOriginals,
     original/name,
     original/self,
     original/arguments
@@ -16,20 +18,26 @@ type
     self: Self
     arguments: Arguments
     typeOriginals: TypeOriginals
+    argumentOriginals: ArgumentOriginals
 
 
 proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureOriginal =
 
   expectKind(procDefNode, nnkProcDef)
 
+  echo procDefNode.treeRepr()
+
   let nameParts = moduleName.split("/")
   let moduleTypeName = capitalizeAscii(nameParts[nameParts.high])
+
+  let formalParamsNode = procDefNode[3]
 
   ProcedureOriginal(
     name: newName(procDefNode),
     self: newSelf(procDefNode, moduleTypeName),
     arguments: newArguments(procDefNode),
-    typeOriginals: newTypeOriginals(procDefNode[3], moduleTypeName)
+    typeOriginals: newTypeOriginals(formalParamsNode, moduleTypeName),
+    argumentOriginals: newArgumentOriginals(formalParamsNode)
   )
 
 
@@ -41,6 +49,11 @@ proc allTypeNames*(this: ProcedureOriginal): seq[string] =
 proc moduleTypeName*(this: ProcedureOriginal): string = 
 
   this.typeOriginals.moduleTypeName()
+
+
+proc arguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =
+
+  this.argumentOriginals.create()
 
 
 # proc mock*(this: ProcedureOriginal): NimNode =
