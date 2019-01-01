@@ -1,5 +1,5 @@
 import 
-  mocknim/file
+  mocknim/module/file
 
 
 type

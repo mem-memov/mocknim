@@ -1,18 +1,15 @@
 import 
   macros,
   mocknim/[
-    module, 
-    procedure,
-    directory
+    factory,
+    procedure/procedure
   ]
 
 macro mock*(moduleNode: string, procedureNode: string): untyped =
 
-  let directory = newDirectory("../src")
+  let factory = newFactory()
 
-  let module = newModule(moduleNode, directory)
-
-  let procedure = module.procedure(procedureNode)
+  let procedure = factory.procedure(moduleNode, procedureNode)
 
   result = procedure.mock()
 

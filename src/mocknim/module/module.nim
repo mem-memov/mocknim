@@ -1,10 +1,9 @@
 import 
   macros,
-  strutils,
   mocknim/[
-    directory,
-    file,
-    procedure
+    module/directory,
+    module/file,
+    procedure/procedure
   ]
 
 
@@ -14,22 +13,18 @@ type
     directory: Directory
 
 
-proc newModule*(nameNode: NimNode, directory: Directory): Module =
-
-  let name = nameNode.repr().strip(true, true, {'"'})
+proc newModule*(name: string, directory: Directory): Module =
 
   Module(
     name: name,
     directory: directory
   )
 
-proc procedure*(this: Module, nameNode: NimNode): Procedure =
-
+proc procedure*(this: Module, procedureName: string): Procedure =
+  
   let file = this.directory.file(this.name)
 
   let ast = file.loadAst()
-
-  let procedureName =  nameNode.repr().strip(true, true, {'"'})
 
   for node in ast:
 

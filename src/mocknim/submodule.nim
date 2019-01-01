@@ -5,7 +5,10 @@
 
 type
   Submodule* = object
-    name*: string
+    name: string
 
-proc initSubmodule*() =
-  echo "Anonymous"
+proc newSubmodule*(name: string): Submodule =
+  Submodule(name: name)
+
+proc modulate(this: Submodule, input: string): string = 
+  result = this.name & input

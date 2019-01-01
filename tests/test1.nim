@@ -9,8 +9,16 @@ import unittest
 
 import mocknim
 
-test "can mock":
+test "can mock class constructor":
 
-  mock("mocknim/submodule", "initSubmodule")
+  mock("mocknim/submodule", "newSubmodule")
 
-  initSubmodule()
+  # newSubmodule("sub")
+
+
+test "can mock class method":
+
+  echo "not resdy yet"
+  # mock("mocknim/submodule", "modulate")
+
+  # modulate("sound")
