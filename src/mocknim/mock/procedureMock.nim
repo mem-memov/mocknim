@@ -3,7 +3,8 @@ import
   mocknim/[
     original/signatureOriginal,
     original/resultOriginal,
-    original/argumentOriginal
+    original/argumentOriginal,
+    original/selfOriginal
   ]
 
 
@@ -12,18 +13,21 @@ type
     signatureOriginal: SignatureOriginal
     resultOriginal: ResultOriginal
     argumentOriginal: seq[ArgumentOriginal]
+    selfOriginal: SelfOriginal
 
 
 proc newProcedureMock*(
   signatureOriginal: SignatureOriginal, 
   resultOriginal: ResultOriginal,
-  argumentOriginal: seq[ArgumentOriginal]
+  argumentOriginal: seq[ArgumentOriginal],
+  selfOriginal: SelfOriginal
   ): ProcedureMock = 
 
   ProcedureMock(
     signatureOriginal: signatureOriginal,
     resultOriginal: resultOriginal,
-    argumentOriginal: argumentOriginal
+    argumentOriginal: argumentOriginal,
+    selfOriginal: selfOriginal
   )
 
 
@@ -35,7 +39,7 @@ proc generate*(this: ProcedureMock): NimNode =
 
   var statements = newStmtList()
 
-  if this.resultOriginal.exists():
+  if this.resultOriginal.exists() and this.selfOriginal.exists():
 
     let self = this.argumentOriginal[0]
 
@@ -50,3 +54,5 @@ proc generate*(this: ProcedureMock): NimNode =
     )
 
   result[6] = statements
+
+  echo result.repr

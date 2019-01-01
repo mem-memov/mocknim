@@ -7,7 +7,8 @@ import
     original/argumentOriginal,
     original/argumentOriginals,
     original/resultOriginal,
-    original/signatureOriginal
+    original/signatureOriginal,
+    original/selfOriginal
   ]
 
 
@@ -17,6 +18,7 @@ type
     argumentOriginals: ArgumentOriginals
     resultOriginal: ResultOriginal
     signatureOriginal: SignatureOriginal
+    selfOriginal: SelfOriginal
 
 
 proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureOriginal =
@@ -34,7 +36,8 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
     typeOriginals: newTypeOriginals(formalParamsNode, moduleTypeName),
     argumentOriginals: newArgumentOriginals(formalParamsNode),
     resultOriginal: newResultOriginal(formalParamsNode),
-    signatureOriginal: newSignatureOriginal(procDefNode)
+    signatureOriginal: newSignatureOriginal(procDefNode),
+    selfOriginal: newSelfOriginal(formalParamsNode, moduleTypeName)
   )
 
 
@@ -61,3 +64,8 @@ proc result*(this: ProcedureOriginal): ResultOriginal =
 proc signature*(this: ProcedureOriginal): SignatureOriginal =
 
   this.signatureOriginal
+
+
+proc self*(this: ProcedureOriginal): SelfOriginal =
+
+  this.selfOriginal
