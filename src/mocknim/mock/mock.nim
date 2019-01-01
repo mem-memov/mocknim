@@ -6,10 +6,12 @@ import
     original/procedureOriginal
   ]
 
+
 type
   Mock* = ref object
     typeMocks: TypeMocks
     procedureMock: ProcedureMock
+
 
 proc newMock*(procedureOriginal: ProcedureOriginal): Mock = 
 
@@ -17,6 +19,7 @@ proc newMock*(procedureOriginal: ProcedureOriginal): Mock =
     typeMocks: newTypeMocks(procedureOriginal),
     procedureMock: newProcedureMock()
   )
+
 
 proc generate*(this: Mock): NimNode =
 

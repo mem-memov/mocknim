@@ -3,7 +3,7 @@ import
   sequtils,
   strutils,
   mocknim/[
-    types,
+    original/typeOriginals,
     original/name,
     original/self,
     original/arguments
@@ -15,6 +15,7 @@ type
     name: Name
     self: Self
     arguments: Arguments
+    typeOriginals: TypeOriginals
 
 
 
@@ -28,8 +29,14 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
   ProcedureOriginal(
     name: newName(procDefNode),
     self: newSelf(procDefNode, moduleTypeName),
-    arguments: newArguments(procDefNode)
+    arguments: newArguments(procDefNode),
+    typeOriginals: newTypeOriginals(procDefNode[3])
   )
+
+
+proc allTypeNames*(this: ProcedureOriginal): seq[string] = 
+
+  result = this.typeOriginals.collectTypeNames()
 
 
 
