@@ -18,6 +18,16 @@ proc newSignatureOriginal*(procDefNode: NimNode): SignatureOriginal =
 
 proc copy*(this: SignatureOriginal): NimNode =
 
-  result = this.procDefNode.copyNimTree
+  result = this.procDefNode.copyNimTree()
+  result[6] = newStmtList()
 
-  echo result.treeRepr()
+
+proc procedureName*(this: SignatureOriginal): string =
+
+    let nameNode = this.procDefNode[0]
+
+    if nameNode.kind == nnkIdent:
+      result = nameNode.repr()
+
+    if nameNode.kind == nnkPostfix:
+      result = nameNode[1].repr()

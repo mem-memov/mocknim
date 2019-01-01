@@ -1,16 +1,24 @@
 import
-  macros
+  macros,
+  mocknim/[
+    original/signatureOriginal
+  ]
 
 
 type
   ProcedureMock* = ref object
+    signatureOriginal: SignatureOriginal
 
 
-proc newProcedureMock*(): ProcedureMock = 
+proc newProcedureMock*(signatureOriginal: SignatureOriginal): ProcedureMock = 
 
-  ProcedureMock()
+  ProcedureMock(
+    signatureOriginal: signatureOriginal
+  )
 
 
 proc generate*(this: ProcedureMock): NimNode =
 
-  newEmptyNode()
+  result = this.signatureOriginal.copy()
+
+  result[0] = newIdentNode(this.signatureOriginal.procedureName())

@@ -17,7 +17,7 @@ proc newMock*(procedureOriginal: ProcedureOriginal): Mock =
 
   Mock(
     typeMocks: newTypeMocks(procedureOriginal),
-    procedureMock: newProcedureMock()
+    procedureMock: newProcedureMock(procedureOriginal.signature())
   )
 
 

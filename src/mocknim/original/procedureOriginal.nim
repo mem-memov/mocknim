@@ -58,6 +58,6 @@ proc result*(this: ProcedureOriginal): ResultOriginal =
   this.resultOriginal
 
 
-proc copySignature(this: ProcedureOriginal): NimNode =
+proc signature*(this: ProcedureOriginal): SignatureOriginal =
 
-  this.signatureOriginal.copy()
+  this.signatureOriginal

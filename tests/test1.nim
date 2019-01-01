@@ -24,4 +24,6 @@ test "can mock class method":
 
   let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
 
+  a.modulate("aga", "ogo")
+
   # modulate("sound")
