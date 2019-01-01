@@ -44,9 +44,9 @@ proc moduleTypeName*(this: ProcedureOriginal): string =
   this.typeOriginals.moduleTypeName()
 
 
-proc mock*(this: ProcedureOriginal): NimNode =
+# proc mock*(this: ProcedureOriginal): NimNode =
 
-  result = newStmtList()
+#   result = newStmtList()
 
   # let selfExists = this.self.exists()
 
