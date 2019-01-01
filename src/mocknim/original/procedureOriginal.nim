@@ -18,7 +18,6 @@ type
     typeOriginals: TypeOriginals
 
 
-
 proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureOriginal =
 
   expectKind(procDefNode, nnkProcDef)
