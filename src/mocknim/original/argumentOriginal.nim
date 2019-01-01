@@ -14,3 +14,13 @@ proc newArgumentOriginal*(identDefsNode: NimNode): ArgumentOriginal =
   ArgumentOriginal(
     identDefsNode: identDefsNode
   )
+
+
+proc argumentName*(this: ArgumentOriginal): string =
+
+  this.identDefsNode[0].repr()
+
+
+proc typeName*(this: ArgumentOriginal): string =
+
+  this.identDefsNode[1].repr()

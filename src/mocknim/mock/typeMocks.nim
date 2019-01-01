@@ -1,7 +1,8 @@
 import 
   macros,
   mocknim/[
-    original/procedureOriginal
+    original/procedureOriginal,
+    original/argumentOriginal
   ]
 
 
@@ -36,10 +37,16 @@ proc generate*(this: TypeMocks): NimNode =
       )
     )
 
-  var moduleTypeFields: seq[NimNode] = @[]
+  var moduleTypeFields = newTree(nnkRecList)
 
   for argumentOriginal in this.procedureOriginal.arguments():
-    echo "1"
+    moduleTypeFields.add(
+      newTree(nnkIdentDefs, 
+        newIdentNode(argumentOriginal.argumentName()),
+        newIdentNode(argumentOriginal.typeName()),
+        newEmptyNode()
+      )
+    )
 
   definitions.add(
     newTree(nnkTypeDef,
@@ -49,7 +56,7 @@ proc generate*(this: TypeMocks): NimNode =
         newTree(nnkObjectTy,
           newEmptyNode(),
           newEmptyNode(),
-          newEmptyNode()
+          moduleTypeFields
         )
       )
     )
