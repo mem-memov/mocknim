@@ -16,13 +16,13 @@ proc newFactory*(): Factory =
 
 proc mock*(this: Factory, moduleNode: NimNode, procedureNode: NimNode): Mock =
 
-  # let moduleName = newName(moduleNode)
-  # let procedureName = newName(procedureNode)
+  let moduleName = newName(moduleNode)
+  let procedureName = newName(procedureNode)
 
-  # let directory = newDirectory("../src")
+  let directory = newDirectory("../src")
 
-  # let module = newModule(moduleName.toString(), directory)
+  let module = newModule(moduleName.toString(), directory)
 
-  # result = module.procedure(procedureName.toString())
+  let procedure = module.procedure(procedureName.toString())
 
-  newMock()
+  newMock(procedure)
