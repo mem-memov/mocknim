@@ -34,6 +34,6 @@ proc procedure*(this: Module, procedureName: string): Procedure =
 
       if nodeProcedureName == procedureName:
 
-        return newProcedure(node)
+        return newProcedure(node, this.name)
 
   raise newException(Exception, "Procedure not found " & procedureName)
