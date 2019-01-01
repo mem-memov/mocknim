@@ -1,19 +1,25 @@
 import
   macros,
   mocknim/[
-    original/signatureOriginal
+    original/signatureOriginal,
+    original/resultOriginal
   ]
 
 
 type
   ProcedureMock* = ref object
     signatureOriginal: SignatureOriginal
+    resultOriginal: ResultOriginal
 
 
-proc newProcedureMock*(signatureOriginal: SignatureOriginal): ProcedureMock = 
+proc newProcedureMock*(
+  signatureOriginal: SignatureOriginal, 
+  resultOriginal: ResultOriginal
+  ): ProcedureMock = 
 
   ProcedureMock(
-    signatureOriginal: signatureOriginal
+    signatureOriginal: signatureOriginal,
+    resultOriginal: resultOriginal
   )
 
 
