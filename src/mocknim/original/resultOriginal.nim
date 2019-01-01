@@ -7,7 +7,7 @@ type
     formalParamsNode: NimNode
 
 
-proc newResultOriginal(formalParamsNode: NimNode): ResultOriginal = 
+proc newResultOriginal*(formalParamsNode: NimNode): ResultOriginal = 
 
   expectKind(formalParamsNode, nnkFormalParams)
 
@@ -18,9 +18,9 @@ proc newResultOriginal(formalParamsNode: NimNode): ResultOriginal =
 
 proc exists*(this: ResultOriginal): bool =
 
-  formalParamsNode[0].kind != nnkEmpty
+  this.formalParamsNode[0].kind != nnkEmpty
 
 
 proc typeName*(this: ResultOriginal): string =
 
-  formalParamsNode[0].repr()
+  this.formalParamsNode[0].repr()

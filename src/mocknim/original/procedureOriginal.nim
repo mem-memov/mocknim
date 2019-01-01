@@ -5,7 +5,8 @@ import
   mocknim/[
     original/typeOriginals,
     original/argumentOriginal,
-    original/argumentOriginals
+    original/argumentOriginals,
+    original/resultOriginal
   ]
 
 
@@ -13,6 +14,7 @@ type
   ProcedureOriginal* = ref object
     typeOriginals: TypeOriginals
     argumentOriginals: ArgumentOriginals
+    resultOriginal: ResultOriginal
 
 
 proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureOriginal =
@@ -28,7 +30,8 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
 
   ProcedureOriginal(
     typeOriginals: newTypeOriginals(formalParamsNode, moduleTypeName),
-    argumentOriginals: newArgumentOriginals(formalParamsNode)
+    argumentOriginals: newArgumentOriginals(formalParamsNode),
+    resultOriginal: newResultOriginal(formalParamsNode)
   )
 
 
@@ -45,3 +48,8 @@ proc moduleTypeName*(this: ProcedureOriginal): string =
 proc arguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =
 
   this.argumentOriginals.create()
+
+
+proc result*(this: ProcedureOriginal): ResultOriginal =
+
+  this.resultOriginal
