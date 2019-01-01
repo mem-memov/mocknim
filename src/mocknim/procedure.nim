@@ -38,6 +38,7 @@ proc mock*(this: Procedure): NimNode =
   
   statements.add(types.mock(this.node))
 
+  # echo this.node.repr()
   # echo this.node.treeRepr()
 
   let procedureName = this.node[0][1].repr()
@@ -65,7 +66,7 @@ proc mock*(this: Procedure): NimNode =
 
   result = newStmtList(statements)
 
-  echo result.treeRepr()
+  # echo result.treeRepr()
 
 # dumpTree:
 #   proc myfn() =

@@ -13,3 +13,4 @@ test "can mock":
 
   mock("mocknim/submodule", "initSubmodule")
 
+  initSubmodule()
