@@ -30,7 +30,7 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
     name: newName(procDefNode),
     self: newSelf(procDefNode, moduleTypeName),
     arguments: newArguments(procDefNode),
-    typeOriginals: newTypeOriginals(procDefNode[3])
+    typeOriginals: newTypeOriginals(procDefNode[3], moduleTypeName)
   )
 
 
