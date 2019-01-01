@@ -30,10 +30,14 @@ proc procedure*(this: Module, procedureName: string): Procedure =
 
     if node.kind == nnkProcDef:
 
+      #skip private
+      if node[0].kind != nnkPostfix:
+        continue
+
       let nodeProcedureName = node[0][1].repr()
 
       if nodeProcedureName == procedureName:
-
+    
         return newProcedure(node, this.name)
 
-  raise newException(Exception, "Procedure not found " & procedureName)
+  raise newException(Exception, "Procedure not found - " & procedureName)

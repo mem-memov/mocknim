@@ -1,6 +1,7 @@
 import 
   macros,
   sequtils,
+  strutils,
   mocknim/[
     types,
     procedure/name,
@@ -19,9 +20,12 @@ type
 
 proc newProcedure*(node: NimNode, moduleName: string): Procedure =
 
+  let nameParts = moduleName.split("/")
+  let moduleTypeName = capitalizeAscii(nameParts[nameParts.high])
+
   Procedure(
     name: newName(node),
-    self: newSelf(node),
+    self: newSelf(node, moduleTypeName),
     arguments: newArguments(node)
   )
 
@@ -31,7 +35,8 @@ proc mock*(this: Procedure): NimNode =
 
   result = newStmtList()
 
-
+  if this.self.exists():
+    echo "eeeeeeeeeee"
 
 #   var allTypes: seq[string] = @[]
 

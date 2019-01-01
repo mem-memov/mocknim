@@ -11,14 +11,15 @@ import mocknim
 
 test "can mock class constructor":
 
-  mock("mocknim/submodule", "newSubmodule")
+  echo "not ready yet"
+  # mock("mocknim/submodule", "newSubmodule")
 
   # newSubmodule("sub")
 
 
 test "can mock class method":
 
-  echo "not resdy yet"
-  # mock("mocknim/submodule", "modulate")
+  echo "not ready yet"
+  mock("mocknim/submodule", "modulate")
 
   # modulate("sound")
