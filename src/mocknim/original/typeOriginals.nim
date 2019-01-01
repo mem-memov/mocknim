@@ -35,5 +35,3 @@ proc collectTypeNames*(this: TypeOriginals): seq[string] =
         result.add(typeName)
 
   result = result.deduplicate()
-
-  echo result.repr()

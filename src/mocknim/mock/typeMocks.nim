@@ -17,7 +17,23 @@ proc newTypeMocks*(procedureOriginal: ProcedureOriginal): TypeMocks =
   )
 
 
-proc generate*(this: TypeMocks): seq[NimNode] =
+proc generate*(this: TypeMocks): NimNode =
 
-  let typeNames = this.procedureOriginal.allTypeNames()
-  @[newEmptyNode()]
+  var definitions: seq[NimNode] = @[]
+
+  for typeName in this.procedureOriginal.allTypeNames():
+    definitions.add(
+      newTree(nnkTypeDef,
+        newIdentNode(typeName),
+        newEmptyNode(),
+        newTree(nnkRefTy,
+          newTree(nnkObjectTy,
+            newEmptyNode(),
+            newEmptyNode(),
+            newEmptyNode()
+          )
+        )
+      )
+    )
+
+  result = newTree(nnkTypeSection, definitions)

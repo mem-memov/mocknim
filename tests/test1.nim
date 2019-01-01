@@ -22,4 +22,6 @@ test "can mock class method":
   echo "not ready yet"
   mock("mocknim/submodule", "modulate")
 
+  let a = Submodule()
+
   # modulate("sound")
