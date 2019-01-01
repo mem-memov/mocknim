@@ -1,14 +1,22 @@
 import
-  macros
-
+  macros,
+  mocknim/[
+    original/procedureOriginals,
+    original/procedureOriginal
+  ]
 
 type
   ModuleOriginal* = ref object
-    statementsNode: NimNode
+    procedureOriginals: ProcedureOriginals
 
 
 proc newModuleOriginal*(statementsNode: NimNode): ModuleOriginal =
 
   ModuleOriginal(
-    statementsNode: statementsNode
+    procedureOriginals: newProcedureOriginals(statementsNode)
   )
+
+
+proc procedures*(this: ModuleOriginal): seq[ProcedureOriginal] =
+
+  this.procedureOriginals.create()
