@@ -4,8 +4,13 @@ import
 
 type
   ArgumentOriginal* = ref object
+    identDefsNode: NimNode
 
 
-proc newArgumentOriginal*(): ArgumentOriginal =
+proc newArgumentOriginal*(identDefsNode: NimNode): ArgumentOriginal =
 
-  ArgumentOriginal()
+  expectKind(identDefsNode, nnkIdentDefs)
+
+  ArgumentOriginal(
+    identDefsNode: identDefsNode
+  )

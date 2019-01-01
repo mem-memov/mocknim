@@ -21,4 +21,9 @@ proc newArgumentOriginals*(formalParamsNode: NimNode): ArgumentOriginals =
 
 proc create*(this: ArgumentOriginals): seq[ArgumentOriginal] =
 
-  @[]
+  result = @[]
+
+  for identDefsNode in this.formalParamsNode:
+
+    if identDefsNode.kind == nnkIdentDefs:
+      result.add(newArgumentOriginal(identDefsNode))
