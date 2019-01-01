@@ -12,18 +12,20 @@ import mocknim
 test "can mock class constructor":
 
   echo "not ready yet"
-  mock("mocknim/submodule", "newSubmodule")
+  # mock("mocknim/submodule", "newSubmodule")
 
   # newSubmodule("sub")
 
 
 test "can mock class method":
 
-  mock("mocknim/submodule", "modulate")
+  echo "not ready yet"
+  mock("mocknim/submodule")
+  # let submodule = mock("mocknim/submodule")
 
-  let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
+  # let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
 
-  let output = a.modulate("aga", "ogo")
+  # let output = a.modulate("aga", "ogo")
 
-  assert("aga-ogo" == output) 
+  # assert("aga-ogo" == output) 
 

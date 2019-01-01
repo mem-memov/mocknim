@@ -2,14 +2,14 @@ import
   macros,
   mocknim/[
     factory,
-    mock/mock
+    mock/moduleMock
   ]
 
-macro mock*(moduleNode: string, procedureNode: string): untyped =
+macro mock*(moduleNode: string): untyped =
 
   let factory = newFactory()
 
-  let mock = factory.mock(moduleNode, procedureNode)
+  let mock = factory.mock(moduleNode)
 
   result = mock.generate()
 
