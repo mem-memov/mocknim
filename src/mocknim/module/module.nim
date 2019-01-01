@@ -3,7 +3,7 @@ import
   mocknim/[
     module/directory,
     module/file,
-    procedure/procedure
+    original/procedure
   ]
 
 
