@@ -17,6 +17,6 @@ proc newProcedureOriginals*(statementsNode: NimNode): ProcedureOriginals =
   )
 
 
-proc create*(this: ProcedureOriginals): seq[ProcedureOriginal] =
+proc create*(this: ProcedureOriginals, moduleName: string): seq[ProcedureOriginal] =
 
   result = @[]

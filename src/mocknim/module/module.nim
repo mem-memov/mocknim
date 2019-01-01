@@ -26,4 +26,4 @@ proc original*(this: Module): ModuleOriginal =
 
   let ast = file.loadAst()
 
-  newModuleOriginal(ast)
+  newModuleOriginal(ast, this.name)
