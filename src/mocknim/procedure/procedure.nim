@@ -4,17 +4,16 @@ import
   mocknim/[
     types,
     procedure/name,
-    procedure/argument/self
+    procedure/self,
+    procedure/arguments
   ]
-import
-  mocknim/[
-    procedure/name,
-    procedure/argument/self
-  ]
+
+
 type
   Procedure* = ref object
     name: Name
     self: Self
+    arguments: Arguments
 
 
 
@@ -22,7 +21,8 @@ proc newProcedure*(node: NimNode, moduleName: string): Procedure =
 
   Procedure(
     name: newName(node),
-    self: newSelf(node)
+    self: newSelf(node),
+    arguments: newArguments(node)
   )
 
 
