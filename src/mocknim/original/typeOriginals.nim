@@ -39,3 +39,8 @@ proc collectTypeNames*(this: TypeOriginals): seq[string] =
   result = result.deduplicate()
 
   echo result.repr
+
+
+proc moduleTypeName*(this: TypeOriginals): string = 
+
+  this.moduleTypeName
