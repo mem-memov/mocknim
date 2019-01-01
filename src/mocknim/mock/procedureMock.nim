@@ -2,7 +2,8 @@ import
   macros,
   mocknim/[
     original/signatureOriginal,
-    original/resultOriginal
+    original/resultOriginal,
+    original/argumentOriginal
   ]
 
 
@@ -10,16 +11,19 @@ type
   ProcedureMock* = ref object
     signatureOriginal: SignatureOriginal
     resultOriginal: ResultOriginal
+    argumentOriginal: seq[ArgumentOriginal]
 
 
 proc newProcedureMock*(
   signatureOriginal: SignatureOriginal, 
-  resultOriginal: ResultOriginal
+  resultOriginal: ResultOriginal,
+  argumentOriginal: seq[ArgumentOriginal]
   ): ProcedureMock = 
 
   ProcedureMock(
     signatureOriginal: signatureOriginal,
-    resultOriginal: resultOriginal
+    resultOriginal: resultOriginal,
+    argumentOriginal: argumentOriginal
   )
 
 
@@ -32,11 +36,14 @@ proc generate*(this: ProcedureMock): NimNode =
   var statements = newStmtList()
 
   if this.resultOriginal.exists():
+
+    let self = this.argumentOriginal[0]
+
     statements.add(
       newTree(nnkAsgn,
         newIdentNode("result"),
         newTree(nnkDotExpr,
-          newIdentNode("this"),
+          newIdentNode(self.argumentName()),
           newIdentNode("result")
         )
       )
