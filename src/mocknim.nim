@@ -6,7 +6,6 @@ import
     directory
   ]
 
-
 macro mock*(moduleNode: string, procedureNode: string): untyped =
 
   let directory = newDirectory("../src")

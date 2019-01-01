@@ -34,7 +34,39 @@ proc mock*(this: Procedure): NimNode =
 
   let types = newTypes(uniquetypes)
 
-  result = newStmtList(
-    types.mock(result)
+  var statements: seq[NimNode] = @[]
+  
+  statements.add(types.mock(this.node))
+
+  # echo this.node.treeRepr()
+
+  let procedureName = this.node[0][1].repr()
+
+  let definition = newTree(nnkProcDef,
+    newIdentNode(procedureName),
+    newEmptyNode(),
+    newEmptyNode(),
+    newTree(nnkFormalParams,
+      newEmptyNode(),
+    ),
+    newEmptyNode(),
+    newEmptyNode(),
+    newTree(nnkStmtList,
+      newTree(nnkCommand,
+        newIdentNode("echo"),
+        newStrLitNode("Anonymous")
+      )
+    )
   )
 
+  # echo definition.repr()
+
+  statements.add(definition)
+
+  result = newStmtList(statements)
+
+  echo result.treeRepr()
+
+# dumpTree:
+#   proc myfn() =
+#     echo "Anonymous"

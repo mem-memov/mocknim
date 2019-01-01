@@ -17,6 +17,9 @@ proc mock*(this: Types, node: NimNode): NimNode =
 
   for name in this.list:
 
+    if name == "":
+      continue
+
     let definition = newTree(nnkTypeDef,
       newIdentNode(name),
       newEmptyNode(),

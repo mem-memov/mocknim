@@ -13,4 +13,3 @@ test "can mock":
 
   mock("mocknim/submodule", "initSubmodule")
 
-  let a = Submodule()
