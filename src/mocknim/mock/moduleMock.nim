@@ -48,4 +48,4 @@ proc generate*(this: ModuleMock): NimNode =
     statementNodes
   )
 
-  # echo result.repr()
+  echo result.repr()

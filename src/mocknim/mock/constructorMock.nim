@@ -19,5 +19,23 @@ proc newConstructorMock*(dependencyOriginal: DependencyOriginal): ConstructorMoc
 
 proc generate*(this: ConstructorMock): NimNode =
 
-  newEmptyNode()
+  let moduleTypeName = this.dependencyOriginal.moduleTypeName()
+
+  result = nnkProcDef.newTree(
+    newIdentNode("mock" & moduleTypeName),
+    newEmptyNode(),
+    newEmptyNode(),
+    nnkFormalParams.newTree(
+      newIdentNode(moduleTypeName)
+    ),
+    newEmptyNode(),
+    newEmptyNode(),
+    nnkStmtList.newTree(
+      nnkCall.newTree(
+        newIdentNode(moduleTypeName)
+      )
+    )
+  )
+
+
   
