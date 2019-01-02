@@ -9,37 +9,23 @@ import unittest
 
 import mocknim
 
-test "can mock class constructor":
-
-  echo "not ready yet"
-  # mock("mocknim/submodule", "newSubmodule")
-
-  # newSubmodule("sub")
-
 
 test "can mock class method":
 
-  mock("mocknim/module/module")
+  echo "not resdy"
 
-  let directory = mockDirctory()
-  let file = mockFile()
-  let ast = mockNimNode()
-  let moduleOriginal = mockModuleOriginal()
+  # mock("mocknim/module/module")
 
-  directory.calls.file("some_module").returns(file)
-  file.calls.loadAst().returns(ast)
-  moduleOriginal.calls.newModuleOriginal(ast, "some_module").returns(moduleOriginal)
+  # let directory = mockDirctory()
+  # let file = mockFile()
+  # let ast = mockNimNode()
+  # let moduleOriginal = mockModuleOriginal()
 
-  let module = newModule("some_module", directory)
-  let output = module.original()
+  # directory.calls.file("some_module").returns(file)
+  # file.calls.loadAst().returns(ast)
+  # moduleOriginal.calls.newModuleOriginal(ast, "some_module").returns(moduleOriginal)
 
+  # let module = newModule("some_module", directory)
+  # let output = module.original()
 
-
-
-
-  # let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
-
-  # let output = a.modulate("aga", "ogo")
-
-  # assert("aga-ogo" == output) 
 
