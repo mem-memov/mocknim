@@ -21,7 +21,17 @@ test "can mock class method":
 
   echo "not ready yet"
 
-  mock("mocknim/submodule")
+  # mock("mocknim/submodule")
+
+  type
+    Submodule = ref object
+      name: string
+
+  proc mockSubmodule(): Submodule =
+    var mock {.global.} = Submodule(name: "ok")
+    result = mock
+
+  var a = mockSubmodule();
 
   # let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
 

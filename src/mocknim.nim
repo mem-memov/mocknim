@@ -1,17 +1,21 @@
 import 
-  macros,
-  mocknim/[
-    factory,
-    mock/moduleMock
-  ]
+  macros #,
+  # mocknim/[
+  #   factory,
+  #   mock/moduleMock
+  # ]
 
 macro mock*(moduleNode: string): untyped =
 
-  let factory = newFactory()
+  result = newStmtList()
 
-  let mock = factory.mock(moduleNode)
+  
 
-  result = mock.generate()
+  # let factory = newFactory()
+
+  # let mock = factory.mock(moduleNode)
+
+  # result = mock.generate()
 
 
 
