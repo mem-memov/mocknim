@@ -5,10 +5,12 @@ import
   #   mock/moduleMock
   # ]
 
-macro mock*(moduleNode: string): untyped =
+macro mock*(moduleNameNodes: varargs[typed]): untyped =
 
   result = newStmtList()
 
+  for name in moduleNameNodes:
+    echo name.repr
   
 
   # let factory = newFactory()

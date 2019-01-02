@@ -19,19 +19,23 @@ test "can mock class constructor":
 
 test "can mock class method":
 
-  echo "not ready yet"
+  mock("mocknim/module/module")
 
-  # mock("mocknim/submodule")
+  let directory = mockDirctory()
+  let file = mockFile()
+  let ast = mockNimNode()
+  let moduleOriginal = mockModuleOriginal()
 
-  type
-    Submodule = ref object
-      name: string
+  directory.calls.file("some_module").returns(file)
+  file.calls.loadAst().returns(ast)
+  moduleOriginal.calls.newModuleOriginal(ast, "some_module").returns(moduleOriginal)
 
-  proc mockSubmodule(): Submodule =
-    var mock {.global.} = Submodule(name: "ok")
-    result = mock
+  let module = newModule("some_module", directory)
+  let output = module.original()
 
-  var a = mockSubmodule();
+
+
+
 
   # let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
 
