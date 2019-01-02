@@ -37,5 +37,6 @@ proc generate*(this: ModuleMock): NimNode =
   )
 
   newStmtList(
-    dependencyTypeMocks.generate()
+    dependencyTypeMocks.generate(),
+    this.moduleOriginal.copyWithoutImportStatement()
   )
