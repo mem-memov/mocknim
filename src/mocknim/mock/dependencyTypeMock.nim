@@ -19,6 +19,28 @@ proc newDependencyTypeMock*(dependencyOriginal: DependencyOriginal): DependencyT
 
 proc generate*(this: DependencyTypeMock): NimNode =
 
+  var moduleTypeFields = newTree(nnkRecList)
+
+  # for argumentOriginal in this.procedureOriginal.arguments():
+  #   moduleTypeFields.add(
+  #     newTree(nnkIdentDefs, 
+  #       newIdentNode(argumentOriginal.argumentName()),
+  #       newIdentNode(argumentOriginal.typeName()),
+  #       newEmptyNode()
+  #     )
+  #   )
+
+  # var resultOriginal = this.procedureOriginal.result()
+
+  # if resultOriginal.exists():
+  #   moduleTypeFields.add(
+  #     newTree(nnkIdentDefs, 
+  #       newIdentNode("result"),
+  #       newIdentNode(resultOriginal.typeName()),
+  #       newEmptyNode()
+  #     )
+  #   )
+
   result = newTree(nnkTypeDef,
     newIdentNode(this.dependencyOriginal.moduleTypeName()),
     newEmptyNode(),
@@ -26,7 +48,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
       newTree(nnkObjectTy,
         newEmptyNode(),
         newEmptyNode(),
-        newEmptyNode()
+        moduleTypeFields
       )
     )
   )
