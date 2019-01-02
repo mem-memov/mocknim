@@ -3,6 +3,7 @@ import
 
 
 type
+  File = file.File # disambiguate
   Directory* = ref object
     path: string
 
@@ -14,7 +15,7 @@ proc newDirectory*(path: string): Directory =
   )
 
 
-proc file*(this: Directory, name: string): file.File =
+proc file*(this: Directory, name: string): File =
 
   file.newFile(
     this.path & "/" & name & ".nim"
