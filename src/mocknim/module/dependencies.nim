@@ -3,7 +3,6 @@ import
   mocknim/[
     module/file,
     module/imports,
-    original/dependencyOriginals,
     original/dependencyOriginal
   ]
 
@@ -20,11 +19,9 @@ proc newDependencies*(imports: Imports): Dependencies =
   )
 
 
-proc original*(this: Dependencies): DependencyOriginals =
+proc originals*(this: Dependencies): seq[DependencyOriginal] =
 
   let files = this.imports.files()
-
-  var list: seq[DependencyOriginal] = @[]
 
   for file in files:
 
@@ -32,8 +29,6 @@ proc original*(this: Dependencies): DependencyOriginals =
 
       let ast = file.loadAst()
 
-      list.add(
+      result.add(
         newDependencyOriginal(ast, file.moduleTypeName())
       )
-
-  result = newDependencyOriginals(list)

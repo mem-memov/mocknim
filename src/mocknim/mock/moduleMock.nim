@@ -31,4 +31,4 @@ proc generate*(this: ModuleMock): NimNode =
   #     procedureOriginal.self()
   #   )
 
-  newEmptyNode()
+  newStmtList()

@@ -1,25 +1,23 @@
 import
   macros,
   mocknim/[
-    original/procedureOriginals,
-    original/procedureOriginal,
-    original/dependencyOriginals
+    original/dependencyOriginal
   ]
 
 type
   ModuleOriginal* = ref object
-    procedureOriginals: ProcedureOriginals
+    dependencyOriginals: seq[DependencyOriginal]
     name: string
 
 
-proc newModuleOriginal*(statementsNode: NimNode, name: string, dependencyOriginals: DependencyOriginals): ModuleOriginal =
+proc newModuleOriginal*(statementsNode: NimNode, name: string, dependencyOriginals: seq[DependencyOriginal]): ModuleOriginal =
 
   ModuleOriginal(
-    procedureOriginals: newProcedureOriginals(statementsNode),
+    dependencyOriginals: dependencyOriginals,
     name: name
   )
 
 
-proc procedures*(this: ModuleOriginal): seq[ProcedureOriginal] =
+proc dependencies*(this: ModuleOriginal): seq[DependencyOriginal] =
 
-  this.procedureOriginals.create(this.name)
+  this.dependencyOriginals
