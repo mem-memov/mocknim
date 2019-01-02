@@ -55,4 +55,3 @@ proc generate*(this: ProcedureMock): NimNode =
 
   result[6] = statements
 
-  echo result.repr

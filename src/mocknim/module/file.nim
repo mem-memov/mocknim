@@ -43,5 +43,5 @@ proc moduleTypeName*(this: File): string =
 proc loadAst*(this: File): NimNode = 
   
   let file = staticRead(this.path)
+  
   result = parseStmt(file)
-  # echo result.treeRepr()

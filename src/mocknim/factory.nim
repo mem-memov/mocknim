@@ -20,8 +20,6 @@ proc mock*(this: Factory, moduleNode: NimNode): ModuleMock =
 
   let directory = newDirectory("../src")
 
-  
-
   let module = newModule(
     moduleName.toString(), 
     directory

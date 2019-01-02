@@ -2,9 +2,9 @@ import
   macros,
   mocknim/[
     original/moduleOriginal,
-    original/procedureOriginal,
     mock/procedureMock,
-    mock/dependencyTypeMocks
+    mock/dependencyTypeMocks,
+    mock/procedureMocks
   ]
 
 type
@@ -21,22 +21,26 @@ proc newModuleMock*(moduleOriginal: ModuleOriginal): ModuleMock =
 
 proc generate*(this: ModuleMock): NimNode = 
 
-  # let procedureOriginals = this.moduleOriginal.procedures()
-
-  # for procedureOriginal in procedureOriginals:
-
-  #   let procedureMock = newProcedureMock(
-  #     procedureOriginal.signature(), 
-  #     procedureOriginal.result(),
-  #     procedureOriginal.arguments(),
-  #     procedureOriginal.self()
-  #   )
+  var statementNodes: seq[NimNode] = @[]
 
   let dependencyTypeMocks = newDependencyTypeMocks(
     this.moduleOriginal.dependencies()
   )
 
-  newStmtList(
-    dependencyTypeMocks.generate(),
+  statementNodes.add(dependencyTypeMocks.generate())
+
+  let procedureMocks = newProcedureMocks(this.moduleOriginal)
+
+  for procedureDefinition in procedureMocks.generate():
+
+    statementNodes.add(procedureDefinition)
+
+  statementNodes.add(
     this.moduleOriginal.copyWithoutImportStatement()
   )
+
+  result = newStmtList(
+    statementNodes
+  )
+
+  echo result.repr()

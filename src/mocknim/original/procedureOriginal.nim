@@ -25,8 +25,6 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
 
   expectKind(procDefNode, nnkProcDef)
 
-  # echo procDefNode.treeRepr()
-
   let nameParts = moduleName.split("/")
   let moduleTypeName = capitalizeAscii(nameParts[nameParts.high])
 
