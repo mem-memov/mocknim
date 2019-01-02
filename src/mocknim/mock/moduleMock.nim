@@ -3,7 +3,8 @@ import
   mocknim/[
     original/moduleOriginal,
     original/procedureOriginal,
-    mock/procedureMock
+    mock/procedureMock,
+    mock/dependencyTypeMocks
   ]
 
 type
@@ -31,4 +32,10 @@ proc generate*(this: ModuleMock): NimNode =
   #     procedureOriginal.self()
   #   )
 
-  newStmtList()
+  let dependencyTypeMocks = newDependencyTypeMocks(
+    this.moduleOriginal.dependencies()
+  )
+
+  newStmtList(
+    dependencyTypeMocks.generate()
+  )
