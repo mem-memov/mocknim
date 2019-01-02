@@ -2,7 +2,8 @@ import
   macros,
   mocknim/[
     original/procedureOriginals,
-    original/procedureOriginal
+    original/procedureOriginal,
+    original/dependencyOriginals
   ]
 
 type
@@ -11,7 +12,7 @@ type
     name: string
 
 
-proc newModuleOriginal*(statementsNode: NimNode, name: string): ModuleOriginal =
+proc newModuleOriginal*(statementsNode: NimNode, name: string, dependencyOriginals: DependencyOriginals): ModuleOriginal =
 
   ModuleOriginal(
     procedureOriginals: newProcedureOriginals(statementsNode),

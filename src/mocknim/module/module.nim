@@ -3,6 +3,8 @@ import
   mocknim/[
     module/directory,
     module/file,
+    module/dependencies,
+    module/imports,
     original/moduleOriginal
   ]
 
@@ -11,14 +13,17 @@ type
   Module* = ref object
     name: string
     directory: Directory
+    dependencies: Dependencies
 
 
-proc newModule*(name: string, directory: Directory): Module =
+proc newModule*(name: string, directory: Directory, dependencies: Dependencies): Module =
 
   Module(
     name: name,
-    directory: directory
+    directory: directory,
+    dependencies: dependencies
   )
+
 
 proc original*(this: Module): ModuleOriginal =
   
@@ -26,4 +31,12 @@ proc original*(this: Module): ModuleOriginal =
 
   let ast = file.loadAst()
 
-  newModuleOriginal(ast, this.name)
+  let imports = newImports(ast)
+
+  newModuleOriginal(
+    ast, 
+    this.name,
+    this.dependencies.original(
+      imports.files()
+    )
+  )

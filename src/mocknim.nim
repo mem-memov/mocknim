@@ -12,8 +12,3 @@ macro mock*(moduleNameNode: string): untyped =
   let mock = factory.mock(moduleNameNode)
 
   result = mock.generate()
-
-
-
-
-
