@@ -20,8 +20,8 @@ test "can mock class constructor":
 test "can mock class method":
 
   echo "not ready yet"
+
   mock("mocknim/submodule")
-  # let submodule = mock("mocknim/submodule")
 
   # let a = Submodule(input: "aga", input22: "ogo", result: "aga-ogo")
 
