@@ -21,6 +21,12 @@ proc newDependencyOriginal*(statementsNode: NimNode, name: string): DependencyOr
     name: name
   )
 
+
 proc procedures*(this: DependencyOriginal): seq[ProcedureOriginal] =
 
   this.procedureOriginals.create(this.name)
+
+
+proc moduleTypeName*(this: DependencyOriginal): string =
+
+  this.name

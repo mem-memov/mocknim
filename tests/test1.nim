@@ -14,6 +14,8 @@ test "can mock module":
 
   mock("mocknim/module/module")
 
+  let d = Directory()
+
   # let directory = mockDirctory()
   # let file = mockFile()
   # let ast = mockNimNode()

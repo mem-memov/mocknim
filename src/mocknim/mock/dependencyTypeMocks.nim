@@ -1,6 +1,8 @@
 import
   macros,
+  sequtils,
   mocknim/[
+    mock/dependencyTypeMock,
     original/dependencyOriginal
   ]
 
@@ -18,4 +20,12 @@ proc newDependencyTypeMocks*(dependencyOriginals: seq[DependencyOriginal]): Depe
 
 proc generate*(this: DependencyTypeMocks): Nimnode =
 
-  newEmptyNode()
+  var definitions: seq[NimNode] = @[]
+
+  for dependencyOriginal in this.dependencyOriginals:
+
+    let dependencyTypeMock = newDependencyTypeMock(dependencyOriginal)
+
+    definitions.add(dependencyTypeMock.generate())
+
+  result = newTree(nnkTypeSection, definitions)
