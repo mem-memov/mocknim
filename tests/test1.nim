@@ -12,9 +12,7 @@ import mocknim
 
 test "can mock class method":
 
-  echo "not resdy"
-
-  # mock("mocknim/module/module")
+  mock("mocknim/module/module")
 
   # let directory = mockDirctory()
   # let file = mockFile()

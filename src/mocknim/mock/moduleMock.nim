@@ -20,15 +20,15 @@ proc newModuleMock*(moduleOriginal: ModuleOriginal): ModuleMock =
 
 proc generate*(this: ModuleMock): NimNode = 
 
-  let procedureOriginals = this.moduleOriginal.procedures()
+  # let procedureOriginals = this.moduleOriginal.procedures()
 
-  for procedureOriginal in procedureOriginals:
+  # for procedureOriginal in procedureOriginals:
 
-    let procedureMock = newProcedureMock(
-      procedureOriginal.signature(), 
-      procedureOriginal.result(),
-      procedureOriginal.arguments(),
-      procedureOriginal.self()
-    )
+  #   let procedureMock = newProcedureMock(
+  #     procedureOriginal.signature(), 
+  #     procedureOriginal.result(),
+  #     procedureOriginal.arguments(),
+  #     procedureOriginal.self()
+  #   )
 
   newEmptyNode()

@@ -1,23 +1,19 @@
 import 
-  macros #,
-  # mocknim/[
-  #   factory,
-  #   mock/moduleMock
-  # ]
+  macros,
+  mocknim/[
+    factory,
+    mock/moduleMock
+  ]
 
-macro mock*(moduleNameNodes: varargs[typed]): untyped =
+macro mock*(moduleNameNode: string): untyped =
 
   result = newStmtList()
 
-  for name in moduleNameNodes:
-    echo name.repr
-  
+  let factory = newFactory()
 
-  # let factory = newFactory()
+  let mock = factory.mock(moduleNameNode)
 
-  # let mock = factory.mock(moduleNode)
-
-  # result = mock.generate()
+  result = mock.generate()
 
 
 
