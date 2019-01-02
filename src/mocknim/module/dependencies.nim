@@ -3,7 +3,8 @@ import
   mocknim/[
     module/file,
     module/imports,
-    original/dependencyOriginals
+    original/dependencyOriginals,
+    original/dependencyOriginal
   ]
 
 
@@ -23,12 +24,16 @@ proc original*(this: Dependencies): DependencyOriginals =
 
   let files = this.imports.files()
 
+  var list: seq[DependencyOriginal] = @[]
+
   for file in files:
 
     if file.exists():
 
       let ast = file.loadAst()
 
-      echo ast.treeRepr()
+      list.add(
+        newDependencyOriginal(ast, file.moduleTypeName())
+      )
 
-  DependencyOriginals()
+  result = newDependencyOriginals(list)

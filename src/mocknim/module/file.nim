@@ -33,6 +33,12 @@ proc exists*(this: File): bool =
 
   "success" == staticExec(command)
 
+proc moduleTypeName*(this: File): string =
+
+  var (dir, name, ext) = splitFile(this.path)
+
+  result = capitalizeAscii(name)
+  
 
 proc loadAst*(this: File): NimNode = 
   
