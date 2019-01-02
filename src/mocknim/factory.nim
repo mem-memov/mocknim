@@ -3,7 +3,6 @@ import
     name,
     module/module,
     module/directory,
-    module/dependencies,
     mock/moduleMock
   ]
 
@@ -21,10 +20,11 @@ proc mock*(this: Factory, moduleNode: NimNode): ModuleMock =
 
   let directory = newDirectory("../src")
 
+  
+
   let module = newModule(
     moduleName.toString(), 
-    directory,
-    newDependencies(directory)
+    directory
   )
 
   newModuleMock(module.original())

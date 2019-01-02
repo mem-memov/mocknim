@@ -13,15 +13,13 @@ type
   Module* = ref object
     name: string
     directory: Directory
-    dependencies: Dependencies
 
 
-proc newModule*(name: string, directory: Directory, dependencies: Dependencies): Module =
+proc newModule*(name: string, directory: Directory): Module =
 
   Module(
     name: name,
-    directory: directory,
-    dependencies: dependencies
+    directory: directory
   )
 
 
@@ -31,12 +29,12 @@ proc original*(this: Module): ModuleOriginal =
 
   let ast = file.loadAst()
 
-  let imports = newImports(ast)
+  let imports = newImports(ast, this.directory)
+
+  let dependencies = newDependencies(imports)
 
   newModuleOriginal(
     ast, 
     this.name,
-    this.dependencies.original(
-      imports.files()
-    )
+    dependencies.original()
   )

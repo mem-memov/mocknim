@@ -2,23 +2,33 @@ import
   macros,
   mocknim/[
     module/file,
-    module/directory,
+    module/imports,
     original/dependencyOriginals
   ]
 
 
 type
   Dependencies* = ref object
-    directory: Directory
+    imports: Imports
 
 
-proc newDependencies*(directory: Directory): Dependencies =
+proc newDependencies*(imports: Imports): Dependencies =
 
   Dependencies(
-    directory: directory
+    imports: imports
   )
 
 
-proc original*(this: Dependencies, files: seq[file.File]): DependencyOriginals =
+proc original*(this: Dependencies): DependencyOriginals =
+
+  let files = this.imports.files()
+
+  for file in files:
+
+    if file.exists():
+
+      let ast = file.loadAst()
+
+      echo ast.treeRepr()
 
   DependencyOriginals()

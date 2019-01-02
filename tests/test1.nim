@@ -10,7 +10,7 @@ import unittest
 import mocknim
 
 
-test "can mock class method":
+test "can mock module":
 
   mock("mocknim/module/module")
 
