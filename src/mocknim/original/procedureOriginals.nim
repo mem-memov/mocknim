@@ -25,6 +25,7 @@ proc create*(this: ProcedureOriginals, moduleName: string): seq[ProcedureOrigina
 
     if procDefNode.kind == nnkProcDef:
 
-      result.add(
-        newProcedureOriginal(procDefNode, moduleName)
-      )
+      let procedureOriginal = newProcedureOriginal(procDefNode, moduleName)
+
+      if not procedureOriginal.isInvisible():
+        result.add(procedureOriginal)

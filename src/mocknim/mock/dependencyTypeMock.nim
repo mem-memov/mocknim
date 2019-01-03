@@ -5,7 +5,8 @@ import
     original/procedureOriginal,
     original/signatureOriginal,
     original/argumentOriginal,
-    original/resultOriginal
+    original/resultOriginal,
+    mock/callCountField
   ]
 
 
@@ -25,20 +26,13 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
   var moduleTypeFields = newTree(nnkRecList)
 
-  var callCountNode = nnkIdentDefs.newTree(
-    newIdentNode("callCount"),
-    newIdentNode("int"),
-    newEmptyNode()
-  )
+  let callCountField = newCallCountField(this.dependencyOriginal)
 
-  moduleTypeFields.add(callCountNode)
+  moduleTypeFields.add(callCountField.generate())
 
   let moduleTypeName = this.dependencyOriginal.moduleTypeName()
 
   for procedureOriginal in this.dependencyOriginal.procedures():
-
-    if procedureOriginal.isInvisible():
-      continue
 
     let procedureName = procedureOriginal.signature().procedureName()
 
@@ -117,10 +111,10 @@ proc generate*(this: DependencyTypeMock): NimNode =
     )
   )
 
-  echo result.repr()
+  # echo result.repr()
 
   # dumpAstGen:
   #   type
   #     Directory = ref object
-  #       callCount: int
+  #       callCount: (newDirectory: 0)
 

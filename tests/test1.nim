@@ -18,9 +18,9 @@ test "can mock module":
 
   let file = mockFile()
 
-  let imports = mockImports()
-  imports.files &= ((), @[file])
-  directory.removeMeIAmForTesting &= ((), ())
+  # let imports = mockImports()
+  # imports.files &= ((), @[file])
+  # directory.removeMeIAmForTesting &= ((), ())
   # # directory.file &= ((), ())
   # # directory.file &= ((), file)
   # # directory.file &= ((name: "some_module"), ()))
