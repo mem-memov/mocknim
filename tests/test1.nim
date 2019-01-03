@@ -21,9 +21,9 @@ test "can mock module":
   # let ast = mockNimNode()
   # let moduleOriginal = mockModuleOriginal()
 
-  # directory.calls.file("some_module").returns(file)
-  # file.calls.loadAst().returns(ast)
-  # moduleOriginal.calls.newModuleOriginal(ast, "some_module").returns(moduleOriginal)
+  # directory.file("some_module").returns(file)
+  # file.loadAst().returns(ast)
+  # moduleOriginal.newModuleOriginal(ast, "some_module").returns(moduleOriginal)
 
   # let module = newModule("some_module", directory)
   # let output = module.original()

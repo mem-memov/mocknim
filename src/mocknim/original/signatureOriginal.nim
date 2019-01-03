@@ -21,7 +21,6 @@ proc copy*(this: SignatureOriginal): NimNode =
   result = this.procDefNode.copyNimTree()
   result[6] = newStmtList()
 
-
 proc procedureName*(this: SignatureOriginal): string =
 
     let nameNode = this.procDefNode[0]

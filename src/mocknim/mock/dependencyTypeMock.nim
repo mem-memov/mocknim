@@ -1,7 +1,10 @@
 import
   macros,
   mocknim/[
-    original/dependencyOriginal
+    original/dependencyOriginal,
+    original/procedureOriginal,
+    original/signatureOriginal,
+    original/argumentOriginal
   ]
 
 
@@ -20,6 +23,29 @@ proc newDependencyTypeMock*(dependencyOriginal: DependencyOriginal): DependencyT
 proc generate*(this: DependencyTypeMock): NimNode =
 
   var moduleTypeFields = newTree(nnkRecList)
+
+  for procedureOriginal in this.dependencyOriginal.procedures():
+
+    var arguments: seq[NimNode] = @[]
+
+    # for argumentOriginal in procedureOriginal.arguments():
+
+    #   arguments.add(
+    #     nnkExprColonExpr.newTree(
+    #       newIdentNode(argumentOriginal.argumentName()),
+    #       newIdentNode(argumentOriginal.typeName())
+    #     )
+    #   )
+
+    # moduleTypeFields.add(
+    #   nnkIdentDefs.newTree(
+    #     newIdentNode(procedureOriginal.signature().procedureName()),
+    #     nnkPar.newTree(
+    #       arguments
+    #     ),
+    #     newEmptyNode()
+    #   )
+    # )
 
   # for argumentOriginal in this.procedureOriginal.arguments():
   #   moduleTypeFields.add(
@@ -52,3 +78,10 @@ proc generate*(this: DependencyTypeMock): NimNode =
       )
     )
   )
+
+  # echo result.repr()
+
+  # dumpAstGen:
+  #   type
+  #     Directory = ref object
+  #       file: (name: string, foo: string)
