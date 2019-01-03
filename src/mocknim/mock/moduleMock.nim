@@ -5,7 +5,8 @@ import
     mock/procedureMock,
     mock/dependencyTypeMocks,
     mock/procedureMocks,
-    mock/constructorMocks
+    mock/constructorMocks,
+    mock/typeStubs
   ]
 
 type
@@ -23,6 +24,10 @@ proc newModuleMock*(moduleOriginal: ModuleOriginal): ModuleMock =
 proc generate*(this: ModuleMock): NimNode = 
 
   var statementNodes: seq[NimNode] = @[]
+
+  let typeStubs = newTypeStubs(this.moduleOriginal)
+
+  statementNodes.add(typeStubs.generate())
 
   let dependencyTypeMocks = newDependencyTypeMocks(
     this.moduleOriginal.dependencies()
