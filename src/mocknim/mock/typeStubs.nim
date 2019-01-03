@@ -39,8 +39,6 @@ proc generate*(this: TypeStubs): NimNode =
 
   var types = allTypes.filter(proc (item: string): bool = item notin excludedTypes and item[0].isUpperAscii())
 
-  echo allTypes.repr()
-  echo excludedTypes.repr()
   echo types.repr()
 
   newEmptyNode()
