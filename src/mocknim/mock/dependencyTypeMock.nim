@@ -4,7 +4,8 @@ import
     original/dependencyOriginal,
     original/procedureOriginal,
     original/signatureOriginal,
-    original/argumentOriginal
+    original/argumentOriginal,
+    original/resultOriginal
   ]
 
 
@@ -42,43 +43,58 @@ proc generate*(this: DependencyTypeMock): NimNode =
         continue
 
       arguments.add(
-        nnkIdentDefs.newTree(
-          newIdentNode(argumentName),
-          typeNameNode,
-          newEmptyNode()
+        typeNameNode
+      )
+
+    let argumentsPresent = arguments.len() > 0
+    let resultPresent = procedureOriginal.result().exists()
+    let resultTypeName = procedureOriginal.result().typeName()
+    var callNode: NimNode;
+
+    if not argumentsPresent and not resultPresent:
+
+      callNode = nnkPar.newTree(
+        nnkPar.newTree(
+          nnkTupleTy.newTree(),
+          nnkTupleTy.newTree()
         )
       )
 
-    if arguments.len() > 0:
-      moduleTypeFields.add(
-        nnkIdentDefs.newTree(
-          newIdentNode(procedureOriginal.signature().procedureName()),
-          nnkTupleTy.newTree(
-            arguments
-          ),
-          newEmptyNode()
-        )
+    if not argumentsPresent and resultPresent:
+
+      callNode = nnkPar.newTree(
+        nnkTupleTy.newTree(),
+        newIdentNode(resultTypeName)
       )
 
-  # for argumentOriginal in this.procedureOriginal.arguments():
-  #   moduleTypeFields.add(
-  #     newTree(nnkIdentDefs, 
-  #       newIdentNode(argumentOriginal.argumentName()),
-  #       newIdentNode(argumentOriginal.typeName()),
-  #       newEmptyNode()
-  #     )
-  #   )
+    if argumentsPresent and not resultPresent:
 
-  # var resultOriginal = this.procedureOriginal.result()
+      callNode = nnkPar.newTree(
+        nnkPar.newTree(
+          arguments
+        ),
+        nnkTupleTy.newTree()
+      )
 
-  # if resultOriginal.exists():
-  #   moduleTypeFields.add(
-  #     newTree(nnkIdentDefs, 
-  #       newIdentNode("result"),
-  #       newIdentNode(resultOriginal.typeName()),
-  #       newEmptyNode()
-  #     )
-  #   )
+    if argumentsPresent and resultPresent:
+
+      callNode = nnkPar.newTree(
+        nnkPar.newTree(
+          arguments
+        ),
+        newIdentNode(resultTypeName)
+      )
+
+    moduleTypeFields.add(
+      nnkIdentDefs.newTree(
+        newIdentNode( procedureOriginal.signature().procedureName() ),
+        nnkBracketExpr.newTree(
+          newIdentNode("seq"),
+          callNode
+        ),
+        newEmptyNode()
+      )
+    )
 
   result = newTree(nnkTypeDef,
     newIdentNode(this.dependencyOriginal.moduleTypeName()),
@@ -92,9 +108,5 @@ proc generate*(this: DependencyTypeMock): NimNode =
     )
   )
 
-  echo result.repr()
+  # echo result.repr()
 
-  # dumpAstGen:
-  #   type
-  #     Directory = ref object
-  #       file: tuple[name: string, foo: string]

@@ -53,4 +53,3 @@ proc generate*(this: ConstructorMock): NimNode =
   )
 
 
-  

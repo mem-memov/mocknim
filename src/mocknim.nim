@@ -12,3 +12,8 @@ macro mock*(moduleNameNode: string): untyped =
   let mock = factory.mock(moduleNameNode)
 
   result = mock.generate()
+
+  # echo result.repr()
+
+  when defined(nimDumpM): # https://forum.nim-lang.org/t/4524
+    echo result.repr()

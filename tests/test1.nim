@@ -14,15 +14,26 @@ test "can mock module":
 
   mock("mocknim/module/module")
 
-  let directory = Directory()
+  let directory = mockDirectory()
 
-  directory.file = (name: "some_module")
+  let file = mockFile()
 
-  # directory.file("some_module").returns(file)
-  # file.loadAst().returns(ast)
-  # moduleOriginal.newModuleOriginal(ast, "some_module").returns(moduleOriginal)
+  # # directory.file &= (_, _)
+  # # directory.file &= (_, file)
+  # # directory.file &= ((name: "some_module"), _)
+  directory.file &= (("secret_file"), file)
+  directory.file &= (("public_file"), file)
+
+
 
   # let module = newModule("some_module", directory)
   # let output = module.original()
+
+  
+  # echo mockDirectory().repr()
+
+
+
+
 
 
