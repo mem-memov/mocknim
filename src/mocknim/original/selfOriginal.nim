@@ -28,3 +28,15 @@ proc exists*(this: SelfOriginal): bool =
   if selfNode.kind == nnkIdentDefs:
     let selfTypeName = selfNode[1].repr()
     return selfTypeName == this.moduleTypeName
+
+
+proc moduleTypeName*(this: SelfOriginal): string =
+
+  this.moduleTypeName
+
+
+proc parameterName*(this: SelfOriginal): string =
+
+  let selfNode = this.formalParamsNode[1]
+
+  result = selfNode[1].repr()

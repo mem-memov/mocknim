@@ -18,9 +18,12 @@ test "can mock module":
 
   let file = mockFile()
 
-  # # directory.file &= (_, _)
-  # # directory.file &= (_, file)
-  # # directory.file &= ((name: "some_module"), _)
+  let imports = mockImports()
+  imports.files &= ((), @[file])
+  directory.removeMeIAmForTesting &= ((), ())
+  # # directory.file &= ((), ())
+  # # directory.file &= ((), file)
+  # # directory.file &= ((name: "some_module"), ()))
   directory.file &= (("secret_file"), file)
   directory.file &= (("public_file"), file)
 

@@ -40,8 +40,12 @@ proc generate*(this: ConstructorMock): NimNode =
             )
           ),
           newEmptyNode(),
-          nnkCall.newTree(
-            newIdentNode(moduleTypeName)
+          nnkObjConstr.newTree(
+            newIdentNode(moduleTypeName),
+            nnkExprColonExpr.newTree(
+              newIdentNode("callCount"),
+              newLit(0)
+            )
           )
         )
       ),
@@ -51,5 +55,14 @@ proc generate*(this: ConstructorMock): NimNode =
       )
     )
   )
+
+  echo result.repr()
+
+  # dumpAstGen:
+  #   proc mockDirectory(): Directory =
+  #     var mock {.global.} = Directory(
+  #       callCount: 0
+  #     )
+  #     result = mock
 
 

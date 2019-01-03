@@ -39,6 +39,28 @@ proc generate*(this: ProcedureMock): NimNode =
 
   var statements = newStmtList()
 
+  var variableName: string
+  if this.selfOriginal.exists():
+    variableName = this.selfOriginal.parameterName()
+  else:
+    variableName = "mock12345" # TODO: must be different from any argument name
+
+  let getMockNode = nnkVarSection.newTree(
+    nnkIdentDefs.newTree(
+      newIdentNode(variableName), # <--
+      newEmptyNode(),
+      nnkCall.newTree(
+        newIdentNode("mock" & this.selfOriginal.moduleTypeName()) # <--
+      )
+    )
+  )
+
+  if not this.selfOriginal.exists():
+
+    statements.add(getMockNode)
+
+  
+
   if this.resultOriginal.exists() and this.selfOriginal.exists():
 
     let self = this.argumentOriginal[0]
@@ -55,4 +77,9 @@ proc generate*(this: ProcedureMock): NimNode =
 
   result[6] = statements
 
-  echo result.repr()
+  # echo result.repr()
+
+  # dumpAstGen:
+  #   this[this.callCount]
+
+    # this.callCount += 1

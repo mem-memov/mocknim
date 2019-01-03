@@ -32,3 +32,9 @@ proc typeName*(this: ResultOriginal): string =
     result = typeNode[1].repr()
   else:
     raise newException(Exception, "unknown ardument node type: " & $typeNode.kind)
+
+proc typeNameNode*(this: ResultOriginal): NimNode =
+
+  let typeNode = this.formalParamsNode[0]
+
+  result = typeNode
