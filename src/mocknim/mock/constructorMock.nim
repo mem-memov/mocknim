@@ -31,8 +31,23 @@ proc generate*(this: ConstructorMock): NimNode =
     newEmptyNode(),
     newEmptyNode(),
     nnkStmtList.newTree(
-      nnkCall.newTree(
-        newIdentNode(moduleTypeName)
+      nnkVarSection.newTree(
+        nnkIdentDefs.newTree(
+          nnkPragmaExpr.newTree(
+            newIdentNode("mock"),
+            nnkPragma.newTree(
+              newIdentNode("global")
+            )
+          ),
+          newEmptyNode(),
+          nnkCall.newTree(
+            newIdentNode(moduleTypeName)
+          )
+        )
+      ),
+      nnkAsgn.newTree(
+        newIdentNode("result"),
+        newIdentNode("mock")
       )
     )
   )
