@@ -1,7 +1,8 @@
 import
   macros,
   mocknim/[
-    original/dependencyOriginal
+    original/dependencyOriginal,
+    mock/callCountZero
   ]
 
 
@@ -21,6 +22,26 @@ proc generate*(this: ConstructorMock): NimNode =
 
   let moduleTypeName = this.dependencyOriginal.moduleTypeName()
 
+  let callCountZero = newCallCountZero(this.dependencyOriginal)
+
+  let assignMockNode = nnkVarSection.newTree(
+    nnkIdentDefs.newTree(
+      nnkPragmaExpr.newTree(
+        newIdentNode("mock"),
+        nnkPragma.newTree(
+          newIdentNode("global")
+        )
+      ),
+      newEmptyNode(),
+      callCountZero.generate()
+    )
+  )
+
+  let setResultNode = nnkAsgn.newTree(
+    newIdentNode("result"),
+    newIdentNode("mock")
+  )
+
   result = nnkProcDef.newTree(
     newIdentNode("mock" & moduleTypeName),
     newEmptyNode(),
@@ -31,38 +52,20 @@ proc generate*(this: ConstructorMock): NimNode =
     newEmptyNode(),
     newEmptyNode(),
     nnkStmtList.newTree(
-      nnkVarSection.newTree(
-        nnkIdentDefs.newTree(
-          nnkPragmaExpr.newTree(
-            newIdentNode("mock"),
-            nnkPragma.newTree(
-              newIdentNode("global")
-            )
-          ),
-          newEmptyNode(),
-          nnkObjConstr.newTree(
-            newIdentNode(moduleTypeName),
-            nnkExprColonExpr.newTree(
-              newIdentNode("callCount"),
-              newLit(0)
-            )
-          )
-        )
-      ),
-      nnkAsgn.newTree(
-        newIdentNode("result"),
-        newIdentNode("mock")
-      )
+      assignMockNode,
+      setResultNode
     )
   )
 
   echo result.repr()
 
-  # dumpAstGen:
-  #   proc mockDirectory(): Directory =
-  #     var mock {.global.} = Directory(
-  #       callCount: 0
-  #     )
-  #     result = mock
+  dumpAstGen:
+    proc mockDirectory(): Directory =
+      var mock {.global.} = Directory(
+        callCount: (
+          getFiles: 0
+        )
+      )
+      result = mock
 
 

@@ -43,7 +43,7 @@ proc generate*(this: CallCountField): NimNode =
 
 
 
-  dumpAstGen:
-    type
-      Directory = ref object
-        callCount: tuple[newDirectory: int]
+  # dumpAstGen:
+  #   type
+  #     Directory = ref object
+  #       callCount: tuple[newDirectory: int]
