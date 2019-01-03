@@ -30,6 +30,11 @@ proc generate*(this: ModuleMock): NimNode =
 
   statementNodes.add(dependencyTypeMocks.generate())
 
+  let constructorMocks = newConstructorMocks(this.moduleOriginal.dependencies())
+
+  for constructorDefinition in constructorMocks.generate:
+    statementNodes.add(constructorDefinition)
+
   let procedureMocks = newProcedureMocks(this.moduleOriginal)
 
   for procedureDefinition in procedureMocks.generate():
@@ -38,11 +43,6 @@ proc generate*(this: ModuleMock): NimNode =
   statementNodes.add(
     this.moduleOriginal.copyWithoutImportStatement()
   )
-
-  let constructorMocks = newConstructorMocks(this.moduleOriginal.dependencies())
-
-  for constructorDefinition in constructorMocks.generate:
-    statementNodes.add(constructorDefinition)
 
   result = newStmtList(
     statementNodes
