@@ -24,7 +24,7 @@ proc newTypeStabs*(moduleOriginal: ModuleOriginal): TypeStubs =
 proc generate*(this: TypeStubs): NimNode =
 
   var allTypes: seq[string] = @[]
-  var excludedTypes: seq[string] = @[]
+  var excludedTypes: seq[string] = @["NimNode"]
 
   for dependencyOriginal in this.moduleOriginal.dependencies():
     
@@ -39,6 +39,24 @@ proc generate*(this: TypeStubs): NimNode =
 
   var types = allTypes.filter(proc (item: string): bool = item notin excludedTypes and item[0].isUpperAscii())
 
-  echo types.repr()
+  var typeNodes: seq[NimNode] = @[]
 
-  newEmptyNode()
+  for typeName in types:
+
+    typeNodes.add(
+      nnkTypeDef.newTree(
+        newIdentNode(typeName),
+        newEmptyNode(),
+        nnkRefTy.newTree(
+          nnkObjectTy.newTree(
+            newEmptyNode(),
+            newEmptyNode(),
+            newEmptyNode()
+          )
+        )
+      )
+    )
+
+  result = nnkTypeSection.newTree(
+    typeNodes
+  )
