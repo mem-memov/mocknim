@@ -25,7 +25,7 @@ proc generate*(this: ModuleMock): NimNode =
 
   var statementNodes: seq[NimNode] = @[]
 
-  let typeStubs = newTypeStubs(this.moduleOriginal)
+  let typeStubs = newTypeStabs(this.moduleOriginal)
 
   statementNodes.add(typeStubs.generate())
 

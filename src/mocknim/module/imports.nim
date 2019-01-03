@@ -7,6 +7,7 @@ import
   ]
 
 type
+  File = file.File # disambiguate
   Imports* = ref object
     ast: NimNode
     directory: Directory
@@ -20,7 +21,7 @@ proc newImports*(ast: NimNode, directory: Directory): Imports =
 
 
 proc compose(node: NimNode, prefix: string, moduleNames: var seq[string])
-proc files*(this: Imports): seq[file.File] =
+proc files*(this: Imports): seq[File] =
 
   result = @[]
 

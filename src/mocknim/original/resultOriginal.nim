@@ -23,4 +23,17 @@ proc exists*(this: ResultOriginal): bool =
 
 proc typeName*(this: ResultOriginal): string =
 
-  this.formalParamsNode[0].repr()
+  let typeNode = this.formalParamsNode[0]
+
+  case typeNode.kind
+  of nnkIdent:
+    result = typeNode.repr()
+  of nnkBracketExpr:
+    result = typeNode[1].repr()
+  else:
+    raise newException(Exception, "unknown ardument node type: " & $typeNode.kind)
+
+
+proc isUserDefined*(this: ResultOriginal): bool =
+
+  false

@@ -1,5 +1,11 @@
 import 
-  macros
+  macros,
+  sequtils,
+  mocknim/[
+    original/moduleOriginal,
+    original/dependencyOriginal,
+    original/procedureOriginal
+  ]
 
 
 type
@@ -14,6 +20,26 @@ proc newTypeStabs*(moduleOriginal: ModuleOriginal): TypeStubs =
   )
 
 
-proc generate*(): NimNode =
+proc generate*(this: TypeStubs): NimNode =
+
+  var allTypes: seq[string] = @[]
+  var excludedTypes: seq[string] = @[]
+
+  for dependencyOriginal in this.moduleOriginal.dependencies():
+    
+    excludedTypes.add(dependencyOriginal.moduleTypeName())
+
+    for procedureOriginal in dependencyOriginal.procedures():
+
+      allTypes = allTypes.concat(procedureOriginal.allTypeNames())
+
+  allTypes = allTypes.deduplicate()
+  excludedTypes = excludedTypes.deduplicate()
+
+  var types = allTypes.filter(proc (item: string): bool = item notin excludedTypes)
+
+  echo allTypes.repr()
+  echo excludedTypes.repr()
+  echo types.repr()
 
   newEmptyNode()
