@@ -21,6 +21,7 @@ proc copy*(this: SignatureOriginal): NimNode =
   result = this.procDefNode.copyNimTree()
   result[6] = newStmtList()
 
+
 proc procedureName*(this: SignatureOriginal): string =
 
     let nameNode = this.procDefNode[0]
@@ -30,3 +31,10 @@ proc procedureName*(this: SignatureOriginal): string =
 
     if nameNode.kind == nnkPostfix:
       result = nameNode[1].repr()
+
+
+proc isInvisible*(this: SignatureOriginal): bool =
+
+  let nameNode = this.procDefNode[0]
+
+  nameNode.kind == nnkIdent

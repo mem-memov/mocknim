@@ -67,3 +67,8 @@ proc signature*(this: ProcedureOriginal): SignatureOriginal =
 proc self*(this: ProcedureOriginal): SelfOriginal =
 
   this.selfOriginal
+
+
+proc isInvisible*(this: ProcedureOriginal): bool = 
+
+  this.signatureOriginal.isInvisible()

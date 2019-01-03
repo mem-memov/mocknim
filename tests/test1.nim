@@ -16,6 +16,10 @@ test "can mock module":
 
   let d = Directory()
 
+  type
+    TypeA = ref object
+      names: tuple[a: string, b: int]
+
   # let directory = mockDirctory()
   # let file = mockFile()
   # let ast = mockNimNode()

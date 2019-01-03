@@ -24,28 +24,41 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
   var moduleTypeFields = newTree(nnkRecList)
 
+  let moduleTypeName = this.dependencyOriginal.moduleTypeName()
+
   for procedureOriginal in this.dependencyOriginal.procedures():
+
+    if procedureOriginal.isInvisible():
+      continue
 
     var arguments: seq[NimNode] = @[]
 
-    # for argumentOriginal in procedureOriginal.arguments():
+    for ai, argumentOriginal in procedureOriginal.arguments():
 
-    #   arguments.add(
-    #     nnkExprColonExpr.newTree(
-    #       newIdentNode(argumentOriginal.argumentName()),
-    #       newIdentNode(argumentOriginal.typeName())
-    #     )
-    #   )
+      let argumentName = argumentOriginal.argumentName()
+      let typeNameNode = argumentOriginal.typeNameNode()
 
-    # moduleTypeFields.add(
-    #   nnkIdentDefs.newTree(
-    #     newIdentNode(procedureOriginal.signature().procedureName()),
-    #     nnkPar.newTree(
-    #       arguments
-    #     ),
-    #     newEmptyNode()
-    #   )
-    # )
+      if moduleTypeName == typeNameNode.repr() and ai == 0: # skip "this" argument
+        continue
+
+      arguments.add(
+        nnkIdentDefs.newTree(
+          newIdentNode(argumentName),
+          typeNameNode,
+          newEmptyNode()
+        )
+      )
+
+    if arguments.len() > 0:
+      moduleTypeFields.add(
+        nnkIdentDefs.newTree(
+          newIdentNode(procedureOriginal.signature().procedureName()),
+          nnkTupleTy.newTree(
+            arguments
+          ),
+          newEmptyNode()
+        )
+      )
 
   # for argumentOriginal in this.procedureOriginal.arguments():
   #   moduleTypeFields.add(
@@ -79,9 +92,9 @@ proc generate*(this: DependencyTypeMock): NimNode =
     )
   )
 
-  # echo result.repr()
+  echo result.repr()
 
   # dumpAstGen:
   #   type
   #     Directory = ref object
-  #       file: (name: string, foo: string)
+  #       file: tuple[name: string, foo: string]
