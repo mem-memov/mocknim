@@ -1,6 +1,7 @@
 import 
   macros,
   sequtils,
+  strutils,
   mocknim/[
     original/moduleOriginal,
     original/dependencyOriginal,
@@ -36,7 +37,7 @@ proc generate*(this: TypeStubs): NimNode =
   allTypes = allTypes.deduplicate()
   excludedTypes = excludedTypes.deduplicate()
 
-  var types = allTypes.filter(proc (item: string): bool = item notin excludedTypes)
+  var types = allTypes.filter(proc (item: string): bool = item notin excludedTypes and item[0].isUpperAscii())
 
   echo allTypes.repr()
   echo excludedTypes.repr()

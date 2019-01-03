@@ -32,8 +32,3 @@ proc typeName*(this: ResultOriginal): string =
     result = typeNode[1].repr()
   else:
     raise newException(Exception, "unknown ardument node type: " & $typeNode.kind)
-
-
-proc isUserDefined*(this: ResultOriginal): bool =
-
-  false
