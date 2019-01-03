@@ -14,16 +14,9 @@ test "can mock module":
 
   mock("mocknim/module/module")
 
-  let d = Directory()
+  let directory = Directory()
 
-  type
-    TypeA = ref object
-      names: tuple[a: string, b: int]
-
-  # let directory = mockDirctory()
-  # let file = mockFile()
-  # let ast = mockNimNode()
-  # let moduleOriginal = mockModuleOriginal()
+  directory.file = (name: "some_module")
 
   # directory.file("some_module").returns(file)
   # file.loadAst().returns(ast)
