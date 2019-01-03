@@ -25,12 +25,22 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
   var moduleTypeFields = newTree(nnkRecList)
 
+  var callCountNode = nnkIdentDefs.newTree(
+    newIdentNode("callCount"),
+    newIdentNode("int"),
+    newEmptyNode()
+  )
+
+  moduleTypeFields.add(callCountNode)
+
   let moduleTypeName = this.dependencyOriginal.moduleTypeName()
 
   for procedureOriginal in this.dependencyOriginal.procedures():
 
     if procedureOriginal.isInvisible():
       continue
+
+    let procedureName = procedureOriginal.signature().procedureName()
 
     var arguments: seq[NimNode] = @[]
 
@@ -64,14 +74,14 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
       callNode = nnkPar.newTree(
         nnkTupleTy.newTree(),
-        newIdentNode(resultTypeName)
+        newIdentNode(resultTypeName) # <---
       )
 
     if argumentsPresent and not resultPresent:
 
       callNode = nnkPar.newTree(
         nnkPar.newTree(
-          arguments
+          arguments # <---
         ),
         nnkTupleTy.newTree()
       )
@@ -80,33 +90,38 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
       callNode = nnkPar.newTree(
         nnkPar.newTree(
-          arguments
+          arguments # <---
         ),
-        newIdentNode(resultTypeName)
+        newIdentNode(resultTypeName) # <---
       )
 
     moduleTypeFields.add(
       nnkIdentDefs.newTree(
-        newIdentNode( procedureOriginal.signature().procedureName() ),
+        newIdentNode(procedureName), # <---
         nnkBracketExpr.newTree(
           newIdentNode("seq"),
-          callNode
+          callNode # <---
         ),
         newEmptyNode()
       )
     )
 
   result = newTree(nnkTypeDef,
-    newIdentNode(this.dependencyOriginal.moduleTypeName()),
+    newIdentNode(moduleTypeName),  # <---
     newEmptyNode(),
     newTree(nnkRefTy,
       newTree(nnkObjectTy,
         newEmptyNode(),
         newEmptyNode(),
-        moduleTypeFields
+        moduleTypeFields # <---
       )
     )
   )
 
   # echo result.repr()
+
+  # dumpAstGen:
+  #   type
+  #     Directory = ref object
+  #       callCount: int
 
