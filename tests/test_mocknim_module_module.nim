@@ -38,7 +38,7 @@ suite "mocknim/module/module":
     moduleOriginal1.expects.newModuleOriginal &= 
       ((ast, "some_module", dependencyOriginals), moduleOriginal1)
 
-    # create object
+    # create real object
 
     let module = newModule("some_module", directory)
     module.name = "some_module"
