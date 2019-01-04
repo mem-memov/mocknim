@@ -31,7 +31,7 @@ proc typeName*(this: ResultOriginal): string =
   of nnkBracketExpr:
     result = typeNode[1].repr()
   else:
-    raise newException(Exception, "unknown ardument node type: " & $typeNode.kind)
+    raise newException(Exception, "unknown argument node type: " & $typeNode.kind)
 
 proc typeNameNode*(this: ResultOriginal): NimNode =
 

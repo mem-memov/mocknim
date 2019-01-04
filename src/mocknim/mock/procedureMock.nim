@@ -34,6 +34,7 @@ proc newProcedureMock*(
 template mockFactory(moduleName: untyped, procedureName: untyped, procedure: string): untyped =
 
   block:
+    echo "---------------------------" & procedure
     var mock = `mock moduleName`()
     var count = mock.callCount.procedureName
     var countLimit = mock.expects.procedureName.len()
@@ -50,7 +51,7 @@ template mockFactory(moduleName: untyped, procedureName: untyped, procedure: str
     result = mock
 
 
-template mockAction(
+template mockResultAction(
   moduleName: untyped, 
   procedureName: untyped, 
   procedure: string, 
@@ -58,13 +59,13 @@ template mockAction(
   returnType: untyped): untyped =
 
   block:
+    echo "---------------------------" & procedure
     var count = mock.callCount.procedureName
     var countLimit = mock.expects.procedureName.len()
-    echo "---------------------------" & procedure
+    
     if count < countLimit:
       let expectedParameters = mock.expects.procedureName[count][0]
-      var returnValue: returnType
-      returnValue = mock.expects.procedureName[count][1]
+      var returnValue = mock.expects.procedureName[count][1]
 
       mock.callCount.procedureName = count + 1
 
@@ -82,7 +83,7 @@ proc generate*(this: ProcedureMock): NimNode =
 
   let moduleTypeName = this.selfOriginal.moduleTypeName()
 
-  var body: NimNode
+  var body: NimNode = newEmptyNode()
 
   if not this.selfOriginal.exists() and 
     this.resultOriginal.exists() and
@@ -94,9 +95,10 @@ proc generate*(this: ProcedureMock): NimNode =
       this.signatureOriginal.procedureName()
     ))
 
-  if this.selfOriginal.exists():
+  if this.selfOriginal.exists() and
+    this.resultOriginal.exists():
 
-    body = getAst(mockAction(
+    body = getAst(mockResultAction(
       this.selfOriginal.moduleTypeName().ident,
       this.signatureOriginal.procedureName().ident,
       this.signatureOriginal.procedureName(),

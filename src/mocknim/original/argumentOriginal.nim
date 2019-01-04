@@ -33,4 +33,4 @@ proc typeNameNode*(this: ArgumentOriginal): NimNode =
   of nnkVarTy:
     result = typeNode[0]
   else:
-    raise newException(Exception, "unknown ardument node type: " & $typeNode.kind)
+    raise newException(Exception, "unknown argument node type: " & $typeNode.kind)
