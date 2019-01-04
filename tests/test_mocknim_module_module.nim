@@ -1,50 +1,51 @@
 import unittest, mocknim
+suite "mocknim/module/module":
 
-test "it wraps module AST":
+  setup:
+  
+    # generate all types and procedures needed to test this module
+    mock("mocknim/module/module")
 
-  # generate all types and procedures needed to test this module
+    # create mock objects that are used inside procedure under test
+    let
+      directory = mockDirectory()
+      file1 = mockFile()
+      dependencies1 = mockDependencies()
+      imports1 = mockImports()
+      moduleOriginal1 = mockModuleOriginal()
 
-  mock("mocknim/module/module")
+  test "it wraps module AST":
 
-  # create mock objects that are used inside procedure under test
+    # provide for execution flow of procedure under test
 
-  let
-    directory = mockDirectory()
-    file1 = mockFile()
-    dependencies1 = mockDependencies()
-    imports1 = mockImports()
-    moduleOriginal1 = mockModuleOriginal()
+    directory.expects.file &= 
+      (("some_module"), file1)
 
-  # provide for execution flow of procedure under test
+    let ast = NimNode()
+    file1.expects.loadAst &= 
+      ((), ast)
 
-  directory.expects.file &= 
-    (("some_module"), file1)
+    imports1.expects.newImports &= 
+      ((ast, directory), imports1)
 
-  let ast = NimNode()
-  file1.expects.loadAst &= 
-    ((), ast)
+    dependencies1.expects.newDependencies &= 
+      ((imports1), dependencies1)
 
-  imports1.expects.newImports &= 
-    ((ast, directory), imports1)
+    let dependencyOriginals = @[DependencyOriginal()]
+    dependencies1.expects.originals &=
+      ((), dependencyOriginals)
 
-  dependencies1.expects.newDependencies &= 
-    ((imports1), dependencies1)
+    moduleOriginal1.expects.newModuleOriginal &= 
+      ((ast, "some_module", dependencyOriginals), moduleOriginal1)
 
-  let dependencyOriginals = @[DependencyOriginal()]
-  dependencies1.expects.originals &=
-    ((), dependencyOriginals)
+    # create object
 
-  moduleOriginal1.expects.newModuleOriginal &= 
-    ((ast, "some_module", dependencyOriginals), moduleOriginal1)
+    let module = newModule("some_module", directory)
+    module.name = "some_module"
 
-  # create object
+    # execute procedure under test
 
-  let module = newModule("some_module", directory)
-  module.name = "some_module"
-
-  # execute procedure under test
-
-  let output = module.original()
+    let output = module.original()
 
 
 
