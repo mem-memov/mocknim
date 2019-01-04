@@ -1,6 +1,6 @@
 import unittest, mocknim
 
-test "can mock module":
+test "can wrap module AST":
 
   # generate all types and procedures needed to test this module
 
