@@ -6,6 +6,8 @@ suite "mocknim/module/module":
     # generate all types and procedures needed to test this module
     mock("mocknim/module/module")
 
+  test "it wraps module AST":
+
     # create mock objects that are used inside procedure under test
     let
       directory = mockDirectory()
@@ -13,8 +15,6 @@ suite "mocknim/module/module":
       dependencies1 = mockDependencies()
       imports1 = mockImports()
       moduleOriginal1 = mockModuleOriginal()
-
-  test "it wraps module AST":
 
     # provide for execution flow of procedure under test
 
