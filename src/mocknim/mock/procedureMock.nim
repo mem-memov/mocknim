@@ -59,9 +59,11 @@ proc generate*(this: ProcedureMock): NimNode =
       this.signatureOriginal.procedureName(),
       this.selfOriginal.parameterName(),
       this.resultOriginal.typeName()
-    ).generate()
+    ).generate(
+      newEmptyNode()
+    )
 
 
   result[6] = newStmtList(body)
 
-  echo result.repr()
+  # echo result.repr()

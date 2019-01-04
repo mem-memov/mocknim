@@ -1,5 +1,9 @@
 import
-  macros
+  macros,
+  strutils,
+  mocknim/[
+    templates/patch
+  ]
 
 
 type
@@ -31,32 +35,37 @@ template mockResultAction(
   mock: untyped,
   returnType: untyped): untyped =
 
-  block:
-    echo "---------------------------" & procedure
+  echo "---------------------------" & procedure
 
-    var count = mock.callCount.procedureName
-    var countLimit = mock.expects.procedureName.len()
-    
-    if count < countLimit:
-      let expectedParameters = mock.expects.procedureName[count][0]
-      var returnValue = mock.expects.procedureName[count][1]
+  var count = mock.callCount.procedureName
+  var countLimit = mock.expects.procedureName.len()
+  
+  if count < countLimit:
+    let expectedParameters = mock.expects.procedureName[count][0]
+    var returnValue = mock.expects.procedureName[count][1]
 
-      mock.callCount.procedureName = count + 1
+    result = returnValue
 
-      result = returnValue
+    echo "insert argument check here"
 
-    else:
-      echo "unexpected call to " & procedure
+    mock.callCount.procedureName = count + 1
+
+  else:
+    echo "unexpected call to " & procedure
 
 
-proc generate*(this: ResultActionTemplate): NimNode =
+proc generate*(this: ResultActionTemplate, argumentCheckNode: NimNode): NimNode =
 
-  getAst(
-    mockResultAction(
-      this.moduleName.ident,
-      this.procedureName.ident,
-      this.procedureName,
-      this.selfParameterName.ident,
-      this.resultTypeName.ident
+  result = newPatch(
+    getAst(
+      mockResultAction(
+        this.moduleName.ident,
+        this.procedureName.ident,
+        this.procedureName,
+        this.selfParameterName.ident,
+        this.resultTypeName.ident
+      )
     )
   )
+  .insert("insert argument check here", newPatch(argumentCheckNode))
+  .tree()
