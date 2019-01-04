@@ -36,9 +36,10 @@ proc generate*(this: ProcedureMock): NimNode =
 
   result = this.signatureOriginal.copy()
 
-  result[0] = newIdentNode(this.signatureOriginal.procedureName()) # remove asterisk
-
   let moduleTypeName = this.selfOriginal.moduleTypeName()
+  let procedureName = this.signatureOriginal.procedureName()
+
+  result[0] = newIdentNode(procedureName) # remove asterisk
 
   var body: NimNode = newEmptyNode()
 
@@ -47,22 +48,21 @@ proc generate*(this: ProcedureMock): NimNode =
     this.resultOriginal.typeName() == moduleTypeName:
 
     body = newFactoryTemplate(
-      this.selfOriginal.moduleTypeName(),
-      this.signatureOriginal.procedureName()
+      moduleTypeName,
+      procedureName
     ).generate()
 
   if this.selfOriginal.exists() and
     this.resultOriginal.exists():
 
     body = newResultActionTemplate(
-      this.selfOriginal.moduleTypeName(),
-      this.signatureOriginal.procedureName(),
+      moduleTypeName,
+      procedureName,
       this.selfOriginal.parameterName(),
       this.resultOriginal.typeName()
     ).generate(
       newEmptyNode()
     )
-
 
   result[6] = newStmtList(body)
 
