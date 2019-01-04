@@ -33,6 +33,8 @@ proc newProcedureMock*(
 
 template mockFactory(moduleName: untyped, procedureName: untyped, procedure: string): untyped =
 
+  block:
+  
     var mock = `mock moduleName`()
 
     var count = mock.callCount.procedureName
