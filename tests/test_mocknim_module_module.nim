@@ -41,7 +41,6 @@ suite "mocknim/module/module":
     # create real object
 
     let module = newModule("some_module", directory)
-    module.name = "some_module"
 
     # execute procedure under test
 
