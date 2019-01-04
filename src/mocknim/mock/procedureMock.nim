@@ -6,7 +6,8 @@ import
     original/argumentOriginal,
     original/selfOriginal,
     templates/factoryTemplate,
-    templates/resultActionTemplate
+    templates/resultActionTemplate,
+    templates/argumentAssertionTemplate
   ]
 
 
@@ -54,6 +55,12 @@ proc generate*(this: ProcedureMock): NimNode =
 
   if this.selfOriginal.exists() and
     this.resultOriginal.exists():
+
+    var argumentAssertions: seq[NimNode] = @[]
+    for argumentOriginal in this.argumentOriginals:
+      argumentAssertions.add(
+        newArgumentAssertionTemplate(argumentOriginal).generate()
+      )
 
     body = newResultActionTemplate(
       moduleTypeName,

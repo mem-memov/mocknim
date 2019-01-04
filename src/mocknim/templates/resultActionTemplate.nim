@@ -1,6 +1,5 @@
 import
   macros,
-  strutils,
   mocknim/[
     templates/patch
   ]
