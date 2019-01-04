@@ -12,7 +12,11 @@ import mocknim
 
 test "can mock module":
 
+  # generate all types and procedures needed to test this module
+
   mock("mocknim/module/module")
+
+  # create mock objects that are used inside procedure under test
 
   let
     directory = mockDirectory()
@@ -21,6 +25,7 @@ test "can mock module":
     imports1 = mockImports()
     moduleOriginal1 = mockModuleOriginal()
 
+  # provide for execution flow of procedure under test
 
   directory.expects.file &= 
     (("some_module"), file1)
@@ -42,7 +47,13 @@ test "can mock module":
   moduleOriginal1.expects.newModuleOriginal &= 
     ((ast, "some_module", dependencyOriginals), moduleOriginal1)
 
+  # create object
+
   let module = newModule("some_module", directory)
+  module.name = "some_module"
+
+  # execute procedure under test
+
   let output = module.original()
 
 
