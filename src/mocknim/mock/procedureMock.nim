@@ -4,7 +4,9 @@ import
     original/signatureOriginal,
     original/resultOriginal,
     original/argumentOriginal,
-    original/selfOriginal
+    original/selfOriginal,
+    templates/factoryTemplate,
+    templates/resultActionTemplate
   ]
 
 
@@ -12,68 +14,23 @@ type
   ProcedureMock* = ref object
     signatureOriginal: SignatureOriginal
     resultOriginal: ResultOriginal
-    argumentOriginal: seq[ArgumentOriginal]
+    argumentOriginals: seq[ArgumentOriginal]
     selfOriginal: SelfOriginal
 
 
 proc newProcedureMock*(
   signatureOriginal: SignatureOriginal, 
   resultOriginal: ResultOriginal,
-  argumentOriginal: seq[ArgumentOriginal],
+  argumentOriginals: seq[ArgumentOriginal],
   selfOriginal: SelfOriginal
   ): ProcedureMock = 
 
   ProcedureMock(
     signatureOriginal: signatureOriginal,
     resultOriginal: resultOriginal,
-    argumentOriginal: argumentOriginal,
+    argumentOriginals: argumentOriginals,
     selfOriginal: selfOriginal
   )
-
-
-template mockFactory(moduleName: untyped, procedureName: untyped, procedure: string): untyped =
-
-  block:
-    echo "---------------------------" & procedure
-    var mock = `mock moduleName`()
-    var count = mock.callCount.procedureName
-    var countLimit = mock.expects.procedureName.len()
-
-    if count < countLimit:
-      let expectedParameters = mock.expects.procedureName[count][0]
-      let expectedReturnValue = mock.expects.procedureName[count][1]
-
-      mock.callCount.procedureName = count + 1
-
-    else:
-      echo "unexpected call to " & procedure
-
-    result = mock
-
-
-template mockResultAction(
-  moduleName: untyped, 
-  procedureName: untyped, 
-  procedure: string, 
-  mock: untyped,
-  returnType: untyped): untyped =
-
-  block:
-    echo "---------------------------" & procedure
-    var count = mock.callCount.procedureName
-    var countLimit = mock.expects.procedureName.len()
-    
-    if count < countLimit:
-      let expectedParameters = mock.expects.procedureName[count][0]
-      var returnValue = mock.expects.procedureName[count][1]
-
-      mock.callCount.procedureName = count + 1
-
-      result = returnValue
-
-    else:
-      echo "unexpected call to " & procedure
-
 
 proc generate*(this: ProcedureMock): NimNode =
 
@@ -89,22 +46,21 @@ proc generate*(this: ProcedureMock): NimNode =
     this.resultOriginal.exists() and
     this.resultOriginal.typeName() == moduleTypeName:
 
-    body = getAst(mockFactory(
-      this.selfOriginal.moduleTypeName().ident,
-      this.signatureOriginal.procedureName().ident,
+    body = newFactoryTemplate(
+      this.selfOriginal.moduleTypeName(),
       this.signatureOriginal.procedureName()
-    ))
+    ).generate()
 
   if this.selfOriginal.exists() and
     this.resultOriginal.exists():
 
-    body = getAst(mockResultAction(
-      this.selfOriginal.moduleTypeName().ident,
-      this.signatureOriginal.procedureName().ident,
+    body = newResultActionTemplate(
+      this.selfOriginal.moduleTypeName(),
       this.signatureOriginal.procedureName(),
-      this.selfOriginal.parameterName().ident,
-      this.resultOriginal.typeName().ident
-    ))
+      this.selfOriginal.parameterName(),
+      this.resultOriginal.typeName()
+    ).generate()
+
 
   result[6] = newStmtList(body)
 
