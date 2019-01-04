@@ -15,26 +15,20 @@ test "can mock module":
   mock("mocknim/module/module")
 
   let directory = mockDirectory()
-
   let file1 = mockFile()
+  let dependencies1 = mockDependencies()
 
-  # let imports = mockImports()
-  # imports.expects.files &= ((), @[file])
-  # directory.expects.removeMeIAmForTesting &= ((), ())
-  # # directory.expects.file &= ((), ())
-  # # directory.expects.file &= ((), file)
-  # # directory.expects.file &= ((name: "some_module"), ()))
+
   directory.expects.file &= (("some_module"), file1)
 
+  let ast = NimNode()
+  file1.expects.loadAst &= ((), ast)
+
+  dependencies1.expects.originals &= ((), @[DependencyOriginal()])
 
 
   let module = newModule("some_module", directory)
   let output = module.original()
-
-  
-  # echo mockDirectory().repr()
-
-
 
 
 

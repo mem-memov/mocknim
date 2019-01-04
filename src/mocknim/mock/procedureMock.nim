@@ -31,22 +31,22 @@ proc newProcedureMock*(
   )
 
 
-template mockProcedure(moduleName: untyped, procedureName: untyped, variableName: untyped, selfExists: int): untyped =
+template mockFactory(moduleName: untyped, procedureName: untyped, procedure: string): untyped =
 
-    if not (selfExists == 1):
-      var variableName = `mock moduleName`()
-      echo variableName.repr()
+    var mock = `mock moduleName`()
 
-    # var count = variableName.callCount.procedureName
+    var count = mock.callCount.procedureName
 
-    
+    var countLimit = mock.expects.procedureName.len()
 
-    # let expectedParameters = variableName.expects.procedureName[count][0]
-    # let expectedReturnValue = variableName.expects.procedureName[count][1]
+    if count < countLimit:
+      let expectedParameters = mock.expects.procedureName[count][0]
+      let expectedReturnValue = mock.expects.procedureName[count][1]
 
-    # variableName.callCount.procedureName += 1
+      mock.callCount.procedureName = count + 1
 
-
+    else:
+      echo "unexpected call to " & procedure
 
 proc generate*(this: ProcedureMock): NimNode =
 
@@ -92,20 +92,16 @@ proc generate*(this: ProcedureMock): NimNode =
   #     )
   #   )
 
-  var selfExists:int
+
   if this.selfOriginal.exists():
-    selfExists = 1
-  else:
-    selfExists = 0
 
-  var body = getAst(mockProcedure(
-    this.selfOriginal.moduleTypeName().ident,
-    this.signatureOriginal.procedureName().ident,
-    variableName.ident,
-    selfExists
-  ))
+    var body = getAst(mockFactory(
+      this.selfOriginal.moduleTypeName().ident,
+      this.signatureOriginal.procedureName().ident,
+      this.signatureOriginal.procedureName()
+    ))
 
-  statements.add(body)
+    statements.add(body)
 
   # echo body.repr()
 
