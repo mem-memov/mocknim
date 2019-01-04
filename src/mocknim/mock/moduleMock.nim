@@ -42,15 +42,15 @@ proc generate*(this: ModuleMock): NimNode =
 
   let procedureMocks = newProcedureMocks(this.moduleOriginal)
 
-  # for procedureDefinition in procedureMocks.generate():
-  #   statementNodes.add(procedureDefinition)
+  for procedureDefinition in procedureMocks.generate():
+    statementNodes.add(procedureDefinition)
 
-  # statementNodes.add(
-  #   this.moduleOriginal.copyWithoutImportStatement()
-  # )
+  statementNodes.add(
+    this.moduleOriginal.copyWithoutImportStatement()
+  )
 
   result = newStmtList(
     statementNodes
   )
 
-  # echo result.repr()
+  echo result.repr()

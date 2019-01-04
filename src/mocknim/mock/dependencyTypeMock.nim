@@ -24,13 +24,15 @@ proc newDependencyTypeMock*(dependencyOriginal: DependencyOriginal): DependencyT
 
 proc generate*(this: DependencyTypeMock): NimNode =
 
-  var moduleTypeFields = newTree(nnkRecList)
+  var moduleTypeFields = nnkRecList.newTree()
 
   let callCountField = newCallCountField(this.dependencyOriginal)
 
   moduleTypeFields.add(callCountField.generate())
 
   let moduleTypeName = this.dependencyOriginal.moduleTypeName()
+
+  let moduleCallFields = nnkTupleTy.newTree()
 
   for procedureOriginal in this.dependencyOriginal.procedures():
 
@@ -88,7 +90,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
         procedureOriginal.result().typeNameNode() # <---
       )
 
-    moduleTypeFields.add(
+    moduleCallFields.add(
       nnkIdentDefs.newTree(
         newIdentNode(procedureName), # <---
         nnkBracketExpr.newTree(
@@ -99,14 +101,22 @@ proc generate*(this: DependencyTypeMock): NimNode =
       )
     )
 
-  result = newTree(nnkTypeDef,
+  moduleTypeFields.add(
+    nnkIdentDefs.newTree(
+      newIdentNode("expects"),
+      moduleCallFields,
+      newEmptyNode()
+    )
+  )
+
+  result = nnkTypeDef.newTree(
     newIdentNode(moduleTypeName),  # <---
     newEmptyNode(),
-    newTree(nnkRefTy,
-      newTree(nnkObjectTy,
+    nnkRefTy.newTree(
+      nnkObjectTy.newTree(
         newEmptyNode(),
         newEmptyNode(),
-        moduleTypeFields # <---
+        moduleTypeFields, # <---
       )
     )
   )
@@ -116,5 +126,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
   # dumpAstGen:
   #   type
   #     Directory = ref object
-  #       callCount: (newDirectory: 0)
+  #       callCount: tuple[newDirectory: int]
+  #       expects: tuple[newDirectory: seq[string]]
+
 

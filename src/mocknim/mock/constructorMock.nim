@@ -57,15 +57,15 @@ proc generate*(this: ConstructorMock): NimNode =
     )
   )
 
-  echo result.repr()
+  # echo result.repr()
 
-  dumpAstGen:
-    proc mockDirectory(): Directory =
-      var mock {.global.} = Directory(
-        callCount: (
-          getFiles: 0
-        )
-      )
-      result = mock
+  # dumpAstGen:
+  #   proc mockDirectory(): Directory =
+  #     var mock {.global.} = Directory(
+  #       callCount: (
+  #         getFiles: 0
+  #       )
+  #     )
+  #     result = mock
 
 

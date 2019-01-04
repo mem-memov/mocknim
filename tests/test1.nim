@@ -16,21 +16,20 @@ test "can mock module":
 
   let directory = mockDirectory()
 
-  let file = mockFile()
+  let file1 = mockFile()
 
   # let imports = mockImports()
-  # imports.files &= ((), @[file])
-  # directory.removeMeIAmForTesting &= ((), ())
-  # # directory.file &= ((), ())
-  # # directory.file &= ((), file)
-  # # directory.file &= ((name: "some_module"), ()))
-  directory.file &= (("secret_file"), file)
-  directory.file &= (("public_file"), file)
+  # imports.expects.files &= ((), @[file])
+  # directory.expects.removeMeIAmForTesting &= ((), ())
+  # # directory.expects.file &= ((), ())
+  # # directory.expects.file &= ((), file)
+  # # directory.expects.file &= ((name: "some_module"), ()))
+  directory.expects.file &= (("some_module"), file1)
 
 
 
-  # let module = newModule("some_module", directory)
-  # let output = module.original()
+  let module = newModule("some_module", directory)
+  let output = module.original()
 
   
   # echo mockDirectory().repr()

@@ -39,4 +39,4 @@ proc parameterName*(this: SelfOriginal): string =
 
   let selfNode = this.formalParamsNode[1]
 
-  result = selfNode[1].repr()
+  result = selfNode[0].repr()

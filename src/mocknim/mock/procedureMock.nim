@@ -31,6 +31,23 @@ proc newProcedureMock*(
   )
 
 
+template mockProcedure(moduleName: untyped, procedureName: untyped, variableName: untyped, selfExists: int): untyped =
+
+    if not (selfExists == 1):
+      var variableName = `mock moduleName`()
+      echo variableName.repr()
+
+    # var count = variableName.callCount.procedureName
+
+    
+
+    # let expectedParameters = variableName.expects.procedureName[count][0]
+    # let expectedReturnValue = variableName.expects.procedureName[count][1]
+
+    # variableName.callCount.procedureName += 1
+
+
+
 proc generate*(this: ProcedureMock): NimNode =
 
   result = this.signatureOriginal.copy()
@@ -55,31 +72,43 @@ proc generate*(this: ProcedureMock): NimNode =
     )
   )
 
-  if not this.selfOriginal.exists():
+  # if not this.selfOriginal.exists():
 
-    statements.add(getMockNode)
+  #   statements.add(getMockNode)
 
   
 
-  if this.resultOriginal.exists() and this.selfOriginal.exists():
+  # if this.resultOriginal.exists() and this.selfOriginal.exists():
 
-    let self = this.argumentOriginal[0]
+  #   let self = this.argumentOriginal[0]
 
-    statements.add(
-      newTree(nnkAsgn,
-        newIdentNode("result"),
-        newTree(nnkDotExpr,
-          newIdentNode(self.argumentName()),
-          newIdentNode("result")
-        )
-      )
-    )
+  #   statements.add(
+  #     newTree(nnkAsgn,
+  #       newIdentNode("result"),
+  #       newTree(nnkDotExpr,
+  #         newIdentNode(self.argumentName()),
+  #         newIdentNode("result")
+  #       )
+  #     )
+  #   )
+
+  var selfExists:int
+  if this.selfOriginal.exists():
+    selfExists = 1
+  else:
+    selfExists = 0
+
+  var body = getAst(mockProcedure(
+    this.selfOriginal.moduleTypeName().ident,
+    this.signatureOriginal.procedureName().ident,
+    variableName.ident,
+    selfExists
+  ))
+
+  statements.add(body)
+
+  # echo body.repr()
 
   result[6] = statements
 
   # echo result.repr()
-
-  # dumpAstGen:
-  #   this[this.callCount]
-
-    # this.callCount += 1
