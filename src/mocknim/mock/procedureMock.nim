@@ -34,11 +34,8 @@ proc newProcedureMock*(
 template mockFactory(moduleName: untyped, procedureName: untyped, procedure: string): untyped =
 
   block:
-  
     var mock = `mock moduleName`()
-
     var count = mock.callCount.procedureName
-
     var countLimit = mock.expects.procedureName.len()
 
     if count < countLimit:
@@ -50,63 +47,63 @@ template mockFactory(moduleName: untyped, procedureName: untyped, procedure: str
     else:
       echo "unexpected call to " & procedure
 
+    result = mock
+
+
+template mockAction(
+  moduleName: untyped, 
+  procedureName: untyped, 
+  procedure: string, 
+  mock: untyped,
+  returnType: untyped): untyped =
+
+  block:
+    var count = mock.callCount.procedureName
+    var countLimit = mock.expects.procedureName.len()
+    echo "---------------------------" & procedure
+    if count < countLimit:
+      let expectedParameters = mock.expects.procedureName[count][0]
+      var returnValue: returnType
+      returnValue = mock.expects.procedureName[count][1]
+
+      mock.callCount.procedureName = count + 1
+
+      result = returnValue
+
+    else:
+      echo "unexpected call to " & procedure
+
+
 proc generate*(this: ProcedureMock): NimNode =
 
   result = this.signatureOriginal.copy()
 
-  result[0] = newIdentNode(this.signatureOriginal.procedureName())
+  result[0] = newIdentNode(this.signatureOriginal.procedureName()) # remove asterisk
 
-  var statements = newStmtList()
+  let moduleTypeName = this.selfOriginal.moduleTypeName()
 
-  var variableName: string
-  if this.selfOriginal.exists():
-    variableName = this.selfOriginal.parameterName()
-  else:
-    variableName = "mock12345" # TODO: must be different from any argument name
+  var body: NimNode
 
-  let getMockNode = nnkVarSection.newTree(
-    nnkIdentDefs.newTree(
-      newIdentNode(variableName), # <--
-      newEmptyNode(),
-      nnkCall.newTree(
-        newIdentNode("mock" & this.selfOriginal.moduleTypeName()) # <--
-      )
-    )
-  )
+  if not this.selfOriginal.exists() and 
+    this.resultOriginal.exists() and
+    this.resultOriginal.typeName() == moduleTypeName:
 
-  # if not this.selfOriginal.exists():
-
-  #   statements.add(getMockNode)
-
-  
-
-  # if this.resultOriginal.exists() and this.selfOriginal.exists():
-
-  #   let self = this.argumentOriginal[0]
-
-  #   statements.add(
-  #     newTree(nnkAsgn,
-  #       newIdentNode("result"),
-  #       newTree(nnkDotExpr,
-  #         newIdentNode(self.argumentName()),
-  #         newIdentNode("result")
-  #       )
-  #     )
-  #   )
-
-
-  if this.selfOriginal.exists():
-
-    var body = getAst(mockFactory(
+    body = getAst(mockFactory(
       this.selfOriginal.moduleTypeName().ident,
       this.signatureOriginal.procedureName().ident,
       this.signatureOriginal.procedureName()
     ))
 
-    statements.add(body)
+  if this.selfOriginal.exists():
 
-  # echo body.repr()
+    body = getAst(mockAction(
+      this.selfOriginal.moduleTypeName().ident,
+      this.signatureOriginal.procedureName().ident,
+      this.signatureOriginal.procedureName(),
+      this.selfOriginal.parameterName().ident,
+      this.resultOriginal.typeName().ident
+    ))
 
-  result[6] = statements
+  result[6] = newStmtList(body)
 
-  # echo result.repr()
+  echo result.repr()
