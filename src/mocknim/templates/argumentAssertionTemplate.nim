@@ -17,16 +17,17 @@ proc newArgumentAssertionTemplate*(argumentOriginal: ArgumentOriginal): Argument
   )
 
 
-template assertArgumentValue(argument: untyped): untyped =
+proc assertArgumentValue(argumentName: string): NimNode =
 
-  echo "----------------------------------------" & $argument
-  # assert(argument == expectedParameters.argument)
+  var argument = argumentName.ident()
+
+  result = quote:
+    echo "----------------------------------------" & $`argument`
+    # assert(argument == expectedParameters.argument)
 
 
 proc generate*(this: ArgumentAssertionTemplate): NimNode =
 
-  getAst(
-    assertArgumentValue(
-      this.argumentOriginal.argumentName().ident
-    )
+  assertArgumentValue(
+    this.argumentOriginal.argumentName()
   )
