@@ -27,10 +27,6 @@ proc assertArgumentValue(argumentName: string): NimNode =
 
 proc generate*(this: ArgumentAssertionTemplate): NimNode =
 
-  result = assertArgumentValue(
+  assertArgumentValue(
     this.argumentOriginal.argumentName()
   )
-
-  echo assertArgumentValue(
-    this.argumentOriginal.argumentName()
-  ).repr()
