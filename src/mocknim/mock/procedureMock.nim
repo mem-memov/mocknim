@@ -64,10 +64,8 @@ proc generate*(this: ProcedureMock): NimNode =
         )
 
     body = newResultActionTemplate(
-      moduleTypeName,
       procedureName,
-      this.selfOriginal.parameterName(),
-      this.resultOriginal.typeName()
+      this.selfOriginal.parameterName()
     ).generate(
       argumentAssertions
     )

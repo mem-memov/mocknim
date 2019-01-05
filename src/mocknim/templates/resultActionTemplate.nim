@@ -7,23 +7,15 @@ import
 
 type
   ResultActionTemplate* = ref object
-    moduleName: string
     procedureName: string
     selfParameterName: string
-    resultTypeName: string
 
 
-proc newResultActionTemplate*(
-  moduleName: string, 
-  procedureName: string,
-  selfParameterName: string,
-  resultTypeName: string): ResultActionTemplate =
+proc newResultActionTemplate*(procedureName: string, selfParameterName: string): ResultActionTemplate =
 
   ResultActionTemplate(
-    moduleName: moduleName,
     procedureName: procedureName,
-    selfParameterName: selfParameterName,
-    resultTypeName: resultTypeName
+    selfParameterName: selfParameterName
   )
 
 
