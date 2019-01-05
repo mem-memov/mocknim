@@ -22,8 +22,7 @@ proc assertArgumentValue(argumentName: string): NimNode =
   var argument = argumentName.ident()
 
   result = quote:
-    echo "----------------------------------------" & $`argument`
-    # assert(argument == expectedParameters.argument)
+    assert(`argument` == expectedParameters.`argument`)
 
 
 proc generate*(this: ArgumentAssertionTemplate): NimNode =

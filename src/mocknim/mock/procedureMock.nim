@@ -72,4 +72,4 @@ proc generate*(this: ProcedureMock): NimNode =
 
   result[6] = newStmtList(body)
 
-  echo result.repr()
+  # echo result.repr()
