@@ -22,21 +22,21 @@ suite "mocknim/module/module":
       (("some_module"), file1)
 
     let ast = NimNode()
-    file1.expects.loadAst &= 
-      ((), ast)
+    file1.expects
+      .loadAst &= ((), ast)
 
-    imports1.expects.newImports &= 
-      ((ast, directory), imports1)
+    imports1.expects
+      .newImports &= ((ast, directory), imports1)
 
-    dependencies1.expects.newDependencies &= 
-      ((imports1), dependencies1)
+    dependencies1.expects
+      .newDependencies &= ((imports1), dependencies1)
 
     let dependencyOriginals = @[DependencyOriginal()]
-    dependencies1.expects.originals &=
-      ((), dependencyOriginals)
+    dependencies1.expects
+      .originals &= ((), dependencyOriginals)
 
-    moduleOriginal1.expects.newModuleOriginal &= 
-      ((ast, "some_module", dependencyOriginals), moduleOriginal1)
+    moduleOriginal1.expects
+      .newModuleOriginal &= ((ast, "some_module", dependencyOriginals), moduleOriginal1)
 
     # create real object
 
