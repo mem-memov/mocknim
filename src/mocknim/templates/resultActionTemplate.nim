@@ -27,44 +27,41 @@ proc newResultActionTemplate*(
   )
 
 
-template mockResultAction(
-  moduleName: untyped, 
-  procedureName: untyped, 
-  procedure: string, 
-  mock: untyped,
-  returnType: untyped): untyped =
+proc mockResultAction(
+  procedureName: string,
+  selfParameterName: string): NimNode =
 
-  echo "---------------------------" & procedure
+  var procedure = procedureName.ident()
+  var mock = selfParameterName.ident()
 
-  var count = mock.callCount.procedureName
-  var countLimit = mock.expects.procedureName.len()
-  
-  if count < countLimit:
-    let expectedParameters = mock.expects.procedureName[count][0]
-    var returnValue = mock.expects.procedureName[count][1]
+  result = quote:
+    echo "---------------------------" & `procedureName`
 
-    result = returnValue
+    var count = `mock`.callCount.`procedure`
+    var countLimit = `mock`.expects.`procedure`.len()
 
-    echo "insert argument check here"
+    if count < countLimit:
+      let expectedParameters = `mock`.expects.`procedure`[count][0]
+      var returnValue = `mock`.expects.`procedure`[count][1]
 
-    mock.callCount.procedureName = count + 1
+      # echo "insert argument check here"
 
-  else:
-    echo "unexpected call to " & procedure
+      `mock`.callCount.`procedure` = count + 1
+
+      return returnValue
+
+    else:
+      echo "unexpected call to " & `procedureName`
 
 
 proc generate*(this: ResultActionTemplate, argumentCheckNode: NimNode): NimNode =
 
   result = newPatch(
-    getAst(
-      mockResultAction(
-        this.moduleName.ident,
-        this.procedureName.ident,
-        this.procedureName,
-        this.selfParameterName.ident,
-        this.resultTypeName.ident
-      )
+    mockResultAction(
+      this.procedureName,
+      this.selfParameterName
     )
   )
   .insert("insert argument check here", newPatch(argumentCheckNode))
   .tree()
+
