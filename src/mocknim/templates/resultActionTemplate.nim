@@ -25,18 +25,18 @@ proc mockResultAction(
 
   var procedure = procedureName.ident()
   var mock = selfParameterName.ident()
+  var expectedParameters = "expectedParameters".ident()
 
   result = quote:
-    echo "---------------------------" & `procedureName`
 
     var count = `mock`.callCount.`procedure`
     var countLimit = `mock`.expects.`procedure`.len()
 
     if count < countLimit:
-      let expectedParameters = `mock`.expects.`procedure`[count][0]
+      let `expectedParameters` = `mock`.expects.`procedure`[count][0]
       var returnValue = `mock`.expects.`procedure`[count][1]
 
-      # echo "insert argument check here"
+      echo "insert argument check here"
 
       `mock`.callCount.`procedure` = count + 1
 
@@ -56,4 +56,6 @@ proc generate*(this: ResultActionTemplate, argumentCheckNode: NimNode): NimNode 
   )
   .insert("insert argument check here", newPatch(argumentCheckNode))
   .tree()
+
+  # echo result.repr()
 

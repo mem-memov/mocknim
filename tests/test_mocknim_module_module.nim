@@ -19,9 +19,10 @@ suite "mocknim/module/module":
     # provide for execution flow of procedure under test
 
     directory.expects.file &= 
-      (("some_module"), file1)
+      (("some_module",), file1)
 
     let ast = NimNode()
+
     file1.expects
       .loadAst &= ((), ast)
 
@@ -29,9 +30,10 @@ suite "mocknim/module/module":
       .newImports &= ((ast, directory), imports1)
 
     dependencies1.expects
-      .newDependencies &= ((imports1), dependencies1)
+      .newDependencies &= ((imports1,), dependencies1)
 
     let dependencyOriginals = @[DependencyOriginal()]
+
     dependencies1.expects
       .originals &= ((), dependencyOriginals)
 

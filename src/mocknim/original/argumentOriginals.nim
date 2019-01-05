@@ -26,4 +26,5 @@ proc create*(this: ArgumentOriginals): seq[ArgumentOriginal] =
   for identDefsNode in this.formalParamsNode:
 
     if identDefsNode.kind == nnkIdentDefs:
-      result.add(newArgumentOriginal(identDefsNode))
+      let indexInSignature = result.len()
+      result.add(newArgumentOriginal(indexInSignature, identDefsNode))

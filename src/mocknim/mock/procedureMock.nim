@@ -60,7 +60,7 @@ proc generate*(this: ProcedureMock): NimNode =
     for index, argumentOriginal in this.argumentOriginals:
       if index > 0: # skip self argument
         argumentAssertions.add(
-          newArgumentAssertionTemplate(argumentOriginal).generate()
+          newArgumentAssertionTemplate(argumentOriginal, this.selfOriginal).generate()
         )
 
     body = newResultActionTemplate(

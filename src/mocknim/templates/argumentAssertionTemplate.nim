@@ -1,32 +1,56 @@
 import
   macros,
   mocknim/[
-    templates/patch,
-    original/argumentOriginal
+    original/argumentOriginal,
+    original/selfOriginal
   ]
 
 
 type
   ArgumentAssertionTemplate* = ref object
     argumentOriginal: ArgumentOriginal
+    selfOriginal: SelfOriginal
 
-proc newArgumentAssertionTemplate*(argumentOriginal: ArgumentOriginal): ArgumentAssertionTemplate =
+
+proc newArgumentAssertionTemplate*(
+  argumentOriginal: ArgumentOriginal,
+  selfOriginal: SelfOriginal): ArgumentAssertionTemplate =
 
   ArgumentAssertionTemplate(
-    argumentOriginal: argumentOriginal
+    argumentOriginal: argumentOriginal,
+    selfOriginal: selfOriginal
   )
 
 
-proc assertArgumentValue(argumentName: string): NimNode =
+proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int): NimNode =
 
   var argument = argumentName.ident()
+  var argumentIndex = argumentIndexInSignature.newIntLitNode()
+  var expectedParameters = "expectedParameters".ident()
+  let argumentString = argument.toStrLit()
 
   result = quote:
-    assert(`argument` == expectedParameters.`argument`)
+
+    assert(
+      `argument` == `expectedParameters`[`argumentIndex`],
+      "UNIT TEST: Argument " & 
+      `argumentString` & 
+      " contains an unexpected value '" & 
+      $`expectedParameters`[`argumentIndex`] & 
+      "' insdead of '" &
+      `argument` &
+      "'"
+    )
 
 
 proc generate*(this: ArgumentAssertionTemplate): NimNode =
 
+  var argumentIndexInSignature = this.argumentOriginal.argumentIndexInSignature()
+
+  if this.selfOriginal.exists():
+    argumentIndexInSignature -= 1
+
   assertArgumentValue(
-    this.argumentOriginal.argumentName()
+    this.argumentOriginal.argumentName(),
+    argumentIndexInSignature
   )

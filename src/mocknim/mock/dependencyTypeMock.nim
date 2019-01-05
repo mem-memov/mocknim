@@ -75,7 +75,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
     if argumentsPresent and not resultPresent:
 
       callNode = nnkPar.newTree(
-        nnkPar.newTree(
+        nnkTupleConstr.newTree(
           arguments # <---
         ),
         nnkTupleTy.newTree()
@@ -84,7 +84,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
     if argumentsPresent and resultPresent:
 
       callNode = nnkPar.newTree(
-        nnkPar.newTree(
+        nnkTupleConstr.newTree(
           arguments # <---
         ),
         procedureOriginal.result().typeNameNode() # <---
@@ -127,6 +127,13 @@ proc generate*(this: DependencyTypeMock): NimNode =
   #   type
   #     Directory = ref object
   #       callCount: tuple[newDirectory: int]
-  #       expects: tuple[newDirectory: seq[string]]
+  #       expects: tuple[
+  #         newDirectory: seq[
+  #           (
+  #             (string,), 
+  #             File
+  #           )
+  #         ]
+  #       ]
 
 

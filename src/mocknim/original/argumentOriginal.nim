@@ -4,14 +4,16 @@ import
 
 type
   ArgumentOriginal* = ref object
+    indexInSignature: int
     identDefsNode: NimNode
 
 
-proc newArgumentOriginal*(identDefsNode: NimNode): ArgumentOriginal =
+proc newArgumentOriginal*(indexInSignature: int, identDefsNode: NimNode): ArgumentOriginal =
 
   expectKind(identDefsNode, nnkIdentDefs)
 
   ArgumentOriginal(
+    indexInSignature: indexInSignature,
     identDefsNode: identDefsNode
   )
 
@@ -19,6 +21,11 @@ proc newArgumentOriginal*(identDefsNode: NimNode): ArgumentOriginal =
 proc argumentName*(this: ArgumentOriginal): string =
 
   this.identDefsNode[0].repr()
+
+
+proc argumentIndexInSignature*(this: ArgumentOriginal): int =
+
+  this.indexInSignature
 
 
 proc typeNameNode*(this: ArgumentOriginal): NimNode =

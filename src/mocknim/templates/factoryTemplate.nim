@@ -18,7 +18,7 @@ proc newFactoryTemplate*(moduleName: string, procedureName: string): FactoryTemp
 template mockFactory(moduleName: untyped, procedureName: untyped, procedure: string): untyped =
 
   block:
-    echo "---------------------------" & procedure
+
     var mock = `mock moduleName`()
     var count = mock.callCount.procedureName
     var countLimit = mock.expects.procedureName.len()
