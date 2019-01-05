@@ -56,11 +56,12 @@ proc generate*(this: ProcedureMock): NimNode =
   if this.selfOriginal.exists() and
     this.resultOriginal.exists():
 
-    var argumentAssertions: seq[NimNode] = @[]
-    for argumentOriginal in this.argumentOriginals:
-      argumentAssertions.add(
-        newArgumentAssertionTemplate(argumentOriginal).generate()
-      )
+    var argumentAssertions = newStmtList()
+    for index, argumentOriginal in this.argumentOriginals:
+      if index > 0: # skip self argument
+        argumentAssertions.add(
+          newArgumentAssertionTemplate(argumentOriginal).generate()
+        )
 
     body = newResultActionTemplate(
       moduleTypeName,
@@ -68,7 +69,7 @@ proc generate*(this: ProcedureMock): NimNode =
       this.selfOriginal.parameterName(),
       this.resultOriginal.typeName()
     ).generate(
-      newEmptyNode()
+      argumentAssertions
     )
 
   result[6] = newStmtList(body)

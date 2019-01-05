@@ -1,39 +1,27 @@
 import
   macros,
-  strutils
+  strutils,
+  mocknim/[
+    templates/replacement
+  ]
 
 type
   Patch* = ref object
-    representation: string
+    node: NimNode
 
 proc newPatch*(node: NimNode): Patch =
 
   Patch(
-    representation: node.repr()
+    node: node
   )
 
 proc insert*(this: Patch, placeHolder: string, patch: Patch): Patch =
 
   result = this
 
-  let mark = "echo \"" & placeHolder & "\""
-  this.representation = replace(this.representation, mark, patch.representation)
-
-
-proc append*(this: Patch, patch: Patch): Patch =
-
-  result = this
-
-  this.representation &= patch.representation
+  newReplacement(this.node).apply(placeHolder, patch.node)
 
 
 proc tree*(this: Patch): NimNode =
 
-  this.representation.parseStmt()
-
-
-proc print*(this: Patch): Patch =
-
-  result = this
-
-  echo this.representation
+  this.node
