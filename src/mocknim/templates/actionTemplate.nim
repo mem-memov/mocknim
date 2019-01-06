@@ -28,6 +28,7 @@ proc mockAction(
   var expectedParameters = "expectedParameters".ident()
 
   result = quote:
+    echo "call " & `procedureName`
 
     var count = `mock`.callCount.`procedure`
     var countLimit = `mock`.expects.`procedure`.len()

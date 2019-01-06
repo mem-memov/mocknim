@@ -28,11 +28,12 @@ proc mockResultAction(
   var expectedParameters = "expectedParameters".ident()
 
   result = quote:
+    echo "call " & `procedureName`
 
     var count = `mock`.callCount.`procedure`
     var countLimit = `mock`.expects.`procedure`.len()
 
-    if count < countLimit:
+    if countLimit == 0 or count < countLimit:
       let `expectedParameters` = `mock`.expects.`procedure`[count][0]
       var returnValue = `mock`.expects.`procedure`[count][1]
 
