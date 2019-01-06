@@ -23,7 +23,7 @@ proc getArgumentName*(this: ArgumentOriginal): string =
   this.identDefsNode[0].repr()
 
 
-proc argumentIndexInSignature*(this: ArgumentOriginal): int =
+proc getArgumentIndexInSignature*(this: ArgumentOriginal): int =
 
   this.indexInSignature
 

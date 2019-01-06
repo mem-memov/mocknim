@@ -45,7 +45,7 @@ proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int): N
 
 proc generate*(this: ArgumentAssertionTemplate): NimNode =
 
-  var argumentIndexInSignature = this.argumentOriginal.argumentIndexInSignature()
+  var argumentIndexInSignature = this.argumentOriginal.getArgumentIndexInSignature()
 
   if this.selfOriginal.exists():
     argumentIndexInSignature -= 1
