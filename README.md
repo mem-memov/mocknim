@@ -25,7 +25,7 @@ In test file the following sections are not unusual:
 ```nim
 import unittest, mocknim
 
-suite "MyPackage/subfolder/myModule":
+suite "MyPackage/subfolder/myModule": # the suite name is arbitrary
 
   # generate all types and procedures needed to test this module
   mock("MyPackage/subfolder/myModule")
@@ -35,4 +35,20 @@ suite "MyPackage/subfolder/myModule":
     # create mock objects that are used inside procedure under test
     let
       myDependency = mockMyDependency()
+
+    # provide for execution flow of procedure under test
+
+    myDependency.expects
+      .doSomeThingWithTheDataAndReturn &= (("my data",), "my_result")
+
+    # create real object
+
+    let myModule = newMyModule(myDependency)
+
+    # execute procedure under test
+
+    let output = myModule.doSomeProcessing()
+
+    # check the output with the means of "nimble test"
+    
 ```
