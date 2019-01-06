@@ -1,6 +1,6 @@
 # mocknim
 
-A tool for creating mocks. Current goal is that is should mock own modules. So the package seems to be self-explanatory. 
+A tool for creating mocks. Current goal is that it should mock own modules. So the package seems to be self-explanatory. 
 
 If you should choose to compose your modules like it is done here, you can count on this package to provide you with mocks needed. The requirements are as follows:
 
@@ -34,8 +34,9 @@ import unittest, mocknim
 
 suite "MyPackage/subfolder/myModule": # the suite name is arbitrary
 
-  # generate all types and procedures needed to test this module
-  mock("MyPackage/subfolder/myModule")
+  setup:
+    # generate all types and procedures needed to test this module
+    mock("MyPackage/subfolder/myModule")
 
   test "it can do something":
 
@@ -56,6 +57,8 @@ suite "MyPackage/subfolder/myModule": # the suite name is arbitrary
 
     let output = myModule.doSomeProcessing()
 
-    # check the output with the means of "nimble test"
+    # check the output with the means of "nim unittest"
     
 ```
+
+[Nim Unittest](https://nim-lang.org/docs/unittest.html)
