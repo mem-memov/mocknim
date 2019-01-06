@@ -9,6 +9,8 @@ If you should choose to compose your modules like it is done here, you can count
 * other procedures must have the first parameter of type that is declared in the module
 * there may be other types and proceduders so long as they are not visible outside of the module
 
+[Example](src/mocknim/name.nim)
+
 Install Nim, install Nimble and
 
 ```
