@@ -30,5 +30,5 @@ proc getOriginals*(this: Dependencies): seq[DependencyOriginal] =
       let ast = file.loadAst()
 
       result.add(
-        newDependencyOriginal(ast, file.moduleTypeName())
+        newDependencyOriginal(ast, file.getModuleTypeName())
       )

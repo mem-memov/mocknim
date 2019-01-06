@@ -33,7 +33,7 @@ proc exists*(this: File): bool =
 
   "success" == staticExec(command)
 
-proc moduleTypeName*(this: File): string =
+proc getModuleTypeName*(this: File): string =
 
   var (dir, name, ext) = splitFile(this.path)
 
