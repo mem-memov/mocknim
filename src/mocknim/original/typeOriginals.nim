@@ -37,8 +37,3 @@ proc collectTypeNames*(this: TypeOriginals): seq[string] =
         result.add(typeName)
 
   result = result.deduplicate()
-
-
-proc moduleTypeName*(this: TypeOriginals): string = 
-
-  this.moduleTypeName
