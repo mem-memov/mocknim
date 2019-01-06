@@ -29,7 +29,7 @@ proc generate*(this: ProcedureMocks): seq[NimNode] =
       let procedureMock = newProcedureMock(
         procedureOriginal.signature(), 
         procedureOriginal.result(),
-        procedureOriginal.arguments(),
+        procedureOriginal.getArguments(),
         procedureOriginal.self()
       )
 

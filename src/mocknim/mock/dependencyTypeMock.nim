@@ -40,7 +40,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
     var arguments: seq[NimNode] = @[]
 
-    for ai, argumentOriginal in procedureOriginal.arguments():
+    for ai, argumentOriginal in procedureOriginal.getArguments():
 
       let argumentName = argumentOriginal.getArgumentName()
       let typeNameNode = argumentOriginal.getTypeNameNode()

@@ -47,7 +47,7 @@ proc getAllTypeNames*(this: ProcedureOriginal): seq[string] =
     result.add(this.resultOriginal.typeName())
 
 
-proc arguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =
+proc getArguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =
 
   this.argumentOriginals.create()
 
