@@ -52,7 +52,7 @@ proc getArguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =
   this.argumentOriginals.create()
 
 
-proc result*(this: ProcedureOriginal): ResultOriginal =
+proc getResult*(this: ProcedureOriginal): ResultOriginal =
 
   this.resultOriginal
 

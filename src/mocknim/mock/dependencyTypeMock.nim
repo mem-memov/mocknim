@@ -53,7 +53,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
       )
 
     let argumentsPresent = arguments.len() > 0
-    let resultPresent = procedureOriginal.result().exists()
+    let resultPresent = procedureOriginal.getResult().exists()
     var callNode: NimNode;
 
     if not argumentsPresent and not resultPresent:
@@ -69,7 +69,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
       callNode = nnkPar.newTree(
         nnkTupleTy.newTree(),
-        procedureOriginal.result().typeNameNode() # <---
+        procedureOriginal.getResult().typeNameNode() # <---
       )
 
     if argumentsPresent and not resultPresent:
@@ -87,7 +87,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
         nnkTupleConstr.newTree(
           arguments # <---
         ),
-        procedureOriginal.result().typeNameNode() # <---
+        procedureOriginal.getResult().typeNameNode() # <---
       )
 
     moduleCallFields.add(
