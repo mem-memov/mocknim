@@ -38,7 +38,7 @@ proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int): N
       " contains an unexpected value '" & 
       $`expectedParameters`[`argumentIndex`] & 
       "' insdead of '" &
-      `argument` &
+      $`argument` &
       "'"
     )
 
