@@ -18,8 +18,8 @@ suite "mocknim/module/module":
 
     # provide for execution flow of procedure under test
 
-    directory.expects.getFile &= 
-      (("some_module",), file)
+    directory.expects
+      .getFile &= (("some_module",), file)
 
     let ast = NimNode()
 
