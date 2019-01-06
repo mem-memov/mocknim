@@ -30,7 +30,7 @@ proc generate*(this: ProcedureMocks): seq[NimNode] =
         procedureOriginal.getSignature(), 
         procedureOriginal.getResult(),
         procedureOriginal.getArguments(),
-        procedureOriginal.self()
+        procedureOriginal.getSelf()
       )
 
       result.add(procedureMock.generate())

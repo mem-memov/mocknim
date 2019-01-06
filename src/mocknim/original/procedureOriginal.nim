@@ -62,7 +62,7 @@ proc getSignature*(this: ProcedureOriginal): SignatureOriginal =
   this.signatureOriginal
 
 
-proc self*(this: ProcedureOriginal): SelfOriginal =
+proc getSelf*(this: ProcedureOriginal): SelfOriginal =
 
   this.selfOriginal
 
