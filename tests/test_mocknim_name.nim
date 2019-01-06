@@ -19,3 +19,7 @@ suite "mocknim/name":
     let node = NimNode()
 
     let name = newName(node)
+
+    let output = name.toString()
+
+    assert(output == "some quoted text")
