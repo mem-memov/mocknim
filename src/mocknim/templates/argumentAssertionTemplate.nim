@@ -51,6 +51,6 @@ proc generate*(this: ArgumentAssertionTemplate): NimNode =
     argumentIndexInSignature -= 1
 
   assertArgumentValue(
-    this.argumentOriginal.argumentName(),
+    this.argumentOriginal.getArgumentName(),
     argumentIndexInSignature
   )

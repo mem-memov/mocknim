@@ -18,7 +18,7 @@ proc newArgumentOriginal*(indexInSignature: int, identDefsNode: NimNode): Argume
   )
 
 
-proc argumentName*(this: ArgumentOriginal): string =
+proc getArgumentName*(this: ArgumentOriginal): string =
 
   this.identDefsNode[0].repr()
 

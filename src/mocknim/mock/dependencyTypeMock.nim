@@ -42,7 +42,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
     for ai, argumentOriginal in procedureOriginal.arguments():
 
-      let argumentName = argumentOriginal.argumentName()
+      let argumentName = argumentOriginal.getArgumentName()
       let typeNameNode = argumentOriginal.typeNameNode()
 
       if moduleTypeName == typeNameNode.repr() and ai == 0: # skip "this" argument
