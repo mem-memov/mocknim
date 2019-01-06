@@ -1,12 +1,17 @@
 import unittest, mocknim
 
 import 
-  macros, 
   strutils
 
 suite "mocknim/name":
 
   setup:
+
+    type
+      NimNode = ref object
+
+    proc repr(node: NimNode): string = "\"some quoted text\""
+
     mock("mocknim/name")
 
   test "it strips quote marks":
