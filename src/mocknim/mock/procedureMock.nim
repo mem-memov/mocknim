@@ -7,6 +7,7 @@ import
     original/selfOriginal,
     templates/factoryTemplate,
     templates/resultActionTemplate,
+    templates/actionTemplate,
     templates/argumentAssertionTemplate
   ]
 
@@ -44,6 +45,13 @@ proc generate*(this: ProcedureMock): NimNode =
 
   var body: NimNode = newEmptyNode()
 
+  var argumentAssertions = newStmtList()
+  for index, argumentOriginal in this.argumentOriginals:
+    if index > 0: # skip self argument
+      argumentAssertions.add(
+        newArgumentAssertionTemplate(argumentOriginal, this.selfOriginal).generate()
+      )
+
   if not this.selfOriginal.exists() and 
     this.resultOriginal.exists() and
     this.resultOriginal.typeName() == moduleTypeName:
@@ -51,19 +59,24 @@ proc generate*(this: ProcedureMock): NimNode =
     body = newFactoryTemplate(
       moduleTypeName,
       procedureName
-    ).generate()
+    ).generate(
+      argumentAssertions
+    )
 
   if this.selfOriginal.exists() and
     this.resultOriginal.exists():
 
-    var argumentAssertions = newStmtList()
-    for index, argumentOriginal in this.argumentOriginals:
-      if index > 0: # skip self argument
-        argumentAssertions.add(
-          newArgumentAssertionTemplate(argumentOriginal, this.selfOriginal).generate()
-        )
-
     body = newResultActionTemplate(
+      procedureName,
+      this.selfOriginal.parameterName()
+    ).generate(
+      argumentAssertions
+    )
+
+  if this.selfOriginal.exists() and
+    not this.resultOriginal.exists():
+
+    body = newActionTemplate(
       procedureName,
       this.selfOriginal.parameterName()
     ).generate(

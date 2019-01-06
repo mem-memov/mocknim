@@ -1,5 +1,8 @@
 import
-  macros
+  macros,
+  mocknim/[
+    templates/patch
+  ]
 
 
 type
@@ -15,31 +18,38 @@ proc newFactoryTemplate*(moduleName: string, procedureName: string): FactoryTemp
     procedureName: procedureName
   )
 
-template mockFactory(moduleName: untyped, procedureName: untyped, procedure: string): untyped =
+proc mockFactory(moduleName: string, procedureName: string): NimNode =
 
-  block:
+  var procedure = procedureName.ident()
+  var module = moduleName.ident()
+  var mock = "mock".ident()
+  var factory = ("mock" & moduleName).ident()
 
-    var mock = `mock moduleName`()
-    var count = mock.callCount.procedureName
-    var countLimit = mock.expects.procedureName.len()
+  result = quote:
+
+    var mock = `factory`()
+    var count = mock.callCount.`procedure`
+    var countLimit = mock.expects.`procedure`.len()
 
     if count < countLimit:
-      let expectedParameters = mock.expects.procedureName[count][0]
-      let expectedReturnValue = mock.expects.procedureName[count][1]
+      let expectedParameters = mock.expects.`procedure`[count][0]
+      let expectedReturnValue = mock.expects.`procedure`[count][1]
 
-      mock.callCount.procedureName = count + 1
+      mock.callCount.`procedure` = count + 1
 
     else:
-      echo "unexpected call to " & procedure
+      echo "unexpected call to " & `procedureName`
 
-    result = mock
+    return mock
 
-proc generate*(this: FactoryTemplate): NimNode =
 
-  getAst(
+proc generate*(this: FactoryTemplate, argumentCheckNode: NimNode): NimNode =
+
+  result = newPatch(
     mockFactory(
-      this.moduleName.ident,
-      this.procedureName.ident,
+      this.moduleName,
       this.procedureName
     )
   )
+  .insert("insert argument check here", newPatch(argumentCheckNode))
+  .tree()
