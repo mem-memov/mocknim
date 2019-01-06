@@ -22,6 +22,6 @@ proc insert*(this: Patch, placeHolder: string, patch: Patch): Patch =
   newReplacement(this.node).apply(placeHolder, patch.node)
 
 
-proc tree*(this: Patch): NimNode =
+proc getTree*(this: Patch): NimNode =
 
   this.node

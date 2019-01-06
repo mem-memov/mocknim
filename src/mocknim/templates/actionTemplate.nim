@@ -52,7 +52,7 @@ proc generate*(this: ActionTemplate, argumentCheckNode: NimNode): NimNode =
     )
   )
   .insert("insert argument check here", newPatch(argumentCheckNode))
-  .tree()
+  .getTree()
 
   # echo result.repr()
 

@@ -52,4 +52,4 @@ proc generate*(this: FactoryTemplate, argumentCheckNode: NimNode): NimNode =
     )
   )
   .insert("insert argument check here", newPatch(argumentCheckNode))
-  .tree()
+  .getTree()
