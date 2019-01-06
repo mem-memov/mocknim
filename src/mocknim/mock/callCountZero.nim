@@ -25,7 +25,7 @@ proc generate*(this: CallCountZero): NimNode =
 
   var countNodes: seq[NimNode] = @[]
 
-  for procedureOriginal in this.dependencyOriginal.procedures():
+  for procedureOriginal in this.dependencyOriginal.getProcedures():
 
     countNodes.add(
       nnkExprColonExpr.newTree(

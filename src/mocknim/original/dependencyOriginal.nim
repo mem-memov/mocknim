@@ -22,7 +22,7 @@ proc newDependencyOriginal*(statementsNode: NimNode, name: string): DependencyOr
   )
 
 
-proc procedures*(this: DependencyOriginal): seq[ProcedureOriginal] =
+proc getProcedures*(this: DependencyOriginal): seq[ProcedureOriginal] =
 
   this.procedureOriginals.create(this.name)
 

@@ -23,7 +23,7 @@ proc generate*(this: CallCountField): NimNode =
 
   var counts: seq[NimNode] = @[]
 
-  for procedureOriginal in this.dependencyOriginal.procedures():
+  for procedureOriginal in this.dependencyOriginal.getProcedures():
 
     counts.add(
       nnkIdentDefs.newTree(

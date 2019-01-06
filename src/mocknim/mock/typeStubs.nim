@@ -30,7 +30,7 @@ proc generate*(this: TypeStubs): NimNode =
     
     excludedTypes.add(dependencyOriginal.moduleTypeName())
 
-    for procedureOriginal in dependencyOriginal.procedures():
+    for procedureOriginal in dependencyOriginal.getProcedures():
 
       allTypes = allTypes.concat(procedureOriginal.allTypeNames())
 

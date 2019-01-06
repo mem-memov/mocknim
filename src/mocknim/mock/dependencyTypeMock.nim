@@ -34,7 +34,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
   let moduleCallFields = nnkTupleTy.newTree()
 
-  for procedureOriginal in this.dependencyOriginal.procedures():
+  for procedureOriginal in this.dependencyOriginal.getProcedures():
 
     let procedureName = procedureOriginal.signature().procedureName()
 

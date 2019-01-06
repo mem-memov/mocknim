@@ -24,7 +24,7 @@ proc generate*(this: ProcedureMocks): seq[NimNode] =
 
   for dependencyOriginal in this.moduleOriginal.dependencies():
 
-    for procedureOriginal in dependencyOriginal.procedures():
+    for procedureOriginal in dependencyOriginal.getProcedures():
 
       let procedureMock = newProcedureMock(
         procedureOriginal.signature(), 
