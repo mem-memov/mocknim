@@ -1,7 +1,7 @@
 import
   macros,
   mocknim/[
-    templates/patch
+    patch/patch
   ]
 
 

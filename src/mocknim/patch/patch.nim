@@ -2,7 +2,7 @@ import
   macros,
   strutils,
   mocknim/[
-    templates/replacement
+    patch/replacement
   ]
 
 type
