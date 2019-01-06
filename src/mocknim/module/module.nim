@@ -25,7 +25,7 @@ proc newModule*(name: string, directory: Directory): Module =
 
 proc original*(this: Module): ModuleOriginal =
   
-  let file = this.directory.file(this.name)
+  let file = this.directory.getFile(this.name)
 
   let ast = file.loadAst()
 

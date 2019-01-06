@@ -35,7 +35,7 @@ proc files*(this: Imports): seq[File] =
 
       for moduleName in moduleNames:
 
-        let file = this.directory.file(moduleName)
+        let file = this.directory.getFile(moduleName)
 
         result.add(file)
 
