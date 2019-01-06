@@ -30,12 +30,12 @@ proc generate*(this: ModuleMock): NimNode =
   statementNodes.add(typeStubs.generate())
 
   let dependencyTypeMocks = newDependencyTypeMocks(
-    this.moduleOriginal.dependencies()
+    this.moduleOriginal.getDependencies()
   )
 
   statementNodes.add(dependencyTypeMocks.generate())
 
-  let constructorMocks = newConstructorMocks(this.moduleOriginal.dependencies())
+  let constructorMocks = newConstructorMocks(this.moduleOriginal.getDependencies())
 
   for constructorDefinition in constructorMocks.generate:
     statementNodes.add(constructorDefinition)

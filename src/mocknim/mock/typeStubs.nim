@@ -26,7 +26,7 @@ proc generate*(this: TypeStubs): NimNode =
   var allTypes: seq[string] = @[]
   var excludedTypes: seq[string] = @[]
 
-  for dependencyOriginal in this.moduleOriginal.dependencies():
+  for dependencyOriginal in this.moduleOriginal.getDependencies():
     
     excludedTypes.add(dependencyOriginal.getModuleTypeName())
 

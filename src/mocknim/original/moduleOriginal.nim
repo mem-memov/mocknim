@@ -22,7 +22,7 @@ proc newModuleOriginal*(statementsNode: NimNode, name: string, dependencyOrigina
   )
 
 
-proc dependencies*(this: ModuleOriginal): seq[DependencyOriginal] =
+proc getDependencies*(this: ModuleOriginal): seq[DependencyOriginal] =
 
   this.dependencyOriginals
 

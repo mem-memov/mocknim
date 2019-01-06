@@ -22,7 +22,7 @@ proc newProcedureMocks*(moduleOriginal: ModuleOriginal): ProcedureMocks =
 
 proc generate*(this: ProcedureMocks): seq[NimNode] =
 
-  for dependencyOriginal in this.moduleOriginal.dependencies():
+  for dependencyOriginal in this.moduleOriginal.getDependencies():
 
     for procedureOriginal in dependencyOriginal.getProcedures():
 
