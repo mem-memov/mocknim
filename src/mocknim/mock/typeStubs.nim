@@ -32,7 +32,7 @@ proc generate*(this: TypeStubs): NimNode =
 
     for procedureOriginal in dependencyOriginal.getProcedures():
 
-      allTypes = allTypes.concat(procedureOriginal.allTypeNames())
+      allTypes = allTypes.concat(procedureOriginal.getAllTypeNames())
 
   allTypes = allTypes.deduplicate()
   excludedTypes = excludedTypes.deduplicate()

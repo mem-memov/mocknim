@@ -39,17 +39,12 @@ proc newProcedureOriginal*(procDefNode: NimNode, moduleName: string): ProcedureO
   )
 
 
-proc allTypeNames*(this: ProcedureOriginal): seq[string] = 
+proc getAllTypeNames*(this: ProcedureOriginal): seq[string] = 
 
   result = this.typeOriginals.collectTypeNames()
 
   if this.resultOriginal.exists():
     result.add(this.resultOriginal.typeName())
-
-
-proc moduleTypeName*(this: ProcedureOriginal): string = 
-
-  this.typeOriginals.moduleTypeName()
 
 
 proc arguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =
