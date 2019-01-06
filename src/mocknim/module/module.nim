@@ -36,5 +36,5 @@ proc original*(this: Module): ModuleOriginal =
   newModuleOriginal(
     ast, 
     this.name,
-    dependencies.originals()
+    dependencies.getOriginals()
   )

@@ -35,7 +35,7 @@ suite "mocknim/module/module":
     let dependencyOriginals = @[DependencyOriginal()]
 
     dependencies1.expects
-      .originals &= ((), dependencyOriginals)
+      .getOriginals &= ((), dependencyOriginals)
 
     moduleOriginal1.expects
       .newModuleOriginal &= ((ast, "some_module", dependencyOriginals), moduleOriginal1)

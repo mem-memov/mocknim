@@ -19,7 +19,7 @@ proc newDependencies*(imports: Imports): Dependencies =
   )
 
 
-proc originals*(this: Dependencies): seq[DependencyOriginal] =
+proc getOriginals*(this: Dependencies): seq[DependencyOriginal] =
 
   let files = this.imports.files()
 
