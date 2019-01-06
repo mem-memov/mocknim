@@ -28,7 +28,7 @@ proc generate*(this: TypeStubs): NimNode =
 
   for dependencyOriginal in this.moduleOriginal.dependencies():
     
-    excludedTypes.add(dependencyOriginal.moduleTypeName())
+    excludedTypes.add(dependencyOriginal.getModuleTypeName())
 
     for procedureOriginal in dependencyOriginal.getProcedures():
 

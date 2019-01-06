@@ -27,6 +27,6 @@ proc getProcedures*(this: DependencyOriginal): seq[ProcedureOriginal] =
   this.procedureOriginals.create(this.name)
 
 
-proc moduleTypeName*(this: DependencyOriginal): string =
+proc getModuleTypeName*(this: DependencyOriginal): string =
 
   this.name

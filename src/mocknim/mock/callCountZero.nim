@@ -21,7 +21,7 @@ proc newCallCountZero*(dependencyOriginal: DependencyOriginal): CallCountZero =
 
 proc generate*(this: CallCountZero): NimNode =
 
-  let moduleTypeName = this.dependencyOriginal.moduleTypeName()
+  let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
 
   var countNodes: seq[NimNode] = @[]
 

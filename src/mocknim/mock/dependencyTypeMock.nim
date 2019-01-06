@@ -30,7 +30,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
   moduleTypeFields.add(callCountField.generate())
 
-  let moduleTypeName = this.dependencyOriginal.moduleTypeName()
+  let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
 
   let moduleCallFields = nnkTupleTy.newTree()
 

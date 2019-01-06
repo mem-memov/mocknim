@@ -20,7 +20,7 @@ proc newConstructorMock*(dependencyOriginal: DependencyOriginal): ConstructorMoc
 
 proc generate*(this: ConstructorMock): NimNode =
 
-  let moduleTypeName = this.dependencyOriginal.moduleTypeName()
+  let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
 
   let callCountZero = newCallCountZero(this.dependencyOriginal)
 
