@@ -11,34 +11,34 @@ suite "mocknim/module/module":
     # create mock objects that are used inside procedure under test
     let
       directory = mockDirectory()
-      file1 = mockFile()
-      dependencies1 = mockDependencies()
-      imports1 = mockImports()
-      moduleOriginal1 = mockModuleOriginal()
+      file = mockFile()
+      dependencies = mockDependencies()
+      imports = mockImports()
+      moduleOriginal = mockModuleOriginal()
 
     # provide for execution flow of procedure under test
 
     directory.expects.getFile &= 
-      (("some_module",), file1)
+      (("some_module",), file)
 
     let ast = NimNode()
 
-    file1.expects
+    file.expects
       .loadAst &= ((), ast)
 
-    imports1.expects
-      .newImports &= ((ast, directory), imports1)
+    imports.expects
+      .newImports &= ((ast, directory), imports)
 
-    dependencies1.expects
-      .newDependencies &= ((imports1,), dependencies1)
+    dependencies.expects
+      .newDependencies &= ((imports,), dependencies)
 
     let dependencyOriginals = @[DependencyOriginal()]
 
-    dependencies1.expects
+    dependencies.expects
       .getOriginals &= ((), dependencyOriginals)
 
-    moduleOriginal1.expects
-      .newModuleOriginal &= ((ast, "some_module", dependencyOriginals), moduleOriginal1)
+    moduleOriginal.expects
+      .newModuleOriginal &= ((ast, "some_module", dependencyOriginals), moduleOriginal)
 
     # create real object
 
