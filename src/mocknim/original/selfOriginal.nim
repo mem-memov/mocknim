@@ -35,7 +35,7 @@ proc getModuleTypeName*(this: SelfOriginal): string =
   this.moduleTypeName
 
 
-proc parameterName*(this: SelfOriginal): string =
+proc getParameterName*(this: SelfOriginal): string =
 
   let selfNode = this.formalParamsNode[1]
 

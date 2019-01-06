@@ -68,7 +68,7 @@ proc generate*(this: ProcedureMock): NimNode =
 
     body = newResultActionTemplate(
       procedureName,
-      this.selfOriginal.parameterName()
+      this.selfOriginal.getParameterName()
     ).generate(
       argumentAssertions
     )
@@ -78,7 +78,7 @@ proc generate*(this: ProcedureMock): NimNode =
 
     body = newActionTemplate(
       procedureName,
-      this.selfOriginal.parameterName()
+      this.selfOriginal.getParameterName()
     ).generate(
       argumentAssertions
     )
