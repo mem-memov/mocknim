@@ -20,7 +20,3 @@ proc file*(this: Directory, name: string): File =
   file.newFile(
     this.path & "/" & name & ".nim"
   )
-
-proc removeMeIAmForTesting*(this: Directory) =
-
-  echo "removeMeIAmForTesting"
