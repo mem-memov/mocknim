@@ -61,4 +61,9 @@ suite "MyPackage/subfolder/myModule": # the suite name is arbitrary
     
 ```
 
+
 [Nim Unittest](https://nim-lang.org/docs/unittest.html)
+
+###Limitations
+
+Automatically are mocked only modules wich can be loaded from actual files of the project. 

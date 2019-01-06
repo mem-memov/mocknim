@@ -22,4 +22,4 @@ suite "mocknim/name":
 
     let output = name.toString()
 
-    assert(output == "some quoted text")
+    check(output == "some quoted text")
