@@ -21,7 +21,7 @@ proc newImports*(ast: NimNode, directory: Directory): Imports =
 
 
 proc compose(node: NimNode, prefix: string, moduleNames: var seq[string])
-proc files*(this: Imports): seq[File] =
+proc getFiles*(this: Imports): seq[File] =
 
   result = @[]
 

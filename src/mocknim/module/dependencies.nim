@@ -21,7 +21,7 @@ proc newDependencies*(imports: Imports): Dependencies =
 
 proc getOriginals*(this: Dependencies): seq[DependencyOriginal] =
 
-  let files = this.imports.files()
+  let files = this.imports.getFiles()
 
   for file in files:
 
