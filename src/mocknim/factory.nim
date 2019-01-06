@@ -25,4 +25,4 @@ proc mock*(this: Factory, moduleNode: NimNode): ModuleMock =
     directory
   )
 
-  newModuleMock(module.original())
+  newModuleMock(module.getOriginal())

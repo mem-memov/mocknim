@@ -46,7 +46,7 @@ suite "mocknim/module/module":
 
     # execute procedure under test
 
-    let output = module.original()
+    let output = module.getOriginal()
 
 
 
