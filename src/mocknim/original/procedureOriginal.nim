@@ -44,7 +44,7 @@ proc getAllTypeNames*(this: ProcedureOriginal): seq[string] =
   result = this.typeOriginals.collectTypeNames()
 
   if this.resultOriginal.exists():
-    result.add(this.resultOriginal.typeName())
+    result.add(this.resultOriginal.getTypeName())
 
 
 proc getArguments*(this: ProcedureOriginal): seq[ArgumentOriginal] =

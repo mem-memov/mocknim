@@ -54,7 +54,7 @@ proc generate*(this: ProcedureMock): NimNode =
 
   if not this.selfOriginal.exists() and 
     this.resultOriginal.exists() and
-    this.resultOriginal.typeName() == moduleTypeName:
+    this.resultOriginal.getTypeName() == moduleTypeName:
 
     body = newFactoryTemplate(
       moduleTypeName,

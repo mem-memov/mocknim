@@ -21,7 +21,7 @@ proc exists*(this: ResultOriginal): bool =
   this.formalParamsNode[0].kind != nnkEmpty
 
 
-proc typeName*(this: ResultOriginal): string =
+proc getTypeName*(this: ResultOriginal): string =
 
   let typeNode = this.formalParamsNode[0]
 
