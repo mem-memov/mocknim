@@ -67,4 +67,4 @@ suite "MyPackage/subfolder/myModule": # the suite name is arbitrary
 
 Limitations
 
-Automatically are mocked only modules wich can be loaded from actual files of the project. 
+Automatically are mocked only modules which can be loaded from actual files of the project. 
