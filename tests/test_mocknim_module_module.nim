@@ -1,10 +1,9 @@
 import unittest, mocknim
+
 suite "mocknim/module/module":
 
-  setup:
-  
-    # generate all types and procedures needed to test this module
-    mock("mocknim/module/module")
+  # generate all types and procedures needed to test this module
+  mock("mocknim/module/module")
 
   test "it wraps module AST":
 

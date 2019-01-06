@@ -18,7 +18,21 @@ Test files in the **tests** directory must be named with the lower letter **t** 
 * add each subfolger as **subfolder_**
 * finish with module file name **myModule.nim**
 
-The file name may look like this: **test_subfolder_subfolder_myModule.nim**
+The file name may look like this: **test_myPackage_subfolder_myModule.nim**
 
 In test file the following sections are not unusual:
 
+```nim
+import unittest, mocknim
+
+suite "MyPackage/subfolder/myModule":
+
+  # generate all types and procedures needed to test this module
+  mock("MyPackage/subfolder/myModule")
+
+  test "it can do something":
+
+    # create mock objects that are used inside procedure under test
+    let
+      myDependency = mockMyDependency()
+```
