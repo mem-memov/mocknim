@@ -30,7 +30,7 @@ proc exists*(this: SelfOriginal): bool =
     return selfTypeName == this.moduleTypeName
 
 
-proc moduleTypeName*(this: SelfOriginal): string =
+proc getModuleTypeName*(this: SelfOriginal): string =
 
   this.moduleTypeName
 

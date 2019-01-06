@@ -38,7 +38,7 @@ proc generate*(this: ProcedureMock): NimNode =
 
   result = this.signatureOriginal.copy()
 
-  let moduleTypeName = this.selfOriginal.moduleTypeName()
+  let moduleTypeName = this.selfOriginal.getModuleTypeName()
   let procedureName = this.signatureOriginal.procedureName()
 
   result[0] = newIdentNode(procedureName) # remove asterisk
