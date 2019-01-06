@@ -28,7 +28,7 @@ proc getArgumentIndexInSignature*(this: ArgumentOriginal): int =
   this.indexInSignature
 
 
-proc typeNameNode*(this: ArgumentOriginal): NimNode =
+proc getTypeNameNode*(this: ArgumentOriginal): NimNode =
 
   let typeNode = this.identDefsNode[1]
 
