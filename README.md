@@ -4,7 +4,7 @@ A tool for creating mocks. Current goal is that is should mock own modules. So t
 
 If you should choose to compose your modules like it is done here, you can count on this package to provide you with mocks needed. The requirements are as follows:
 
-* one type is declared in each module file with the name of the file (fires letter is upper case)
+* one type is declared in each module file with the name of the file (first letter is upper case)
 * one or many constructor procedures are present which return a single object of the type
 * other procedures must have the first parameter of type that is declared in the module
 * there may be other types and proceduders so long as they are not visible outside of the module
