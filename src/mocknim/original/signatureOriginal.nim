@@ -22,7 +22,7 @@ proc copy*(this: SignatureOriginal): NimNode =
   result[6] = newStmtList()
 
 
-proc procedureName*(this: SignatureOriginal): string =
+proc getProcedureName*(this: SignatureOriginal): string =
 
     let nameNode = this.procDefNode[0]
 

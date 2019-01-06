@@ -29,7 +29,7 @@ proc generate*(this: CallCountZero): NimNode =
 
     countNodes.add(
       nnkExprColonExpr.newTree(
-        newIdentNode(procedureOriginal.signature().procedureName()),
+        newIdentNode(procedureOriginal.signature().getProcedureName()),
         newLit(0)
       )
     )

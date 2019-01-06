@@ -36,7 +36,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
   for procedureOriginal in this.dependencyOriginal.getProcedures():
 
-    let procedureName = procedureOriginal.signature().procedureName()
+    let procedureName = procedureOriginal.signature().getProcedureName()
 
     var arguments: seq[NimNode] = @[]
 
