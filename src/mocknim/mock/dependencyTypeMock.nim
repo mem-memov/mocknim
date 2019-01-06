@@ -69,7 +69,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
 
       callNode = nnkPar.newTree(
         nnkTupleTy.newTree(),
-        procedureOriginal.getResult().typeNameNode() # <---
+        procedureOriginal.getResult().getTypeNameNode() # <---
       )
 
     if argumentsPresent and not resultPresent:
@@ -87,7 +87,7 @@ proc generate*(this: DependencyTypeMock): NimNode =
         nnkTupleConstr.newTree(
           arguments # <---
         ),
-        procedureOriginal.getResult().typeNameNode() # <---
+        procedureOriginal.getResult().getTypeNameNode() # <---
       )
 
     moduleCallFields.add(

@@ -33,7 +33,7 @@ proc getTypeName*(this: ResultOriginal): string =
   else:
     raise newException(Exception, "unknown argument node type: " & $typeNode.kind)
 
-proc typeNameNode*(this: ResultOriginal): NimNode =
+proc getTypeNameNode*(this: ResultOriginal): NimNode =
 
   let typeNode = this.formalParamsNode[0]
 
