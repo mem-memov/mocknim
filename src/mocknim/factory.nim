@@ -14,7 +14,7 @@ proc newFactory*(): Factory =
   Factory()
 
 
-proc mock*(this: Factory, moduleNode: NimNode): ModuleMock =
+proc makeMock*(this: Factory, moduleNode: NimNode): ModuleMock =
 
   let moduleName = newName(moduleNode)
 

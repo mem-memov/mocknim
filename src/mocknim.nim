@@ -9,7 +9,7 @@ macro mock*(moduleNameNode: string): untyped =
 
   let factory = newFactory()
 
-  let mock = factory.mock(moduleNameNode)
+  let mock = factory.makeMock(moduleNameNode)
 
   result = mock.generate()
 
