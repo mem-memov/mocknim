@@ -27,7 +27,7 @@ proc generate*(this: CallCountField): NimNode =
 
     counts.add(
       nnkIdentDefs.newTree(
-        newIdentNode(procedureOriginal.signature().getProcedureName()),
+        newIdentNode(procedureOriginal.getSignature().getProcedureName()),
         newIdentNode("int"),
         newEmptyNode()
       )
