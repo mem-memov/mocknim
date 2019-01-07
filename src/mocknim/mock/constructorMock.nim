@@ -22,12 +22,16 @@ proc mockConstructor(moduleName: string): NimNode =
 
   var module = moduleName.ident()
   var factory = ("mock" & moduleName).ident()
+  var mock = "mock".ident()
 
   result = quote:
 
     proc `factory`(): `module` =
-      var mock {.global.} = `module`()
-      return mock
+      var `mock` {.global.}: `module`
+      if `mock` == nil:
+        `mock` = `module`()
+        new(`mock`)
+      return `mock`
 
 
 proc generate*(this: ConstructorMock): NimNode =
@@ -39,13 +43,13 @@ proc generate*(this: ConstructorMock): NimNode =
 
   result = mockConstructor(moduleTypeName)
 
-  result[6][0][0][2] = nnkObjConstr.newTree(
+  result[6][1][0][1][0][1] = nnkObjConstr.newTree(
     newIdentNode(moduleTypeName),
     callCountZero,
     callSequenceEmpty
   )
 
-  echo result.repr()
+  # echo result.repr()
 
   # dumpAstGen:
   #   proc mockDirectory(): Directory =
