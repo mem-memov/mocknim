@@ -7,6 +7,21 @@ suite "mocknim/factory":
 
   test "it creates module mock generator":
 
+    # type 
+    #   A = ref object
+      
+    # proc finalizer(a: A) =
+    #   echo "---------------------------------------------"
+
+    # proc foo(): A =
+    #   var a: A = A()
+    #   new(a, finalizer)
+    #   return a
+
+    # var a = foo()
+    # # a = nil
+    # GC_fullCollect()
+
     let
       directory = mockDirectory()
       name = mockName()
