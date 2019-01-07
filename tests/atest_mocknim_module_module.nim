@@ -40,6 +40,8 @@ suite "mocknim/module/module":
 
     let output = module.getOriginal()
 
+    GC_fullCollect()
+
 
 
 

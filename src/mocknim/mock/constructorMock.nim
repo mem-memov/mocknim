@@ -17,47 +17,29 @@ proc newConstructorMock*(dependencyOriginal: DependencyOriginal): ConstructorMoc
     dependencyOriginal: dependencyOriginal
   )
 
+proc mockConstructor(moduleName: string): NimNode =
+
+  var module = moduleName.ident()
+  var factory = ("mock" & moduleName).ident()
+
+  result = quote:
+
+    proc `factory`(): `module` =
+      var mock {.global.} = `module`()
+      return mock
+
 
 proc generate*(this: ConstructorMock): NimNode =
 
   let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
 
-  let callCountZero = newCallCountZero(this.dependencyOriginal)
+  let callCountZero = newCallCountZero(this.dependencyOriginal).generate()
 
-  let assignMockNode = nnkVarSection.newTree(
-    nnkIdentDefs.newTree(
-      nnkPragmaExpr.newTree(
-        newIdentNode("mock"),
-        nnkPragma.newTree(
-          newIdentNode("global")
-        )
-      ),
-      newEmptyNode(),
-      callCountZero.generate()
-    )
-  )
+  result = mockConstructor(moduleTypeName)
 
-  let setResultNode = nnkAsgn.newTree(
-    newIdentNode("result"),
-    newIdentNode("mock")
-  )
+  result[6][0][0][2] = callCountZero
 
-  result = nnkProcDef.newTree(
-    newIdentNode("mock" & moduleTypeName),
-    newEmptyNode(),
-    newEmptyNode(),
-    nnkFormalParams.newTree(
-      newIdentNode(moduleTypeName)
-    ),
-    newEmptyNode(),
-    newEmptyNode(),
-    nnkStmtList.newTree(
-      assignMockNode,
-      setResultNode
-    )
-  )
-
-  # echo result.repr()
+  echo result.repr()
 
   # dumpAstGen:
   #   proc mockDirectory(): Directory =
