@@ -18,6 +18,7 @@ proc newConstructorMock*(dependencyOriginal: DependencyOriginal): ConstructorMoc
     dependencyOriginal: dependencyOriginal
   )
 
+
 proc mockConstructor(moduleName: string): NimNode =
 
   var module = moduleName.ident()
