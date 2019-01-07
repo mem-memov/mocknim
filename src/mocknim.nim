@@ -2,7 +2,8 @@ import
   macros,
   mocknim/[
     factory,
-    mock/moduleMock
+    mock/moduleMock,
+    unmock/moduleUnmock
   ]
 
 macro mock*(moduleNameNode: string): untyped =
@@ -17,3 +18,12 @@ macro mock*(moduleNameNode: string): untyped =
 
   when defined(nimDumpM): # https://forum.nim-lang.org/t/4524
     echo result.repr()
+
+
+macro unmock*(moduleNameNode: string): untyped =
+
+  let factory = newFactory()
+
+  let unmock = factory.makeUnmock(moduleNameNode)
+
+  result = unmock.generate()
