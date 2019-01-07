@@ -39,7 +39,7 @@ proc generate*(this: ConstructorMock): NimNode =
 
   result[6][0][0][2] = callCountZero
 
-  echo result.repr()
+  # echo result.repr()
 
   # dumpAstGen:
   #   proc mockDirectory(): Directory =
