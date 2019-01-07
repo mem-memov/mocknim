@@ -2,7 +2,8 @@ import
   macros,
   mocknim/[
     original/dependencyOriginal,
-    mock/callCountZero
+    mock/callCountZero,
+    mock/callSequenceEmpty
   ]
 
 
@@ -34,12 +35,17 @@ proc generate*(this: ConstructorMock): NimNode =
   let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
 
   let callCountZero = newCallCountZero(this.dependencyOriginal).generate()
+  let callSequenceEmpty = newCallSequenceEmpty(this.dependencyOriginal).generate()
 
   result = mockConstructor(moduleTypeName)
 
-  result[6][0][0][2] = callCountZero
+  result[6][0][0][2] = nnkObjConstr.newTree(
+    newIdentNode(moduleTypeName),
+    callCountZero,
+    callSequenceEmpty
+  )
 
-  # echo result.repr()
+  echo result.repr()
 
   # dumpAstGen:
   #   proc mockDirectory(): Directory =

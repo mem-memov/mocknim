@@ -21,8 +21,6 @@ proc newCallCountZero*(dependencyOriginal: DependencyOriginal): CallCountZero =
 
 proc generate*(this: CallCountZero): NimNode =
 
-  let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
-
   var countNodes: seq[NimNode] = @[]
 
   for procedureOriginal in this.dependencyOriginal.getProcedures():
@@ -34,12 +32,9 @@ proc generate*(this: CallCountZero): NimNode =
       )
     )
 
-  result = nnkObjConstr.newTree(
-    newIdentNode(moduleTypeName),
-    nnkExprColonExpr.newTree(
-      newIdentNode("callCount"),
-      nnkPar.newTree(
-        countNodes
-      )
+  result = nnkExprColonExpr.newTree(
+    newIdentNode("callCount"),
+    nnkPar.newTree(
+      countNodes
     )
   )

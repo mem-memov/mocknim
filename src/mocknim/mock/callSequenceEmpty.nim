@@ -1,7 +1,9 @@
 import
   macros,
   mocknim/[
-    original/dependencyOriginal
+    original/dependencyOriginal,
+    original/procedureOriginal,
+    original/signatureOriginal
   ]
 
 type
@@ -16,20 +18,28 @@ proc newCallSequenceEmpty*(dependencyOriginal: DependencyOriginal): CallSequence
   )
 
 
-proc generate*(): NimNode =
+proc generate*(this: CallSequenceEmpty): NimNode =
+
+  var moduleCallFields: seq[NimNode] = @[]
 
   for procedureOriginal in this.dependencyOriginal.getProcedures():
 
     let procedureName = procedureOriginal.getSignature().getProcedureName()
 
-    var arguments: seq[NimNode] = @[]
+    moduleCallFields.add(
+      nnkExprColonExpr.newTree(
+        newIdentNode(procedureName), # <---
+        nnkPrefix.newTree(
+          newIdentNode("@"),
+          nnkBracket.newTree(
+          )
+        )
+      )
+    )
 
-    for ai, argumentOriginal in procedureOriginal.getArguments():
-
-      let argumentName = argumentOriginal.getArgumentName()
-
-      if moduleTypeName == typeNameNode.repr() and ai == 0: # skip "this" argument
-        continue
-
-
-  newEmptyNode()
+  result = nnkExprColonExpr.newTree(
+    newIdentNode("expects"),
+    nnkPar.newTree(
+      moduleCallFields
+    )
+  )
