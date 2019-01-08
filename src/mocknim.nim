@@ -27,3 +27,4 @@ macro unmock*(moduleNameNode: string): untyped =
   let unmock = factory.makeUnmock(moduleNameNode)
 
   result = unmock.generate()
+  
