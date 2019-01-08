@@ -25,6 +25,7 @@ proc mockConstructor(moduleName: string): NimNode =
   var factory = ("mock" & moduleName).ident()
   var mock = "mock".ident()
   var reset = "reset".ident()
+  var finalize = ("finalize" & moduleName).ident()
 
   result = quote:
 
@@ -32,7 +33,7 @@ proc mockConstructor(moduleName: string): NimNode =
       var `mock` {.global.}: `module`
       if `mock` == nil:
         `mock` = `module`() # <-- here field values get injected
-        new(`mock`)
+        new(`mock`, `finalize`)
       if `reset`:
         `mock` = nil
       return `mock`

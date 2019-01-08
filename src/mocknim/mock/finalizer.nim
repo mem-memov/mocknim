@@ -1,18 +1,37 @@
 import 
-  macros
+  macros,
+  mocknim/[
+    original/dependencyOriginal
+  ]
 
 type
   Finalizer* = ref object
+    dependencyOriginal: DependencyOriginal
+
+proc newFinalizer*(dependencyOriginal: DependencyOriginal): Finalizer =
+
+  Finalizer(
+    dependencyOriginal: dependencyOriginal
+  )
 
 
-proc newFinalizer*(): Finalizer =
+proc finalizeTypeMock(moduleName: string): Nimnode =
 
-  Finalizer()
+  var finalize = ("finalize" & moduleName).ident()
+  var module = moduleName.ident()
+
+  result = quote:
+
+    proc `finalize`(o: `module`) =
+
+      echo `moduleName` & " finalized"
 
 
-proc generate*(): NimNode =
+proc generate*(this: Finalizer): NimNode =
 
-  newEmptyNode()
+  let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
+
+  result = finalizeTypeMock(moduleTypeName)
 
 
 

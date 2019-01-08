@@ -6,7 +6,8 @@ import
     mock/dependencyTypeMocks,
     mock/procedureMocks,
     mock/constructorMocks,
-    mock/typeStubs
+    mock/typeStubs,
+    mock/finalizers
   ]
 
 type
@@ -34,6 +35,11 @@ proc generate*(this: ModuleMock): NimNode =
   )
 
   statementNodes.add(dependencyTypeMocks.generate())
+
+  let finalizers = newFinalizers(this.moduleOriginal.getDependencies())
+
+  for finalizerProcedure in finalizers.generate():
+    statementNodes.add(finalizerProcedure)
 
   let constructorMocks = newConstructorMocks(this.moduleOriginal.getDependencies())
 
