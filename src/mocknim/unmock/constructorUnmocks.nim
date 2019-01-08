@@ -18,6 +18,13 @@ proc newConstructorUnmocks*(dependencyOriginals: seq[DependencyOriginal]): Const
   )
 
 
+proc unleashGarbageCollector(): NimNode =
+
+  result = quote:
+
+    GC_fullCollect()
+
+
 proc generate*(this: ConstructorUnmocks): seq[NimNode] =
 
   for dependencyOriginal in this.dependencyOriginals:
@@ -25,4 +32,7 @@ proc generate*(this: ConstructorUnmocks): seq[NimNode] =
     let constructorUnmock = newConstructorUnmock(dependencyOriginal)
 
     result.add(constructorUnmock.generate())
+
+  result.add(unleashGarbageCollector())
+
   
