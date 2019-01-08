@@ -32,11 +32,14 @@ In test file the following sections are not unusual:
 ```nim
 import unittest, mocknim
 
+# generate all types and procedures needed to test this module
+mock("MyPackage/subfolder/myModule")
+
 suite "MyPackage/subfolder/myModule": # the suite name is arbitrary
 
-  setup:
-    # generate all types and procedures needed to test this module
-    mock("MyPackage/subfolder/myModule")
+  teardown:
+    # reset mocks after each test and check number of procedure calls in the test
+    unmock("MyPackage/subfolder/myModule")
 
   test "it can do something":
 
