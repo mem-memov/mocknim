@@ -82,7 +82,7 @@ a.expect.newA &= ((), a)
 
 * Action
 
-It has at least one argument. Its first argument is always of the state type. This is to comply with Uniform Function Call Syntax (UFCS). Other arguments may ore may not be passed to it. It may return one or no result. Types of the arguments and the result may be chosen at will. When you specify which procedure calls you expect to be called wenn your test runs, you should omit the fist argument that keeps the state.
+It has at least one argument. Its first argument is always of the state type. This is to comply with Uniform Function Call Syntax (UFCS). Other arguments may or may not be passed to it. It may return one or no result. Types of the arguments and the result may be chosen at will. When you specify which procedure calls you expect to be executed wenn your test runs, you should omit the fist argument that keeps the state.
 
 ```nim
 var a = mockA()
