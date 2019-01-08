@@ -67,6 +67,31 @@ suite "MyPackage/subfolder/myModule": # the suite name is arbitrary
 
 [Nim Unittest](https://nim-lang.org/docs/unittest.html)
 
+State is stored in a structure of the type that is defined in the module file.
+
+Procedurs
+
+* Factory
+
+It takes some or none arguments and returns one structure carrying the state.
+
+```nim
+var a = mockA()
+a.expect.newA &= ((), a)
+```
+
+* Action
+
+It has at least one argument. Its first argument is always of the state type. This is to comply with Uniform Function Call Syntax (UFCS). Other arguments may ore may not be passed to it. It may return one or no result. Types of the arguments and the result may be chosen at will. When you specify which procedure calls you expect to be called wenn your test runs, you should omit the fist argument that keeps the state.
+
+```nim
+var a = mockA()
+var b = mockB()
+a.expect.doWithout &= ((), ())
+a.expect.doWithOne &= ((arg,), ())
+a.expect.doWithoutAndReturn &= ((), b)
+a.expect.doWithTwoAndReturn &= ((arg_1, arg_2), b))
+```
 
 Limitations
 
