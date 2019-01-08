@@ -19,7 +19,6 @@ proc newConstructorUnmock*(dependencyOriginal: DependencyOriginal): ConstructorU
 
 proc mockConstructor(moduleName: string): NimNode =
 
-  var module = moduleName.ident()
   var factory = ("mock" & moduleName).ident()
 
   result = quote:
