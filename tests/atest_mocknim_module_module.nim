@@ -1,9 +1,11 @@
 import unittest, mocknim
 
+mock("mocknim/module/module")
+
 suite "mocknim/module/module":
 
-  setup:
-    mock("mocknim/module/module")
+  teardown:
+    unmock("mocknim/module/module")
 
   test "it wraps module AST":
 

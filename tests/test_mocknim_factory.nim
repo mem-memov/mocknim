@@ -1,9 +1,8 @@
 import unittest, mocknim
 
-suite "mocknim/factory":
+mock("mocknim/factory")
 
-  setup:
-    mock("mocknim/factory")
+suite "mocknim/factory":
 
   teardown:
     unmock("mocknim/factory")
