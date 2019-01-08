@@ -77,7 +77,7 @@ It takes some or none arguments and returns one structure carrying the state.
 
 ```nim
 var a = mockA()
-a.expect.newA &= ((), a)
+a.expects.newA &= ((), a)
 ```
 
 * Action
@@ -87,10 +87,10 @@ It has at least one argument. Its first argument is always of the state type. Th
 ```nim
 var a = mockA()
 var b = mockB()
-a.expect.doWithout &= ((), ())
-a.expect.doWithOne &= ((arg,), ())
-a.expect.doWithoutAndReturn &= ((), b)
-a.expect.doWithTwoAndReturn &= ((arg_1, arg_2), b))
+a.expects.doWithout &= ((), ())
+a.expects.doWithOne &= ((arg,), ())
+a.expects.doWithoutAndReturn &= ((), b)
+a.expects.doWithTwoAndReturn &= ((arg_1, arg_2), b))
 ```
 
 Limitations
