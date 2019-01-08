@@ -37,7 +37,7 @@ proc generate*(this: ModuleMock): NimNode =
 
   let constructorMocks = newConstructorMocks(this.moduleOriginal.getDependencies())
 
-  for constructorDefinition in constructorMocks.generate:
+  for constructorDefinition in constructorMocks.generate():
     statementNodes.add(constructorDefinition)
 
   let procedureMocks = newProcedureMocks(this.moduleOriginal)

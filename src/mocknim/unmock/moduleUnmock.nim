@@ -1,7 +1,8 @@
 import
   macros,
   mocknim/[
-    original/moduleOriginal
+    original/moduleOriginal,
+    unmock/constructorUnmocks
   ]
 
 type
@@ -19,6 +20,11 @@ proc newModuleUnmock*(moduleOriginal: ModuleOriginal): ModuleUnmock =
 proc generate*(this: ModuleUnmock): NimNode = 
 
   var statementNodes: seq[NimNode] = @[]
+
+  let constructorUnmocks = newConstructorUnmocks(this.moduleOriginal.getDependencies())
+
+  for constructorResetCall in constructorUnmocks.generate():
+    statementNodes.add(constructorResetCall)
 
   result = newStmtList(
     statementNodes

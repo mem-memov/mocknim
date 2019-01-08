@@ -5,8 +5,8 @@ suite "mocknim/factory":
   setup:
     mock("mocknim/factory")
 
-  # teardown:
-  #   unmock("mocknim/factory")
+  teardown:
+    unmock("mocknim/factory")
 
   test "it creates module mock generator":
 
