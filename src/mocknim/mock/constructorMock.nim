@@ -27,7 +27,6 @@ proc mockConstructor(moduleName: string): NimNode =
   var factory = ("mock" & moduleName).ident()
   var mock = "mock".ident()
   var reset = "reset".ident()
-  var finalize = ("finalize" & moduleName).ident()
 
   result = quote:
 
@@ -35,11 +34,10 @@ proc mockConstructor(moduleName: string): NimNode =
       var `mock` {.global.}: `module`
 
       if `mock` == nil:
-        new(`mock`, `finalize`)
-        echo "insert assignements here"
+        `mock` = `module`()
 
       if `reset`:
-        `mock` = nil
+        echo "insert assignements here"
 
       return `mock`
 
