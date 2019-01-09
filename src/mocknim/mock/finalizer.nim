@@ -31,6 +31,9 @@ proc finalizeTypeMock(moduleName: string): Nimnode =
 
       echo `moduleName` & " finalized"
 
+      for `procedure`, `count` in `mock`.callCount.fieldPairs():
+        echo "111111111111111111111111" & `procedure` & "-" & $`count`
+
       # echo "ooo" & $`mock`.callCount.len()
 
       # for `procedure` in 0..`mock`.callCount.high():
