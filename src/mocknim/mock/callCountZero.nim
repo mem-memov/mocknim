@@ -18,23 +18,26 @@ proc newCallCountZero*(dependencyOriginal: DependencyOriginal): CallCountZero =
     dependencyOriginal: dependencyOriginal
   )
 
+proc assignZeroToCount(procedureName: string): NimNode = 
+
+  var mock = "mock".ident()
+  var procedure = procedureName.ident()
+
+  result = quote:
+
+    `mock`.callCount.`procedure` = 0
+
 
 proc generate*(this: CallCountZero): NimNode =
 
-  var countNodes: seq[NimNode] = @[]
+  result = newStmtList()
 
   for procedureOriginal in this.dependencyOriginal.getProcedures():
 
-    countNodes.add(
-      nnkExprColonExpr.newTree(
-        newIdentNode(procedureOriginal.getSignature().getProcedureName()),
-        newLit(0)
-      )
-    )
+    let procedureName = procedureOriginal.getSignature().getProcedureName()
+    let statements = assignZeroToCount(procedureName)
 
-  result = nnkExprColonExpr.newTree(
-    newIdentNode("callCount"),
-    nnkPar.newTree(
-      countNodes
-    )
-  )
+    result.add(statements)
+
+    # echo result.repr()
+

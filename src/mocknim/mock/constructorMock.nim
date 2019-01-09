@@ -1,9 +1,11 @@
 import
   macros,
+  sequtils,
   mocknim/[
     original/dependencyOriginal,
     mock/callCountZero,
-    mock/callSequenceEmpty
+    mock/callSequenceEmpty,
+    patch/patch
   ]
 
 
@@ -31,11 +33,14 @@ proc mockConstructor(moduleName: string): NimNode =
 
     proc `factory`(`reset` = false): `module` =
       var `mock` {.global.}: `module`
+
       if `mock` == nil:
-        `mock` = `module`() # <-- here field values get injected
         new(`mock`, `finalize`)
+        echo "insert assignements here"
+
       if `reset`:
         `mock` = nil
+
       return `mock`
 
 
@@ -46,23 +51,19 @@ proc generate*(this: ConstructorMock): NimNode =
   let callCountZero = newCallCountZero(this.dependencyOriginal).generate()
   let callSequenceEmpty = newCallSequenceEmpty(this.dependencyOriginal).generate()
 
-  result = mockConstructor(moduleTypeName)
+  let statements = newStmtList(callCountZero, callSequenceEmpty)
 
-  result[6][1][0][1][0][1] = nnkObjConstr.newTree(
-    newIdentNode(moduleTypeName),
-    callCountZero,
-    callSequenceEmpty
+  result = newPatch(
+    mockConstructor(moduleTypeName)
   )
+  .insert(
+    "insert assignements here", 
+    newPatch(statements)
+  )
+  .getTree()
+
 
   # echo result.repr()
 
-  # dumpAstGen:
-  #   proc mockDirectory(): Directory =
-  #     var mock {.global.} = Directory(
-  #       callCount: (
-  #         getFiles: 0
-  #       )
-  #     )
-  #     result = mock
 
 

@@ -18,28 +18,25 @@ proc newCallSequenceEmpty*(dependencyOriginal: DependencyOriginal): CallSequence
   )
 
 
+proc assignEmptySequence(procedureName: string): NimNode = 
+
+  var mock = "mock".ident()
+  var procedure = procedureName.ident()
+
+  result = quote:
+
+    `mock`.expects.`procedure` = @[]
+
+
 proc generate*(this: CallSequenceEmpty): NimNode =
 
-  var moduleCallFields: seq[NimNode] = @[]
+  result = newStmtList()
 
   for procedureOriginal in this.dependencyOriginal.getProcedures():
 
     let procedureName = procedureOriginal.getSignature().getProcedureName()
+    let statements = assignEmptySequence(procedureName)
 
-    moduleCallFields.add(
-      nnkExprColonExpr.newTree(
-        newIdentNode(procedureName), # <---
-        nnkPrefix.newTree(
-          newIdentNode("@"),
-          nnkBracket.newTree(
-          )
-        )
-      )
-    )
+    result.add(statements)
 
-  result = nnkExprColonExpr.newTree(
-    newIdentNode("expects"),
-    nnkPar.newTree(
-      moduleCallFields
-    )
-  )
+    # echo result.repr()

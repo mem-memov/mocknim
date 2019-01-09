@@ -55,7 +55,7 @@ proc generate*(this: Finalizer): NimNode =
 
   result = finalizeTypeMock(moduleTypeName)
 
-  echo result.repr()
+  # echo result.repr()
 
 
 
