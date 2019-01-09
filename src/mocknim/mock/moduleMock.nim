@@ -6,6 +6,7 @@ import
     mock/dependencyTypeMocks,
     mock/procedureMocks,
     mock/constructorMocks,
+    mock/destructorMocks,
     mock/typeStubs
   ]
 
@@ -39,6 +40,11 @@ proc generate*(this: ModuleMock): NimNode =
 
   for constructorDefinition in constructorMocks.generate():
     statementNodes.add(constructorDefinition)
+
+  let destructorMocks = newDestructorMocks(this.moduleOriginal.getDependencies())
+
+  for destructorDefinition in destructorMocks.generate():
+    statementNodes.add(destructorDefinition)
 
   let procedureMocks = newProcedureMocks(this.moduleOriginal)
 

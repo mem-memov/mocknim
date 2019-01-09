@@ -19,18 +19,11 @@ proc newConstructorUnmock*(dependencyOriginal: DependencyOriginal): ConstructorU
 
 proc mockConstructor(moduleName: string): NimNode =
 
-  var mock = "mock".ident()
-  var factory = ("mock" & moduleName).ident()
-  var procedure = "procedure".ident()
-  var count = "count".ident()
+  var destructor = ("destruct" & moduleName).ident()
 
   result = quote:
 
-    var mock = `factory`(true)
-
-    for `procedure`, `count` in mock.callCount.fieldPairs():
-
-      echo "-" & `procedure`
+    `destructor`()
 
 
 proc generate*(this: ConstructorUnmock): NimNode =
