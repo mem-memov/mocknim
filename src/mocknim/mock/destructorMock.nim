@@ -24,6 +24,7 @@ proc destructMock(moduleName: string): NimNode =
   var mock = "mock".ident()
   var procedure = "procedure".ident()
   var count = "count".ident()
+  var calls = "calls".ident()
 
   result = quote:
 
@@ -33,7 +34,11 @@ proc destructMock(moduleName: string): NimNode =
 
       for `procedure`, `count` in `mock`.callCount.fieldPairs():
 
-        echo $`count` & "-" & `procedure`
+        echo $`count` & "-" & `procedure` 
+
+      for `procedure`, `calls` in `mock`.expects.fieldPairs():
+
+        echo "=" & $`calls`.len()
 
       discard `factory`(true)
       
@@ -42,4 +47,6 @@ proc generate*(this: DestructorMock): NimNode =
 
   let moduleTypeName = this.dependencyOriginal.getModuleTypeName()
 
-  return destructMock(moduleTypeName)
+  result = destructMock(moduleTypeName)
+
+  # echo result.repr()
