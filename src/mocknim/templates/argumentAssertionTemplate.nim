@@ -10,19 +10,25 @@ type
   ArgumentAssertionTemplate* = ref object
     argumentOriginal: ArgumentOriginal
     selfOriginal: SelfOriginal
+    moduleTypeName: string
+    procedureName: string
 
 
 proc newArgumentAssertionTemplate*(
   argumentOriginal: ArgumentOriginal,
-  selfOriginal: SelfOriginal): ArgumentAssertionTemplate =
+  selfOriginal: SelfOriginal,
+  moduleTypeName: string,
+  procedureName: string): ArgumentAssertionTemplate =
 
   ArgumentAssertionTemplate(
     argumentOriginal: argumentOriginal,
-    selfOriginal: selfOriginal
+    selfOriginal: selfOriginal,
+    moduleTypeName: moduleTypeName,
+    procedureName: procedureName
   )
 
 
-proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int): NimNode =
+proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int, moduleName: string, procedureName: string): NimNode =
 
   var argument = argumentName.ident()
   var argumentIndex = argumentIndexInSignature.newIntLitNode()
@@ -35,7 +41,7 @@ proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int): N
       `argument` == `expectedParameters`[`argumentIndex`],
       "UNIT TEST: Argument " & 
       `argumentString` & 
-      " contains an unexpected value."
+      " contains an unexpected value in " & `moduleName` & '.' & `procedureName`
     )
 
 
@@ -48,5 +54,7 @@ proc generate*(this: ArgumentAssertionTemplate): NimNode =
 
   assertArgumentValue(
     this.argumentOriginal.getArgumentName(),
-    argumentIndexInSignature
+    argumentIndexInSignature,
+    this.moduleTypeName,
+    this.procedureName
   )

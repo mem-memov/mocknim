@@ -57,4 +57,4 @@ proc generate*(this: DestructorMock): NimNode =
 
   result = destructMock(moduleTypeName)
 
-  echo result.repr()
+  # echo result.repr()

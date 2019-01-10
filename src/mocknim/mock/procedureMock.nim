@@ -49,7 +49,12 @@ proc generate*(this: ProcedureMock): NimNode =
   for index, argumentOriginal in this.argumentOriginals:
     if index > 0: # skip self argument
       argumentAssertions.add(
-        newArgumentAssertionTemplate(argumentOriginal, this.selfOriginal).generate()
+        newArgumentAssertionTemplate(
+          argumentOriginal, 
+          this.selfOriginal, 
+          moduleTypeName, 
+          this.signatureOriginal.getProcedureName()
+        ).generate()
       )
 
   if not this.selfOriginal.exists() and 
