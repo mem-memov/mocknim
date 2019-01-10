@@ -45,7 +45,7 @@ proc destructMock(moduleName: string): NimNode =
 
         assert(
           `calls`.len() == `countTable`[`procedure`],
-          "UNIT TEST: wrong number of calls to " & `procedure` & "()"
+          "UNIT TEST: wrong number of calls to " & `moduleName` & "." & `procedure` & "()"
         )
 
       discard `factory`(true)
@@ -57,4 +57,4 @@ proc generate*(this: DestructorMock): NimNode =
 
   result = destructMock(moduleTypeName)
 
-  # echo result.repr()
+  echo result.repr()
