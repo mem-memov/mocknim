@@ -25,20 +25,28 @@ proc destructMock(moduleName: string): NimNode =
   var procedure = "procedure".ident()
   var count = "count".ident()
   var calls = "calls".ident()
+  var countTable = "countTable".ident()
 
   result = quote:
+
+    import tables
 
     proc `destructor`(): void =
 
       var `mock` = `factory`()
 
+      var `countTable` = initTable[string, int]()
+
       for `procedure`, `count` in `mock`.callCount.fieldPairs():
 
-        echo $`count` & "-" & `procedure` 
+        `countTable`[`procedure`] = `count`
 
       for `procedure`, `calls` in `mock`.expects.fieldPairs():
 
-        echo "=" & $`calls`.len()
+        assert(
+          `calls`.len() == `countTable`[`procedure`],
+          "UNIT TEST: wrong number of calls to " & `procedure` & "()"
+        )
 
       discard `factory`(true)
       
