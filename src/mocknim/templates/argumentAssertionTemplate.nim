@@ -37,6 +37,8 @@ proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int, mo
 
   result = quote:
 
+    echo `moduleName` & '.' & `procedureName` & " " & `argumentString`
+
     assert(
       `argument` == `expectedParameters`[`argumentIndex`],
       "UNIT TEST: Argument " & 
