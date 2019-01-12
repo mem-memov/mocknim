@@ -43,10 +43,8 @@ proc destructMock(moduleName: string): NimNode =
 
       for `procedure`, `calls` in `mock`.expects.fieldPairs():
 
-        assert(
-          `calls`.len() == `countTable`[`procedure`],
-          "UNIT TEST: wrong number of calls to " & `moduleName` & "." & `procedure` & "()"
-        )
+        if `calls`.len() != `countTable`[`procedure`]:
+          echo "UNIT TEST: wrong number of calls to " & `moduleName` & "." & `procedure` & "()"
 
       discard `factory`(true)
       

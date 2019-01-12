@@ -40,9 +40,9 @@ proc mockResultAction(
     echo "call " & `moduleName` & "." & `procedureName`
 
     var `count` = `mock`.callCount.`procedure`
-    var `countLimit` = `mock`.expects.`procedure`.len()
+    var `countLimit` = `mock`.expects.`procedure`.len() - 1
 
-    if `countLimit` == 0 or `count` < `countLimit`:
+    if `count` <= `countLimit`:
       let `expectedParameters` = `mock`.expects.`procedure`[`count`][0]
       var `returnValue` = `mock`.expects.`procedure`[`count`][1]
 
@@ -53,7 +53,7 @@ proc mockResultAction(
       return `returnValue`
 
     else:
-      echo "unexpected call to " & `moduleName` & "." & `procedureName`
+      echo "\nUNIT TEST: unexpected call to " & `moduleName` & "." & `procedureName` & "\n"
 
 
 proc generate*(this: ResultActionTemplate, argumentCheckNode: NimNode): NimNode =

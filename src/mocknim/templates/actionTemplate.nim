@@ -39,9 +39,9 @@ proc mockAction(
     echo "call " & `moduleName` & "." & `procedureName`
 
     var `count` = `mock`.callCount.`procedure`
-    var `countLimit` = `mock`.expects.`procedure`.len()
+    var `countLimit` = `mock`.expects.`procedure`.len() - 1
 
-    if `countLimit` == 0 or `count` < `countLimit`:
+    if `count` <= `countLimit`:
       let `expectedParameters` = `mock`.expects.`procedure`[`count`][0]
 
       echo "insert argument check here"
@@ -49,7 +49,7 @@ proc mockAction(
       `mock`.callCount.`procedure` = `count` + 1
 
     else:
-      echo "unexpected call to " & `moduleName` & "." & `procedureName`
+      echo "UNIT TEST: unexpected call to " & `moduleName` & "." & `procedureName`
 
 
 proc generate*(this: ActionTemplate, argumentCheckNode: NimNode): NimNode =

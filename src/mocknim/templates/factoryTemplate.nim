@@ -34,9 +34,9 @@ proc mockFactory(moduleName: string, procedureName: string): NimNode =
 
     var `mock` = `factory`()
     var `count` = `mock`.callCount.`procedure`
-    var `countLimit` = `mock`.expects.`procedure`.len()
+    var `countLimit` = `mock`.expects.`procedure`.len() - 1
 
-    if `countLimit` == 0 or `count` < `countLimit`:
+    if `count` <= `countLimit`:
       let `expectedParameters` = `mock`.expects.`procedure`[`count`][0]
       let `expectedReturnValue` = `mock`.expects.`procedure`[`count`][1]
 
@@ -47,7 +47,7 @@ proc mockFactory(moduleName: string, procedureName: string): NimNode =
       return `expectedReturnValue`
 
     else:
-      echo "unexpected call to " & `moduleName` & "." & `procedureName`
+      echo "UNIT TEST: unexpected call to " & `moduleName` & "." & `procedureName`
 
 
 
