@@ -2,6 +2,8 @@
 
 A tool for creating mocks. Current goal is that it should mock its own modules. So the package seems to be self-explanatory. 
 
+![Mocknim framework](mocknim.gif)
+
 If you should choose to compose your modules like it is done here, you can count on this package to provide you with mocks needed. The requirements are as follows:
 
 * one type is declared in each module file with the name of the file (first letter is upper case)
