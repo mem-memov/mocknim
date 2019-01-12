@@ -25,26 +25,29 @@ proc mockFactory(moduleName: string, procedureName: string): NimNode =
   var mock = "mock".ident()
   var factory = ("mock" & moduleName).ident()
   var expectedParameters = "expectedParameters".ident()
+  var count = "count".ident()
+  var countLimit = "countLimit".ident()
+  var expectedReturnValue = "expectedReturnValue".ident()
 
   result = quote:
-    echo "call " & `procedureName`
+    echo "call " & `moduleName` & "." & `procedureName`
 
-    var mock = `factory`()
-    var count = mock.callCount.`procedure`
-    var countLimit = mock.expects.`procedure`.len()
+    var `mock` = `factory`()
+    var `count` = `mock`.callCount.`procedure`
+    var `countLimit` = `mock`.expects.`procedure`.len()
 
-    if countLimit == 0 or count < countLimit:
-      let `expectedParameters` = mock.expects.`procedure`[count][0]
-      let expectedReturnValue = mock.expects.`procedure`[count][1]
+    if `countLimit` == 0 or `count` < `countLimit`:
+      let `expectedParameters` = `mock`.expects.`procedure`[`count`][0]
+      let `expectedReturnValue` = `mock`.expects.`procedure`[`count`][1]
 
       echo "insert argument check here"
 
-      mock.callCount.`procedure` = count + 1
+      `mock`.callCount.`procedure` = `count` + 1
 
-      return expectedReturnValue
+      return `expectedReturnValue`
 
     else:
-      echo "unexpected call to " & `procedureName`
+      echo "unexpected call to " & `moduleName` & "." & `procedureName`
 
 
 

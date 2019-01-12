@@ -21,7 +21,7 @@ suite "mocknim/factory":
       .newName &= ((moduleNode,), name)
 
     directory.expects
-      .newDirectory &= (("./src",), directory)
+      .newDirectory &= (("../src",), directory)
 
     name.expects
       .toString &= ((), "myModule")

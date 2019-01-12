@@ -37,14 +37,14 @@ proc assertArgumentValue(argumentName: string, argumentIndexInSignature: int, mo
 
   result = quote:
 
-    echo `moduleName` & '.' & `procedureName` & " " & `argumentString`
-
-    assert(
-      `argument` == `expectedParameters`[`argumentIndex`],
-      "UNIT TEST: Argument " & 
-      `argumentString` & 
-      " contains an unexpected value in " & `moduleName` & '.' & `procedureName`
-    )
+    if `argument` != `expectedParameters`[`argumentIndex`]:
+      echo "\nUNIT TEST: Argument '" & 
+        `argumentString` & 
+        "' contains an unexpected value in " & 
+        `moduleName` & '.' & `procedureName` & ": \n" &
+        `argument`.repr() & "\n" &
+        "Expected value: " & "\n" &
+        `expectedParameters`[`argumentIndex`].repr() & "\n"
 
 
 proc generate*(this: ArgumentAssertionTemplate): NimNode =

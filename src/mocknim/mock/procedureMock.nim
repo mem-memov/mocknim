@@ -47,15 +47,16 @@ proc generate*(this: ProcedureMock): NimNode =
 
   var argumentAssertions = newStmtList()
   for index, argumentOriginal in this.argumentOriginals:
-    if index > 0: # skip self argument
-      argumentAssertions.add(
-        newArgumentAssertionTemplate(
-          argumentOriginal, 
-          this.selfOriginal, 
-          moduleTypeName, 
-          this.signatureOriginal.getProcedureName()
-        ).generate()
-      )
+    if this.selfOriginal.exists() and index == 0: # skip self argument
+      continue
+    argumentAssertions.add(
+      newArgumentAssertionTemplate(
+        argumentOriginal, 
+        this.selfOriginal, 
+        moduleTypeName, 
+        this.signatureOriginal.getProcedureName()
+      ).generate()
+    )
 
   if not this.selfOriginal.exists() and 
     this.resultOriginal.exists() and
@@ -72,6 +73,7 @@ proc generate*(this: ProcedureMock): NimNode =
     this.resultOriginal.exists():
 
     body = newResultActionTemplate(
+      moduleTypeName,
       procedureName,
       this.selfOriginal.getParameterName()
     ).generate(
@@ -82,6 +84,7 @@ proc generate*(this: ProcedureMock): NimNode =
     not this.resultOriginal.exists():
 
     body = newActionTemplate(
+      moduleTypeName,
       procedureName,
       this.selfOriginal.getParameterName()
     ).generate(
@@ -89,5 +92,6 @@ proc generate*(this: ProcedureMock): NimNode =
     )
 
   result[6] = newStmtList(body)
+
 
   # echo result.repr()
