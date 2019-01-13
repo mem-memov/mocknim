@@ -5,12 +5,14 @@ import
 
 type
   File* = ref object
+    moduleName: string
     path: string
 
 
-proc newFile*(path: string): File = 
+proc newFile*(moduleName: string, path: string): File = 
 
   File(
+    moduleName: moduleName,
     path: path
   )
 

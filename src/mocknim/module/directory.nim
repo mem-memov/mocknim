@@ -15,8 +15,8 @@ proc newDirectory*(path: string): Directory =
   )
 
 
-proc getFile*(this: Directory, name: string): File =
+proc getFile*(this: Directory, moduleName: string): File =
 
-  file.newFile(
-    this.path & "/" & name & ".nim"
-  )
+  let path = this.path & "/" & moduleName & ".nim"
+
+  result = file.newFile(moduleName, path)
