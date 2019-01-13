@@ -32,7 +32,7 @@ proc getOriginals*(this: Dependencies): seq[DependencyOriginal] =
       let ast = file.loadAst()
 
       result.add(
-        newDependencyOriginal(ast, file.getModuleTypeName())
+        newDependencyOriginal(ast, file)
       )
 
 proc getExternalDependencies*(this: Dependencies, directory: Directory): seq[string] = 

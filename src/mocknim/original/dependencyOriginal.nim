@@ -2,31 +2,33 @@ import
   macros,
   mocknim/[
     original/procedureOriginals,
-    original/procedureOriginal
+    original/procedureOriginal,
+    module/file
   ]
   
 
 type
+  File = file.File # disambiguate
   DependencyOriginal* = ref object
     procedureOriginals: ProcedureOriginals
-    name: string
+    file: File
 
 
-proc newDependencyOriginal*(statementsNode: NimNode, name: string): DependencyOriginal = 
+proc newDependencyOriginal*(statementsNode: NimNode, file: File): DependencyOriginal = 
 
   expectKind(statementsNode, nnkStmtList)
 
   DependencyOriginal(
     procedureOriginals: newProcedureOriginals(statementsNode),
-    name: name
+    file: file
   )
 
 
 proc getProcedures*(this: DependencyOriginal): seq[ProcedureOriginal] =
 
-  this.procedureOriginals.create(this.name)
+  this.procedureOriginals.create(this.file.getModuleName())
 
 
 proc getModuleTypeName*(this: DependencyOriginal): string =
 
-  this.name
+  this.file.getModuleName()

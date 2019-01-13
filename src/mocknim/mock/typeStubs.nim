@@ -23,6 +23,8 @@ proc newTypeStabs*(moduleOriginal: ModuleOriginal): TypeStubs =
 
 proc generate*(this: TypeStubs): NimNode =
 
+  let externalDependencies = this.moduleOriginal.getExternalDependencies()
+
   var allTypes: seq[string] = @[]
   var excludedTypes: seq[string] = @[]
 

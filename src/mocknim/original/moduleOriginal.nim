@@ -70,3 +70,8 @@ proc copyWithoutImportStatement*(this: ModuleOriginal): NimNode =
 
   result = copy
 
+
+proc getExternalDependencies*(this: ModuleOriginal): seq[string] = 
+
+  this.externalDependencies
+
