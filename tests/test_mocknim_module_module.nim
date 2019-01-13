@@ -15,7 +15,7 @@ suite "mocknim/module/module":
       dependencies = mockDependencies()
       imports = mockImports()
       moduleOriginal = mockModuleOriginal()
-
+      
     directory.expects
       .getFile &= (("some_module",), file)
 
@@ -30,13 +30,18 @@ suite "mocknim/module/module":
     dependencies.expects
       .newDependencies &= ((imports,), dependencies)
 
+    let externalDependencies: seq[string] = @[]
+
+    dependencies.expects
+      .getExternalDependencies &= ((directory,), externalDependencies)
+
     let dependencyOriginals = @[DependencyOriginal()]
 
     dependencies.expects
       .getOriginals &= ((), dependencyOriginals)
 
     moduleOriginal.expects
-      .newModuleOriginal &= ((ast, "some_module", dependencyOriginals), moduleOriginal)
+      .newModuleOriginal &= ((ast, "some_module", dependencyOriginals, externalDependencies), moduleOriginal)
 
     let module = newModule("some_module", directory)
 

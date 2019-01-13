@@ -33,8 +33,11 @@ proc getOriginal*(this: Module): ModuleOriginal =
 
   let dependencies = newDependencies(imports)
 
+  let externalDependencies = dependencies.getExternalDependencies(this.directory)
+
   newModuleOriginal(
     ast, 
     this.name,
-    dependencies.getOriginals()
+    dependencies.getOriginals(),
+    externalDependencies
   )

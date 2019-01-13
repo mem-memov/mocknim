@@ -9,16 +9,22 @@ type
     statementsNode: NimNode
     dependencyOriginals: seq[DependencyOriginal]
     name: string
+    externalDependencies: seq[string]
 
 
-proc newModuleOriginal*(statementsNode: NimNode, name: string, dependencyOriginals: seq[DependencyOriginal]): ModuleOriginal =
+proc newModuleOriginal*(
+  statementsNode: NimNode, 
+  name: string, 
+  dependencyOriginals: seq[DependencyOriginal],
+  externalDependencies: seq[string]): ModuleOriginal =
 
   expectKind(statementsNode, nnkStmtList)
 
   ModuleOriginal(
     statementsNode: statementsNode,
     dependencyOriginals: dependencyOriginals,
-    name: name
+    name: name,
+    externalDependencies: externalDependencies
   )
 
 

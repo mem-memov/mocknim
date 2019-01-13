@@ -1,8 +1,10 @@
 import 
   macros,
+  sequtils,
   mocknim/[
     module/file,
     module/imports,
+    module/directory,
     original/dependencyOriginal
   ]
 
@@ -32,3 +34,27 @@ proc getOriginals*(this: Dependencies): seq[DependencyOriginal] =
       result.add(
         newDependencyOriginal(ast, file.getModuleTypeName())
       )
+
+proc getExternalDependencies*(this: Dependencies, directory: Directory): seq[string] = 
+
+  let files = this.imports.getFiles()
+
+  for file in files:
+
+    if not file.exists():
+
+      result.add(file.getModuleName())
+
+    else:
+
+      let ast = file.loadAst()
+      let imports = newImports(ast, directory)
+      let subfiles = imports.getFiles()
+
+      for subfile in subfiles:
+
+        if not subfile.exists():
+
+          result.add(subfile.getModuleName())
+
+  result = result.deduplicate()

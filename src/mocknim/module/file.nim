@@ -47,3 +47,8 @@ proc loadAst*(this: File): NimNode =
   let file = staticRead(this.path)
   
   result = parseStmt(file)
+
+
+proc getModuleName*(this: File): string = 
+
+  this.moduleName
