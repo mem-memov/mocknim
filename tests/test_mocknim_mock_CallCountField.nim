@@ -1,29 +1,29 @@
-# import unittest, mocknim
+import unittest, mocknim
 
-# mock("mocknim/mock/callCountField")
+mock("mocknim/mock/callCountField")
 
-# suite "mocknim/mock/callCountFieldy":
+suite "mocknim/mock/callCountFieldy":
 
-#   teardown:
-#     unmock("mocknim/mock/callCountField")
+  teardown:
+    unmock("mocknim/mock/callCountField")
 
-#   test "it defines the field where the number of calls to a certain procesure is kept":
+  test "it defines the field where the number of calls to a certain procesure is kept":
 
-#     let
-#       dependencyOriginal = mockDependencyOriginal()
-#       procedureOriginal = mockProcedureOriginal()
-#       signatureOriginal = mockSignatureOriginal()
+    let
+      dependencyOriginal = mockDependencyOriginal()
+      procedureOriginal = mockProcedureOriginal()
+      signatureOriginal = mockSignatureOriginal()
 
-#     dependencyOriginal.expects
-#       .getProcedures &= ((), @[procedureOriginal])
+    dependencyOriginal.expects
+      .getProcedures &= ((), @[procedureOriginal])
 
-#     procedureOriginal.expects
-#       .getSignature &= ((), signatureOriginal)
+    procedureOriginal.expects
+      .getSignature &= ((), signatureOriginal)
 
-#     signatureOriginal.expects
-#       .getProcedureName &= ((), "someProcedureName")
+    signatureOriginal.expects
+      .getProcedureName &= ((), "someProcedureName")
 
-#     let callCountField = newCallCountField(dependencyOriginal);
+    let callCountField = newCallCountField(dependencyOriginal);
 
-#     let result = callCountField.generate()
+    let result = callCountField.generate()
 
