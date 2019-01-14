@@ -31,4 +31,4 @@ proc getProcedures*(this: DependencyOriginal): seq[ProcedureOriginal] =
 
 proc getModuleTypeName*(this: DependencyOriginal): string =
 
-  this.file.getModuleName()
+  this.file.getModuleTypeName()
